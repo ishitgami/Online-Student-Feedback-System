@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "12209711237",
+    "project_id": "osfsishit",
+    "storage_bucket": "osfsishit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12209711237:android:03883ac012701e0a8421ec",
+        "android_client_info": {
+          "package_name": "com.ishit.osfs1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "12209711237-te4lm7fspco4kfofj98suupb5tuvlv0l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZWG_u66bzV3gezkvm32wFrxtG-1DY_20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "12209711237-te4lm7fspco4kfofj98suupb5tuvlv0l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

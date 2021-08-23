@@ -31,78 +31,70 @@ class _ReportScreenState extends State<ReportScreen> {
         margin: pw.EdgeInsets.all(32),
         build: (pw.Context context) {
           return <pw.Widget>[
+            pw.Header(
+                level: 0,
+               child : pw.Text('FEEDBACK REPORT', style: pw.TextStyle(fontSize: 20,
+              ),textScaleFactor: 2),
+           ),
             pw.ListView.builder(
-               itemCount: feedbackQueByDivisionMap.length,
-               itemBuilder:  (context, index) {
+                itemCount: feedbackQueByDivisionMap.length,
+                itemBuilder: (context, index) {
                   Map ratingmap = Map();
-                              ratingmap =
-                                  feedbackQueByDivisionMap[index]['rating'];
-                              var rating = ratingmap.values;
-                              var result = rating
-                                      .reduce((sum, element) => sum + element) /
-                                  ratingmap.length;
-                              result = result.toStringAsFixed(2);
-                 return pw.Column(
-                   children: [
-                     pw.Text(
-                       feedbackQueByDivisionMap[index]
-                               ['question']
-                           .toString(),
-                      //  style :TextStyle(
-                      //    fontSize: 18.0,
-                      //  ),
-                     ),
-                     pw.Row(
-                       children: [
-                         pw.Expanded(
-                           child: pw.Row(
-                             children: [
-                               pw.Text(
-                                 result.toString() ==
-                                         null
-                                     ? 'not rate yet'
-                                     : result.toString(),
-                                //  style: TextStyle(
-                                //    fontSize: 18.0,
-                                //  ),
-                               ),
-                              //  pw.Icon(pw.Icons.star),
-                             ],
-                           ),
-                         ),
-                         pw.Text(
-                           'Total Student = ' +
-                               ratingmap.length
-                                   .toString(),
-                          //  style: TextStyle(
-                          //    fontSize: 18.0,
-                          //  ),
-                         ),
-                       ],
-                     ),
-                   ],
-                 );
-               }
-
-               ),
+                  ratingmap = feedbackQueByDivisionMap[index]['rating'];
+                  var rating = ratingmap.values;
+                  var result = rating.reduce((sum, element) => sum + element) /
+                      ratingmap.length;
+                  result = result.toStringAsFixed(2);
+                  return pw.Column(
+                    children: [
+                      pw.Text(
+                        feedbackQueByDivisionMap[index]['question'].toString(),
+                        //  style :TextStyle(
+                        //    fontSize: 18.0,
+                        //  ),
+                      ),
+                      pw.Row(
+                        children: [
+                          pw.Expanded(
+                            child: pw.Row(
+                              children: [
+                                pw.Text(
+                                  result.toString() == null
+                                      ? 'not rate yet'
+                                      : result.toString(),
+                                  //  style: TextStyle(
+                                  //    fontSize: 18.0,
+                                  //  ),
+                                ),
+                                //  pw.Icon(pw.Icons.star),
+                              ],
+                            ),
+                          ),
+                          pw.Text(
+                            'Total Student = ' + ratingmap.length.toString(),
+                            //  style: TextStyle(
+                            //    fontSize: 18.0,
+                            //  ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                }),
           ];
         }));
   }
 
   Future savePdf() async {
     if (kIsWeb) {
-      
-    // Set web-specific directory
-} else {
-  Directory documentDirectory = await getApplicationDocumentsDirectory();
-  String documentPath = documentDirectory.path;
+      // Set web-specific directory
+    } else {
+      Directory documentDirectory = await getApplicationDocumentsDirectory();
+      String documentPath = documentDirectory.path;
 
-    File file = File('$documentPath/report.pdf');
-    file.writeAsBytesSync(await pdf.save());
-    
-}
-    
-    
+      File file = File('$documentPath/report.pdf');
+      file.writeAsBytesSync(await pdf.save());
+    }
   }
 
   Future facultyData() async {

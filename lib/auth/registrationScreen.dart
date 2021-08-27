@@ -364,7 +364,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(25.0),
-                                          // side: BorderSide(color: Colors.red),
                                         ),
                                       ),
                                     ),
@@ -391,7 +390,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700),
-                                    )),
+                                    ),
+                                    ),
                               ),
                             ),
                           ],

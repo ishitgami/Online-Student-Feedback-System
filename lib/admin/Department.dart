@@ -206,7 +206,8 @@ class _DepartmentState extends State<Department> {
                                                     },
                                                   ),
                                                 ],
-                                              ));
+                                              ),
+                                              );
                                     },
                                   )
                                 ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-DropdownButton<String> simpleDropdown(choseValue,list,hinttext,Function onChage) {
+DropdownButton<String> simpleDropdown(choseValue,list,hinttext,Function onChage ) {
     var _dchosenValue;
     List<dynamic> itemsList;
     String hintText;
@@ -10,14 +10,13 @@ DropdownButton<String> simpleDropdown(choseValue,list,hinttext,Function onChage)
     itemsList = list;
     hintText = hinttext;
     onchaged = onChage;
+
     
     return DropdownButton<String>(
-
-      focusColor: Colors.black,
+      focusColor: Colors.white,
       value: _dchosenValue,
-      style: TextStyle(color: Colors.grey),
+      style: TextStyle(color: Colors.white),
       iconEnabledColor: Colors.black,
-      underline: SizedBox(),
       isExpanded: true,
       items: itemsList != null && itemsList.length > 0
           ? itemsList.map<DropdownMenuItem<String>>((dynamic value) {

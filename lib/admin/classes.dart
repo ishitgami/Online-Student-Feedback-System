@@ -109,7 +109,9 @@ class _ClassScreenState extends State<ClassScreen> {
                       currentDepartmentValue = null;
                       deparmentData();
                     });
-                  }),
+                  },
+                  ),
+                  
                 ),
               ],
             ),
@@ -130,7 +132,8 @@ class _ClassScreenState extends State<ClassScreen> {
                       currentDepartmentId = departmentMap.keys.firstWhere((element) => departmentMap[element] == value);
                       currentDepartmentValue = value;
                     });
-                  }),
+                  },
+                  ),
                 ),
               ],
             ),

@@ -85,16 +85,22 @@ class _AcademicYearState extends State<AcadamicYear> {
                             })
                             .then((value) => {
                                   value.collection('Department').add({
-                                    'name': 'it',
+                                    'name': 'CIVIL ENGINEERING',
                                   }),
                                   value.collection('Department').add({
-                                    'name': 'cs',
+                                    'name': 'COMPUTER ENGINEERING',
                                   }),
                                   value.collection('Department').add({
-                                    'name': 'mech',
+                                    'name': 'ELECTRONICS & COMMUNICATION ENGG.',
                                   }),
                                   value.collection('Department').add({
-                                    'name': 'ec',
+                                    'name': 'INFORMATION TECHNOLOGY',
+                                  }),
+                                  value.collection('Department').add({
+                                    'name': 'MECHANICAL ENGINEERING',
+                                  }),
+                                  value.collection('Department').add({
+                                    'name': 'PRODUCTION ENGINEERING',
                                   }),
                                 });
                           });

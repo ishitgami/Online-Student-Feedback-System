@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:osfs1/constant.dart';
+import '../route.dart';
 import 'feedbackScreen.dart';
-import 'package:osfs1/auth/login.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class StudentScreen extends StatefulWidget {
-  static String id = 'student screen';
 
   @override
   _StudentScreenState createState() => _StudentScreenState();
@@ -114,7 +113,7 @@ class _StudentScreenState extends State<StudentScreen> {
 
           ],
         );
-        Navigator.pushNamed(context, LoginScreen.id);
+        Navigator.pushNamed(context, loginScreenRoute);
       },
     )
   ],

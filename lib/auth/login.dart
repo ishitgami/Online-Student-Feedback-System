@@ -1,17 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:osfs1/auth/registrationScreen.dart';
 import 'package:osfs1/components/borderTextField.dart';
-import 'package:osfs1/admin/index.dart';
 import 'package:osfs1/constant.dart';
 import 'package:osfs1/components/logoHeading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:osfs1/student/index.dart';
-import 'package:osfs1/faculty/index.dart';
+
+import '../route.dart';
 
 class LoginScreen extends StatefulWidget {
-  static String id = 'login screen';
    
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -123,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, RegistrationScreen.id);
+                                  context, registrationScreenRoute);
                             },
                             child: Text(
                               'Not Registrated Yet?',
@@ -160,11 +157,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (docs.exists) {
                       Map<String, dynamic> data = docs.data();
                       if (data['role'] == 'admin') {
-                        Navigator.pushNamed(context, AdminScreen.id);
+                        Navigator.pushNamed(context, AdminScreenRoute);
                       } else if (data['role'] == 'student') {
-                        Navigator.pushNamed(context, StudentScreen.id);
+                        Navigator.pushNamed(context, registrationScreenRoute);
                       } else if (data['role'] == 'faculty') {
-                        Navigator.pushNamed(context, FacultyScreen.id);
+                        Navigator.pushNamed(context,facultyScreenRoute);
                       }
                     }
                   })

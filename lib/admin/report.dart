@@ -16,7 +16,6 @@ import 'pdfPreviewScreen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ReportScreen extends StatefulWidget {
-  static String id = 'report screen';
   @override
   _ReportScreenState createState() => _ReportScreenState();
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:osfs1/auth/login.dart';
 import 'package:osfs1/components/simpleDropdown.dart';
 import 'package:osfs1/constant.dart';
 import 'package:osfs1/getData/getFeedbackByFaculty.dart';
 import 'package:osfs1/getData/getFeedbackQueByFaculty.dart';
 
+import '../route.dart';
+
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class FacultyScreen extends StatefulWidget {
-  static String id = 'Faculty screen';
   @override
   _FacultyScreenState createState() => _FacultyScreenState();
 }
@@ -66,7 +66,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
         color: Colors.white,
       ),
       onPressed: () {
-        Navigator.pushNamed(context, LoginScreen.id);
+        Navigator.pushNamed(context,registrationScreenRoute);
       },
     )
   ]

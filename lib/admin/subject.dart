@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'DrawerAdmin.dart';
 
-class Subject extends StatefulWidget {
-  static String id = 'subject screen';
+class SubjectScreen extends StatefulWidget {
 
   @override
-  _SubjectState createState() => _SubjectState();
+  _SubjectScreenState createState() => _SubjectScreenState();
 }
 
-class _SubjectState extends State<Subject> {
+class _SubjectScreenState extends State<SubjectScreen> {
   TextEditingController _controller1 = TextEditingController();
   TextEditingController _controller2 = TextEditingController();
    FirebaseFirestore firestore = FirebaseFirestore.instance;

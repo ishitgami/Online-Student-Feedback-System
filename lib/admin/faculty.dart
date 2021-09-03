@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class FacultyInAdmin extends StatefulWidget {
-  static String id = 'faculty in admin';
 
 
   @override

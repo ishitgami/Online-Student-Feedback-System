@@ -11,8 +11,6 @@ import 'DrawerAdmin.dart';
 import 'package:osfs1/constant.dart';
 
 class StudentInAdminScreen extends StatefulWidget {
-  static String id = 'StudentAdmin screen';
-
   @override
   _StudentInAdminScreenState createState() => _StudentInAdminScreenState();
 }

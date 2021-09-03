@@ -3,14 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:osfs1/getData/getAcademicYear.dart';
 import 'DrawerAdmin.dart';
 
-class AcadamicYear extends StatefulWidget {
-  static String id = 'classes screen';
+class AcadamicYearScreen extends StatefulWidget {
 
   @override
   _AcademicYearState createState() => _AcademicYearState();
 }
 
-class _AcademicYearState extends State<AcadamicYear> {
+class _AcademicYearState extends State<AcadamicYearScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController _controller1 = TextEditingController();
   TextEditingController _controller2 = TextEditingController();

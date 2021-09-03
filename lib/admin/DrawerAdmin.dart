@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'faculty.dart';
-import 'index.dart';
-import 'AcademicYear.dart';
-import 'student.dart';
-import 'Department.dart';
-import 'classes.dart';
-import 'subject.dart';
-import 'feedbackRestrictions.dart';
-import 'feedbackQue.dart';
-import 'report.dart';
+import '../route.dart';
+
 
 class AdminDrawer extends StatelessWidget {
   const AdminDrawer({
@@ -37,7 +29,7 @@ class AdminDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, AdminScreen.id);
+                Navigator.pushNamed(context, AdminScreenRoute);
               },
             ),
             SizedBox(
@@ -47,35 +39,35 @@ class AdminDrawer extends StatelessWidget {
               title: Text('Academic Year'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, AcadamicYear.id);
+                Navigator.pushNamed(context, acadamicYearScreenRoute);
               },
             ),
             ListTile(
               title: Text('DepartMent'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, Department.id);
+                Navigator.pushNamed(context, departmentScreenRoute);
               },
             ),
             ListTile(
               title: Text('Division'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, ClassScreen.id);
+                Navigator.pushNamed(context, divisionScreenRoute);
               },
             ),
             ListTile(
               title: Text('Subject'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, Subject.id);
+                Navigator.pushNamed(context, subjectScreenRoute);
               },
             ),
             ListTile(
               title: Text('Feedback Question'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, FeedbackQue.id);
+                Navigator.pushNamed(context, questionScreenRoute);
               },
             ),
             ListTile(
@@ -87,28 +79,28 @@ class AdminDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, FeedbackRestrictionsScreen.id);
+                Navigator.pushNamed(context, restrictionsScreenRoute);
               },
             ),
             ListTile(
               title: Text('Feedback Report'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, ReportScreen.id);
+                Navigator.pushNamed(context, reportScreenRoute);
               },
             ),
             ListTile(
               title: Text('Faculty'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, FacultyInAdmin.id);
+                Navigator.pushNamed(context, facultyInAdminScreenRoute);
               },
             ),
             ListTile(
               title: Text('Student'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, StudentInAdminScreen.id);
+                Navigator.pushNamed(context, studentInAdminScreenRoute);
               },
             ),
           ],

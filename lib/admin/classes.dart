@@ -7,14 +7,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../components/simpleDropdown.dart';
 
 
-class ClassScreen extends StatefulWidget {
-  static String id = 'Class screen';
+class Divisioncreen extends StatefulWidget {
 
   @override
-  _ClassScreenState createState() => _ClassScreenState();
+  _DivisioncreenState createState() => _DivisioncreenState();
 }
 
-class _ClassScreenState extends State<ClassScreen> {
+class _DivisioncreenState extends State<Divisioncreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController _controller = TextEditingController();
 

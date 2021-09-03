@@ -5,14 +5,13 @@ import 'DrawerAdmin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../components/simpleDropdown.dart';
 
-class Department extends StatefulWidget {
-  static String id = 'Department screen';
+class DepartmentScreen extends StatefulWidget {
 
   @override
-  _DepartmentState createState() => _DepartmentState();
+  _DepartmentScreenState createState() => _DepartmentScreenState();
 }
 
-class _DepartmentState extends State<Department> {
+class _DepartmentScreenState extends State<DepartmentScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController _controller = TextEditingController();
 

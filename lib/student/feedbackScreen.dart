@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:osfs1/constant.dart';
 import 'package:osfs1/getData/getFeedbackQueByDivision.dart';
-import 'package:osfs1/student/index.dart';
+import '../route.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class FeedbackScreen extends StatelessWidget {
-  static String id = 'Feedback screen';
    FeedbackScreen({
      this.feedbackId,
      this.currentAcademicYearId,
@@ -198,7 +197,7 @@ class FeedbackScreen extends StatelessWidget {
                   'submitted.' + currentStudentId : true
                 });
                 // });
-                Navigator.pushNamed(context, StudentScreen.id);
+                Navigator.pushNamed(context, studentScreenRoute);
               } ,
               child: Text('Submit'))
             ],

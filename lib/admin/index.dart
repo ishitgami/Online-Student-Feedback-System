@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:osfs1/auth/login.dart';
+import '../route.dart';
 import 'DrawerAdmin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminScreen extends StatefulWidget {
-  static String id = 'admin screen';
 
   @override
   _AdminScreenState createState() => _AdminScreenState();
@@ -60,7 +59,7 @@ class _AdminScreenState extends State<AdminScreen> {
         color: Colors.white,
       ),
       onPressed: () {
-        Navigator.pushNamed(context, LoginScreen.id);
+        Navigator.pushNamed(context, loginScreenRoute);
       },
     )
   ]

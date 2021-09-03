@@ -6,14 +6,13 @@ import 'DrawerAdmin.dart';
 import 'package:osfs1/constant.dart';
 
 
-class FeedbackQue extends StatefulWidget {
-  static String id = 'feedback Question';
+class QuestionScreen extends StatefulWidget {
 
   @override
-  _FeedbackQueState createState() => _FeedbackQueState();
+  _QuestionScreenState createState() => _QuestionScreenState();
 }
 
-class _FeedbackQueState extends State<FeedbackQue> {
+class _QuestionScreenState extends State<QuestionScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController _controller = TextEditingController();
 

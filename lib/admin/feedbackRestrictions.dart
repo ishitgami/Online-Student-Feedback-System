@@ -12,16 +12,14 @@ import 'package:osfs1/getData/getStudents.dart';
 import 'DrawerAdmin.dart';
 import 'package:osfs1/constant.dart';
 
-class FeedbackRestrictionsScreen extends StatefulWidget {
-  static String id = 'feedback Restrictions';
-
+class RestrictionsScreen extends StatefulWidget {
   @override
-  _FeedbackRestrictionsScreenState createState() =>
-      _FeedbackRestrictionsScreenState();
+  _RestrictionsScreenState createState() =>
+      _RestrictionsScreenState();
 }
 
-class _FeedbackRestrictionsScreenState
-    extends State<FeedbackRestrictionsScreen> {
+class _RestrictionsScreenState
+    extends State<RestrictionsScreen> {
   Map studentIdMap = Map();
   var feedbackMap = [];
     var feedbackMap2 = [];

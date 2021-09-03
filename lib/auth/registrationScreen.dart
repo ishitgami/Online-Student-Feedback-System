@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:osfs1/auth/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:osfs1/components/simpleDropdown.dart';
@@ -11,8 +10,9 @@ import 'package:wave/config.dart';
 
 import 'package:wave/wave.dart';
 
+import '../route.dart';
+
 class RegistrationScreen extends StatefulWidget {
-  static String id = 'registration screen2';
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
@@ -379,7 +379,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           addStudentToUser(cUserId);
                                           addStudentToDivision(cUserId);
                                           Navigator.pushNamed(
-                                              context, LoginScreen.id);
+                                              context, loginScreenRoute);
                                         }
                                       } catch (e) {
                                         print(e);

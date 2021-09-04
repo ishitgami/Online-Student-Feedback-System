@@ -5,8 +5,8 @@ import 'package:osfs1/constant.dart';
 import 'package:osfs1/components/logoHeading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../route.dart';
+import '../constant.dart';
 
 class LoginScreen extends StatefulWidget {
    
@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String dropdownValue = 'Student';
   final _auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  String email;
+ 
   String userpassword;
 
   @override

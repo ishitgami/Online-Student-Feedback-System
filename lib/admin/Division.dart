@@ -5,6 +5,7 @@ import 'package:osfs1/getData/getDivision.dart';
 import 'DrawerAdmin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../components/simpleDropdown.dart';
+import '../constant.dart';
 
 
 class Divisioncreen extends StatefulWidget {
@@ -16,20 +17,6 @@ class Divisioncreen extends StatefulWidget {
 class _DivisioncreenState extends State<Divisioncreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController _controller = TextEditingController();
-
-  List<dynamic> departmentList;
-  List<dynamic> academicYearList;
-  List<dynamic> divisionList;
-
-  Map academicYearMap;
-  Map departmentMap;
-  Map divisionMap;
-
-  var currentAcademicYearValue;
-  var currentDepartmentValue;
-  var currentAcademicYearId;
-  var currentDepartmentId;
-  var addDivision;
 
   Future academicYearData() async {
     academicYearList = [];

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:osfs1/constant.dart';
 import '../route.dart';
 import 'feedbackScreen.dart';
+import '../constant.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -16,9 +16,6 @@ class StudentScreen extends StatefulWidget {
 class _StudentScreenState extends State<StudentScreen> {
   final auth = FirebaseAuth.instance;
   User user;
-  var uid;
-  var studentMap = <Map>[];
-  List<dynamic> subjectFeedbackId;
 
   @override
   void initState() {
@@ -26,7 +23,7 @@ class _StudentScreenState extends State<StudentScreen> {
     user = auth.currentUser;
     uid = user.uid;
     getCurrentUser();
-  }
+}
 
   Future<void> getCurrentUser() async {
     await firestore.collection('user').doc(uid).get().then((value) => {
@@ -35,7 +32,7 @@ class _StudentScreenState extends State<StudentScreen> {
           currentDepartmentId = valueData['departmentId'],
           currentDivisionId = valueData['divisionId'],
           currentStudentId = valueData['userId'],
-        });
+    });
     getCurrentUserData();
   }
 
@@ -82,7 +79,6 @@ class _StudentScreenState extends State<StudentScreen> {
         .where('submitted.' + uid, isEqualTo: false)
         .get()
         .then((value) => {
-       
               value.docs.forEach((element) {
                 if (element.exists) {
                   // setState(() {

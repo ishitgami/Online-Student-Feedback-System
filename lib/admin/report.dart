@@ -36,10 +36,10 @@ class _ReportScreenState extends State<ReportScreen> {
               ),textScaleFactor: 2),
            ),
             pw.ListView.builder(
-                itemCount: feedbackQueByDivisionMap.length,
+                itemCount: feedbackQueMapList.length,
                 itemBuilder: (context, index) {
                   Map ratingmap = Map();
-                  ratingmap = feedbackQueByDivisionMap[index]['rating'];
+                  ratingmap = feedbackQueMapList[index]['rating'];
                   var rating = ratingmap.values;
                   var result = rating.reduce((sum, element) => sum + element) /
                       ratingmap.length;
@@ -47,7 +47,7 @@ class _ReportScreenState extends State<ReportScreen> {
                   return pw.Column(
                     children: [
                       pw.Text(
-                        feedbackQueByDivisionMap[index]['question'].toString(),
+                        feedbackQueMapList[index]['question'].toString(),
                         //  style :TextStyle(
                         //    fontSize: 18.0,
                         //  ),
@@ -125,17 +125,17 @@ class _ReportScreenState extends State<ReportScreen> {
   }
 
   Future getFeedbackque() async {
-    feedbackQueByDivisionMap = [];
+    feedbackQueMapList = [];
     await GetQuewithRatingForFaculty(
             currentFacultyId: currentFacultyId,
             feedbackId: currentFeedbackValue)
         .getQuewithRatingForFacultyData()
         .then((value) => {
               // setState(() {
-              feedbackQueByDivisionMap = value,
+              feedbackQueMapList = value,
               // })
             });
-    return feedbackQueByDivisionMap;
+    return feedbackQueMapList;
   }
 
   @override
@@ -205,11 +205,11 @@ class _ReportScreenState extends State<ReportScreen> {
                           ),
                           ListView.builder(
                             shrinkWrap: true,
-                            itemCount: feedbackQueByDivisionMap.length,
+                            itemCount: feedbackQueMapList.length,
                             itemBuilder: (context, index) {
                               Map ratingmap = Map();
                               ratingmap =
-                                  feedbackQueByDivisionMap[index]['rating'];
+                                  feedbackQueMapList[index]['rating'];
                               var rating = ratingmap.values;
                               var result = rating
                                       .reduce((sum, element) => sum + element) /
@@ -227,7 +227,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                               CrossAxisAlignment.stretch,
                                           children: [
                                             Text(
-                                              feedbackQueByDivisionMap[index]
+                                              feedbackQueMapList[index]
                                                       ['question']
                                                   .toString(),
                                               style: TextStyle(

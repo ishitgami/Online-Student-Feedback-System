@@ -4,6 +4,7 @@ import 'package:osfs1/getData/getDepartment.dart';
 import 'DrawerAdmin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../components/simpleDropdown.dart';
+import '../constant.dart';
 
 class DepartmentScreen extends StatefulWidget {
 
@@ -15,17 +16,6 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController _controller = TextEditingController();
 
-  List<dynamic> academicYearList;
-  List<dynamic> departmentList;
-
-  Map academicYearMap;
-  Map departmentMap;
-
-  var currentAcademicYearValue;
-  var currentDepartmentValue;
-  var currentAcademicYearId;
-  var currentDepartmentId;
-  var addDepartment;
 
   Future academicYearData() async {
     academicYearList = [];

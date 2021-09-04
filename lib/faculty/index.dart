@@ -41,16 +41,16 @@ class _FacultyScreenState extends State<FacultyScreen> {
   }
 
   Future getFeedbackque() async {
-    feedbackQueByDivisionMap = [];
+    feedbackQueMapList = [];
     await GetQuewithRatingForFaculty(
             currentFacultyId: uid, feedbackId: currentFeedbackValue)
         .getQuewithRatingForFacultyData()
         .then((value) => {
               // setState(() {
-              feedbackQueByDivisionMap = value,
+              feedbackQueMapList = value,
               // })
             });
-    return feedbackQueByDivisionMap;
+    return feedbackQueMapList;
   }
 
   @override
@@ -91,10 +91,10 @@ class _FacultyScreenState extends State<FacultyScreen> {
                       if (snapshot.hasData) {
                         return ListView.builder(
                           shrinkWrap: true,
-                          itemCount: feedbackQueByDivisionMap.length,
+                          itemCount: feedbackQueMapList.length,
                           itemBuilder: (context, index) {
                             Map ratingmap = Map();
-                            ratingmap = feedbackQueByDivisionMap[index]['rating'];
+                            ratingmap = feedbackQueMapList[index]['rating'];
                             var rating = ratingmap.values;
                             var result =
                             rating.reduce((sum, element) => sum + element) /ratingmap.length;
@@ -111,7 +111,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
                                             CrossAxisAlignment.stretch,
                                         children: [
                                           Text(
-                                            feedbackQueByDivisionMap[index]
+                                            feedbackQueMapList[index]
                                                     ['question']
                                                 .toString(),
                                             style: TextStyle(

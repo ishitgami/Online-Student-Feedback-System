@@ -9,7 +9,7 @@ import 'student/index.dart';
 import 'admin/AcademicYear.dart';
 import 'admin/student.dart';
 import 'admin/Department.dart';
-import 'admin/classes.dart';
+import 'admin/Division.dart';
 import 'admin/subject.dart';
 import 'admin/feedbackRestrictions.dart';
 import 'admin/feedbackQue.dart';

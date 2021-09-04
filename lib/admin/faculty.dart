@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'DrawerAdmin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import '../constant.dart';
 
 class FacultyInAdmin extends StatefulWidget {
-
-
   @override
   _FacultyInAdminState createState() => _FacultyInAdminState();
 }
@@ -15,13 +13,7 @@ class _FacultyInAdminState extends State<FacultyInAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    
-    var sEmail;
-    var sPassword;
-    var sFirstName;
-    var sLastName;
-
-     final _auth = FirebaseAuth.instance;
+    final _auth = FirebaseAuth.instance;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     return Scaffold(
@@ -118,7 +110,6 @@ class _FacultyInAdminState extends State<FacultyInAdmin> {
               ),
             ),
         ),
-
     );
   }
 }

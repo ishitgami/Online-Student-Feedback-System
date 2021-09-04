@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:osfs1/constant.dart';
 import 'package:osfs1/getData/getFeedbackQueByDivision.dart';
 import '../route.dart';
+import '../constant.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -27,7 +27,7 @@ class FeedbackScreen extends StatelessWidget {
 
     Future getFeedbackque() async {
        print('currentFeedbackValue-->$feedbackId');
-    feedbackQueByDivisionMap = [];
+    feedbackQueMapList = [];
     await GetFeedbackQueByDivision(
       currentAcademicYearId: currentAcademicYearId,
       currentDepartmentId: currentDepartmentId,
@@ -36,10 +36,10 @@ class FeedbackScreen extends StatelessWidget {
     ).getFeedbackQueByDivisionData().then((value) => {
       print('value-->$value'),
           // setState(() {
-          feedbackQueByDivisionMap = value,
+          feedbackQueMapList = value,
           // })
         });
-    return feedbackQueByDivisionMap;
+    return feedbackQueMapList;
   }
     return Scaffold(
       body: SafeArea(
@@ -55,7 +55,7 @@ class FeedbackScreen extends StatelessWidget {
                       if (snapshot.hasData) {
                         return ListView.builder(
                           shrinkWrap: true,
-                          itemCount: feedbackQueByDivisionMap.length,
+                          itemCount: feedbackQueMapList.length,
                           itemBuilder: (context, index) {
                             return Card(
                               margin: EdgeInsets.all(8),
@@ -69,7 +69,7 @@ class FeedbackScreen extends StatelessWidget {
                                             CrossAxisAlignment.stretch,
                                         children: [
                                           Text(
-                                            feedbackQueByDivisionMap[index]
+                                            feedbackQueMapList[index]
                                                     ['question']
                                                 .toString(),
                                             style: TextStyle(
@@ -89,7 +89,7 @@ class FeedbackScreen extends StatelessWidget {
                                               color: Colors.black,
                                             ),
                                             onRatingUpdate: (rating) {
-                                              print(feedbackQueByDivisionMap[index]['id']);
+                                              print(feedbackQueMapList[index]['id']);
                                                firestore
                                                 .collection('Academic Year')
                                                 .doc(currentAcademicYearId)
@@ -100,7 +100,7 @@ class FeedbackScreen extends StatelessWidget {
                                                 .collection('feedback')
                                                 .doc(feedbackId)
                                                 .collection('questions')
-                                                .doc(feedbackQueByDivisionMap[index]['id'])
+                                                .doc(feedbackQueMapList[index]['id'])
                                                 .update({
                                                   'rating.'+currentStudentId : rating
                                                   
@@ -118,7 +118,7 @@ class FeedbackScreen extends StatelessWidget {
                                                 .collection('feedback')
                                                 .doc(feedbackId)
                                                 .collection('questions')
-                                                .doc(feedbackQueByDivisionMap[index]['id'])
+                                                .doc(feedbackQueMapList[index]['id'])
                                                 .update({
                                                   'rating.'+currentStudentId : rating
                                                   
@@ -133,7 +133,7 @@ class FeedbackScreen extends StatelessWidget {
                                                 .collection('feedback')
                                                 .doc(feedbackId)
                                                 .collection('questions')
-                                                .doc(feedbackQueByDivisionMap[index]['id'])
+                                                .doc(feedbackQueMapList[index]['id'])
                                                 .update({
                                                   'rating.'+currentStudentId : rating
                                                   
@@ -150,7 +150,7 @@ class FeedbackScreen extends StatelessWidget {
                                                 .collection('feedback')
                                                 .doc(feedbackId)
                                                 .collection('questions')
-                                                .doc(feedbackQueByDivisionMap[index]['id'])
+                                                .doc(feedbackQueMapList[index]['id'])
                                                 .update({
                                                   'rating.'+currentStudentId : rating
                                                   

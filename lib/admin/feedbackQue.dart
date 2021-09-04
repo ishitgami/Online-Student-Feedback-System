@@ -62,7 +62,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   onPressed: () {
                     try {
                       setState(() {
-
                         firestore.collection('Questions').add({
                           'que': question,
                         });

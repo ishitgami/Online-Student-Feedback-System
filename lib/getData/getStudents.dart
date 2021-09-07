@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 class GetStudentData {
   var studentMap = <Map>[];
-
   GetStudentData({this.currentAcademicYearId,this.currentDepartmentId,this.currentDivisionId});
   final currentAcademicYearId;
   final currentDepartmentId;
@@ -26,13 +25,12 @@ class GetStudentData {
                 studentMap.add({
                     'id'  : '${element.id}',
                     'FirstName' : '${element['First Name']}',
-                    'MiddleName' : '${element['Middle Name']}',
                     'LastName'  : '${element['Last Name']}',
                     'Email' : '${element['Email']}',
                     'Enrolment' : '${element['Enrollment No']}',
                 });
               }
-            })
+            }),
           });
     } catch (e) {
     }

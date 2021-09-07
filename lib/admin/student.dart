@@ -17,84 +17,6 @@ class StudentInAdminScreen extends StatefulWidget {
 
 class _StudentInAdminScreenState extends State<StudentInAdminScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  Future academicYearData() async {
-    academicYearList = [];
-    await GetAcademicYearData().getAcademicYear().then((value) => {
-          academicYearMap = value,
-          value.forEach((key, value) {
-            setState(() {
-              academicYearList.add(value);
-            });
-          })
-        });
-    return academicYearList;
-  }
-
-  Future deparmentData() async {
-    departmentList = [];
-    await GetDepartmentData(currentAcademicYearId: currentAcademicYearId)
-        .getDepartment()
-        .then((value) => {
-              departmentMap = value,
-              value.forEach((key, value) {
-                setState(() {
-                  departmentList.add(value);
-                });
-              })
-            });
-    return departmentMap;
-  }
-
-  Future divisionData() async {
-    divisionList = [];
-    await GetDivisionData(
-            currentAcademicYearId: currentAcademicYearId,
-            currentDepartmentId: currentDepartmentId)
-        .getDivisiondata()
-        .then((value) => {
-              divisionMap = value,
-              value.forEach((key, value) {
-                setState(() {
-                  divisionList.add(value);
-                });
-              })
-            });
-    return divisionMap;
-  }
-
-  Future studentData() async {
-    studentList = [];
-    await GetStudentData(
-            currentAcademicYearId: currentAcademicYearId,
-            currentDepartmentId: currentDepartmentId,
-            currentDivisionId: currentDivisionId)
-        .getStudentdata()
-        .then((value) => {
-              studentMap = value,
-            });
-    return studentMap;
-  }
-
-  deleteStudent(index) {
-    firestore
-        .collection('Academic Year')
-        .doc(currentAcademicYearId)
-        .collection('Department')
-        .doc(currentDepartmentId)
-        .collection('Division')
-        .doc(currentDivisionId)
-        .collection('Students')
-        .doc(studentMap[index]['id'])
-        .delete()
-        .then((_) => print('Deleted'))
-        .catchError((error) => print('Delete failed: $error'));
-    firestore
-        .collection('user')
-        .doc(studentMap[index]['id'])
-        .delete()
-        .then((_) => print('Deleted'))
-        .catchError((error) => print('Delete failed: $error'));
-  }
 
   @override
   void initState() {
@@ -290,4 +212,84 @@ class _StudentInAdminScreenState extends State<StudentInAdminScreen> {
       ),
     );
   }
+
+    Future academicYearData() async {
+    academicYearList = [];
+    await GetAcademicYearData().getAcademicYear().then((value) => {
+          academicYearMap = value,
+          value.forEach((key, value) {
+            setState(() {
+              academicYearList.add(value);
+            });
+          })
+        });
+    return academicYearList;
+  }
+
+  Future deparmentData() async {
+    departmentList = [];
+    await GetDepartmentData(currentAcademicYearId: currentAcademicYearId)
+        .getDepartment()
+        .then((value) => {
+              departmentMap = value,
+              value.forEach((key, value) {
+                setState(() {
+                  departmentList.add(value);
+                });
+              })
+            });
+    return departmentMap;
+  }
+
+  Future divisionData() async {
+    divisionList = [];
+    await GetDivisionData(
+            currentAcademicYearId: currentAcademicYearId,
+            currentDepartmentId: currentDepartmentId)
+        .getDivisiondata()
+        .then((value) => {
+              divisionMap = value,
+              value.forEach((key, value) {
+                setState(() {
+                  divisionList.add(value);
+                });
+              })
+            });
+    return divisionMap;
+  }
+
+  Future studentData() async {
+    studentList = [];
+    await GetStudentData(
+            currentAcademicYearId: currentAcademicYearId,
+            currentDepartmentId: currentDepartmentId,
+            currentDivisionId: currentDivisionId)
+        .getStudentdata()
+        .then((value) => {
+              studentMap = value,
+            });
+    return studentMap;
+  }
+
+  deleteStudent(index) {
+    firestore
+        .collection('Academic Year')
+        .doc(currentAcademicYearId)
+        .collection('Department')
+        .doc(currentDepartmentId)
+        .collection('Division')
+        .doc(currentDivisionId)
+        .collection('Students')
+        .doc(studentMap[index]['id'])
+        .delete()
+        .then((_) => print('Deleted'))
+        .catchError((error) => print('Delete failed: $error'));
+    firestore
+        .collection('user')
+        .doc(studentMap[index]['id'])
+        .delete()
+        .then((_) => print('Deleted'))
+        .catchError((error) => print('Delete failed: $error'));
+  }
+
 }

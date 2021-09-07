@@ -15,7 +15,6 @@ const loginHeadingTextStyle = TextStyle(
   List<dynamic> subjectList;
   List<dynamic> studentList;
   List<dynamic> feedbackList;
-  
 
   Map facultyMap;
   Map academicYearMap;
@@ -40,8 +39,7 @@ const loginHeadingTextStyle = TextStyle(
   var currentSubjectValue;
   var currentFeedbackValue;
   
-  var valueData;
-
+  var userData;
   var studentData;
   var sEmail;
   var sPassword;

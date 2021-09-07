@@ -27,11 +27,11 @@ class _StudentScreenState extends State<StudentScreen> {
 
   Future<void> getCurrentUser() async {
     await firestore.collection('user').doc(uid).get().then((value) => {
-          valueData = value.data(),
-          currentAcademicYearId = valueData['academicId'],
-          currentDepartmentId = valueData['departmentId'],
-          currentDivisionId = valueData['divisionId'],
-          currentStudentId = valueData['userId'],
+          userData = value.data(),
+          currentAcademicYearId = userData['academicId'],
+          currentDepartmentId = userData['departmentId'],
+          currentDivisionId = userData['divisionId'],
+          currentStudentId = userData['userId'],
     });
     getCurrentUserData();
   }

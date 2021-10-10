@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:osfs1/components/simpleDropdown.dart';
+import 'package:osfs1/constant.dart';
 import 'package:osfs1/getData/getAcademicYear.dart';
 import 'package:osfs1/getData/getDepartment.dart';
 import 'package:osfs1/getData/getDivision.dart';
@@ -125,6 +126,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       'Enrollment No': '$sEnrollment',
       'role': 'student',
       'Email': '$sEmail',
+    });
+  }
+
+  void addDataInUsers(cUserId) {
+    firestore
+        .collection('Users')
+        .doc(cUserId)
+        .set({
+          'isStudent' : true ,
+          'CollegeData' : {
+            'AcademicYear' : '$currentAcademicYearValue',
+            'Department' : '$currentDepartmentValue',
+            'Divisiom' : '$currentDivisionValue',
+          },
+          'PersonalData' : {
+            'First Name': '$sFirstName',
+            'Last Name': '$sLastName',
+            'Enrollment No': '$sEnrollment',
+            'Email': '$sEmail',
+          }
     });
   }
 
@@ -378,6 +399,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           var cUserId = newUser.user.uid;
                                           addStudentToUser(cUserId);
                                           addStudentToDivision(cUserId);
+                                          addDataInUsers(cUserId);
                                           Navigator.pushNamed(
                                               context, loginScreenRoute);
                                         }

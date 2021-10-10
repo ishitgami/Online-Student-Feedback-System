@@ -34,8 +34,8 @@ class _FacultyScreenState extends State<FacultyScreen> {
     await FeedbackDataByFaculty(currentFacultyId: uid)
         .getFeedbackByFaculty()
         .then((value) => {
-          setState(() {
-              feedbackList = value;
+              setState(() {
+                feedbackList = value;
               })
             });
   }
@@ -57,109 +57,114 @@ class _FacultyScreenState extends State<FacultyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DashBoard'),
-        automaticallyImplyLeading: false,
+          title: Text('DashBoard'),
+          automaticallyImplyLeading: false,
           actions: <Widget>[
-    IconButton(
-      icon: Icon(
-        Icons.logout,
-        color: Colors.white,
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context,registrationScreenRoute);
-      },
-    )
-  ]
-      ),
+            IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, loginScreenRoute);
+              },
+            )
+          ]),
       body: WillPopScope(
         onWillPop: () async => false,
         child: Container(
-            margin: EdgeInsets.all(16),
-            child: Column(
-              children: [
-                simpleDropdown(currentFeedbackValue, feedbackList, 'choose Class',
-                    (value) {
-                  setState(() {
-                    currentFeedbackValue = value;
-                    getFeedbackque();
-                  });
-                }),
-                FutureBuilder(
-                  future: getFeedbackque(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: feedbackQueMapList.length,
-                          itemBuilder: (context, index) {
-                            Map ratingmap = Map();
-                            ratingmap = feedbackQueMapList[index]['rating'];
-                            var rating = ratingmap.values;
-                            var result =
-                            rating.reduce((sum, element) => sum + element) /ratingmap.length;
-                                    result = result.toStringAsFixed(2);
-                            return Card(
-                              margin: EdgeInsets.all(8),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          Text(
-                                            feedbackQueMapList[index]
-                                                    ['question']
-                                                .toString(),
-                                            style: TextStyle(
-                                              fontSize: 18.0,
-                                            ),
+          margin: EdgeInsets.all(16),
+          child: Center(
+          //   child: Text('Faculty Screen'),
+          // ),
+          child: Column(
+            children: [
+              simpleDropdown(currentFeedbackValue, feedbackList, 'choose Class',
+                  (value) {
+                setState(() {
+                  currentFeedbackValue = value;
+                  getFeedbackque();
+                });
+              }),
+              FutureBuilder(
+                future: getFeedbackque(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: feedbackQueMapList.length,
+                        itemBuilder: (context, index) {
+                          Map ratingmap = Map();
+                          ratingmap = feedbackQueMapList[index]['rating'];
+                          var rating = ratingmap.values;
+                          var result =
+                              rating.reduce((sum, element) => sum + element) /
+                                  ratingmap.length;
+                          result = result.toStringAsFixed(2);
+                          return Card(
+                            margin: EdgeInsets.all(8),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        Text(
+                                          feedbackQueMapList[index]['question']
+                                              .toString(),
+                                          style: TextStyle(
+                                            fontSize: 18.0,
                                           ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      result.toString() == null
-                                                          ? 'not rare yet'
-                                                          : result.toString(),
-                                                      style: TextStyle(
-                                                        fontSize: 18.0,
-                                                      ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    result.toString() == null
+                                                        ? 'not rare yet'
+                                                        : result.toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 18.0,
                                                     ),
-                                                    Icon(Icons.star),     
-                                                  ],
-                                                ),
+                                                  ),
+                                                  Icon(Icons.star),
+                                                ],
                                               ),
-                                              Text(
-                                                'Total Student = '+ ratingmap.length.toString(),
-                                                style: TextStyle(
-                                                  fontSize: 18.0,
-                                                ),
+                                            ),
+                                            Text(
+                                              'Total Student = ' +
+                                                  ratingmap.length.toString(),
+                                              style: TextStyle(
+                                                fontSize: 18.0,
                                               ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        );
-                      }
+                            ),
+                          );
+                        },
+                      );
                     }
-                    return Container();
-                  },
-                ),
-              ],
-            )),
+                  }
+                  return Container();
+                },
+              ),
+            ],
+          ),
+        ),
       ),
+      )
     );
   }
 }

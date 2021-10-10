@@ -222,7 +222,6 @@ class AdminDrawer extends StatelessWidget {
               },
             ),
             SizedBox(width: 50, child: Divider()),
-           
           ],
         ),
       ),

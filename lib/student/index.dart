@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../route.dart';
 import 'feedbackScreen.dart';
 import '../constant.dart';
+import 'feedbackClassScreen.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -16,81 +17,60 @@ class StudentScreen extends StatefulWidget {
 class _StudentScreenState extends State<StudentScreen> {
   final auth = FirebaseAuth.instance;
   User user;
+  List feedbackIdList = [];
+  var userdataList = <Map>[];
+  var data;
+  var feedbackClassData;
 
   @override
   void initState() {
     super.initState();
     user = auth.currentUser;
     uid = user.uid;
-    getCurrentUser();
 }
 
-  Future<void> getCurrentUser() async {
-    await firestore.collection('user').doc(uid).get().then((value) => {
-          userData = value.data(),
-          currentAcademicYearId = userData['academicId'],
-          currentDepartmentId = userData['departmentId'],
-          currentDivisionId = userData['divisionId'],
-          currentStudentId = userData['userId'],
-    });
-    getCurrentUserData();
+
+getStudentDataFromUsers() async {
+    userdataList = <Map>[];
+    await firestore
+        .collection('Users')
+        .doc(uid)
+        .get()
+        .then((documentSnapshot) {
+        data = documentSnapshot.data();
+        feedbackIdList = data['FeedbackClass'];
+          // print(data);
+        }
+        );
+    return feedbackIdList;
   }
+
+  getFeedbackClass() {
+    //  print('feedbackIdList--->$feedbackIdList');
+    feedbackIdList.forEach((element) {
+      // print('element--->$element');
+      firestore.collection('FeedbackClass')
+      .doc(element)
+      .get()
+      .then((value) {
+        feedbackClassData = value.data();
+        print(feedbackClassData['name']);
+      });
+    });
+    return feedbackClassData;
+  }
+
+  
 
   Future getCurrentUserData() async {
     try {
-      if (user != null) {
-        await firestore
-            .collection('Academic Year')
-            .doc(currentAcademicYearId)
-            .collection('Department')
-            .doc(currentDepartmentId)
-            .collection('Division')
-            .doc(currentDivisionId)
-            .collection('Students')
-            .doc(currentStudentId)
-            .get()
-            .then((value) => {
-                  studentData = value.data(),
-                  studentMap.add({
-                    'FirstName': studentData['First Name'],
-                    'MiddleName': studentData['Middle Name'],
-                    'LastName': studentData['Last Name'],
-                    'Email': studentData['Email'],
-                    'Enrolment': studentData['Enrollment No'],
-                  }),
-                });
-      }
+      
     } catch (e) {
       print(e);
     }
     return studentMap;
   }
 
-  Future getFeedback() async {
-    subjectFeedbackId = [];
-    await firestore
-        .collection('Academic Year')
-        .doc(currentAcademicYearId)
-        .collection('Department')
-        .doc(currentDepartmentId)
-        .collection('Division')
-        .doc(currentDivisionId)
-        .collection('feedback')
-        .where('submitted.' + uid, isEqualTo: false)
-        .get()
-        .then((value) => {
-              value.docs.forEach((element) {
-                if (element.exists) {
-                  // setState(() {
-                  currentFacultyId = element['FId'];
-                  subjectFeedbackId.add(element.id);
-                  // });
-                }
-              })
-            });
-
-    return subjectFeedbackId;
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,11 +84,6 @@ class _StudentScreenState extends State<StudentScreen> {
         color: Colors.white,
       ),
       onPressed: () {
-        DropdownButton(
-          items: [
-
-          ],
-        );
         Navigator.pushNamed(context, loginScreenRoute);
       },
     )
@@ -122,44 +97,49 @@ class _StudentScreenState extends State<StudentScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              FutureBuilder(
-                  future: getFeedback(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
+                Expanded(
+                  child: StreamBuilder(
+                    stream: firestore.collection('FeedbackClass').where('StudentList',arrayContains: uid).snapshots(),
+                    builder: (context, snapshot) {
                       if (snapshot.hasData) {
+                        final List<DocumentSnapshot> documents =
+                            snapshot.data.docs;
+                        List<dynamic> data =
+                            snapshot.data.docs.map((e) => e.data()).toList();
                         return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: subjectFeedbackId.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => FeedbackScreen(
-                                        feedbackId: subjectFeedbackId[index],
-                                        currentAcademicYearId: currentAcademicYearId,
-                                        currentDepartmentId: currentDepartmentId,
-                                        currentDivisionId: currentDivisionId,
-                                        currentStudentId: uid,
-                                      ),
-                                    ),
-                                  );
-
-                                },
-                                child: Card(
-                                  color: Colors.grey[400],
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(subjectFeedbackId[index]),
-                                  ),
-                                ),
-                              );
-                            });
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            print(data[index]['Id']);
+                            return ListTile(
+                              leading: Icon(Icons.linear_scale_sharp),
+                              onTap: () {
+                                 Navigator.push(context, 
+                                 MaterialPageRoute(builder: (context) => FeedbackClassScreen(feedbackClassId:data[index]['Id'].toString())),);
+                              },
+                              title: Text(data[index]['name'].toString()),
+                              subtitle:StreamBuilder(
+                          stream: firestore
+                              .collection('Users')
+                              .doc(data[index]['Faculty'])
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return new CircularProgressIndicator();
+                            }
+                            var document = snapshot.data;
+                            return Text('Created by'+' '+document['PersonalInfo']['First Name'] +' '+  document['PersonalInfo']['Last Name']);
+                            // return new Text(document["name"]);
+                          },
+                        ),
+                                  
+                            );
+                          },
+                        );
                       }
-                    }
-                    return Container();
-                  }),
+                      return Text('Its Error!');
+                    }),
+                )
+            
             ],
           ),
         )),

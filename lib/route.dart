@@ -16,6 +16,7 @@ import 'admin/feedbackQue.dart';
 import 'faculty/index.dart';
 import 'student/feedbackScreen.dart';
 import 'admin/report.dart';
+// import 'student/feedbackClassScreen.dart';
 
 const String loginScreenRoute = '/';
 const String registrationScreenRoute = '/RegistrationScreen';
@@ -32,6 +33,7 @@ const String restrictionsScreenRoute = '/FeedbackRestrictionsScreen';
 const String questionScreenRoute = '/FeedbackQueScreen';
 const String feedbackScreenRoute = '/FeedbackScreen';
 const String reportScreenRoute = '/ReportScreen';
+// const String feedbackClassScreenRoute = '/FeedbackClassScreen';
 
 class Routerr {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -80,6 +82,9 @@ class Routerr {
 
       case reportScreenRoute:
         return MaterialPageRoute(builder: (context) => ReportScreen());
+
+      // case feedbackClassScreenRoute:
+      //   return MaterialPageRoute(builder: (context) => FeedbackClassScrenn());
 
       default:
         return MaterialPageRoute(

@@ -22,6 +22,22 @@ class _StudentInAdminScreenState extends State<StudentInAdminScreen> {
   void initState() {
     super.initState();
     academicYearData();
+    getStudentDataFromUsers();
+  }
+
+  getStudentDataFromUsers () async {
+    await firestore
+          .collection('Users')
+          // .where('role',isEqualTo: 'student')
+          .where('CollegeData.AcademicYear',isEqualTo: '2010-2014')
+          .get()
+          .then((QuerySnapshot<Object> value) => {
+                value.docs.forEach((DocumentSnapshot docs) {
+                  if (docs.exists) {
+                    print('docs-->${docs.data()}');
+                  }
+                }),
+              });
   }
 
   @override

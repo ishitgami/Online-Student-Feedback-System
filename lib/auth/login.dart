@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (data['role'] == 'admin') {
                         Navigator.pushNamed(context, AdminScreenRoute);
                       } else if (data['role'] == 'student') {
-                        Navigator.pushNamed(context, registrationScreenRoute);
+                        Navigator.pushNamed(context, studentScreenRoute);
                       } else if (data['role'] == 'faculty') {
                         Navigator.pushNamed(context,facultyScreenRoute);
                       }

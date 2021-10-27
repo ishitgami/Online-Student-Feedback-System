@@ -21,6 +21,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   final _form = GlobalKey<FormState>(); //for storing form state.
+  User user;
+  var uid;
 
   var sEmail;
   var sPassword;
@@ -43,6 +45,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   var currentDepartmentId;
   var currentDivisionId;
   var currentDivisionValue;
+
 
   Future academicYearData() async {
     academicYearList = [];
@@ -109,6 +112,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     });
   }
 
+  void addStudentToUsers(cUserId) {
+    firestore.collection('Users').doc(cUserId).set({
+      'role': 'student',
+      'CollegeData' : {
+        'AcademicYear' : currentAcademicYearValue,
+        'Department' : currentDepartmentValue,
+        'Division' : currentDivisionValue 
+      },
+      'PersonalInfo' : {
+        'Email': '$sEmail',
+        'First Name': '$sFirstName',
+        'Last Name': '$sLastName',
+        'Enrollment No': '$sEnrollment',
+        'UId' : '$uid',
+      },
+      'FeedbackClass' : []
+    });
+  }
+
   void addStudentToDivision(cUserId) {
     firestore
         .collection('Academic Year')
@@ -131,6 +153,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   void initState() {
     super.initState();
+    user = _auth.currentUser;
+    uid = user.uid;
     academicYearData();
     currentAcademicYearId = null;
     currentDepartmentValue = null;
@@ -378,6 +402,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           var cUserId = newUser.user.uid;
                                           addStudentToUser(cUserId);
                                           addStudentToDivision(cUserId);
+                                          addStudentToUsers(cUserId);
                                           Navigator.pushNamed(
                                               context, loginScreenRoute);
                                         }

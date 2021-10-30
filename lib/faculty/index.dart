@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:osfs1/components/simpleDropdown.dart';
-import 'package:osfs1/constant.dart';
-import 'package:random_string/random_string.dart';
 import '../route.dart';
+import 'addFeedbackClassScreen.dart';
+import 'faculltyFClassScreen.dart';
+
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -33,6 +33,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
     _isChecked = List<bool>.filled(userdataList.length, false);
   }
 
+
   getStudentDataFromUsers() async {
     userdataList = <Map>[];
     await firestore
@@ -51,16 +52,6 @@ class _FacultyScreenState extends State<FacultyScreen> {
     return userdataList;
   }
 
-  void updateFeedbackClass(element,feedbackClassId) {
-    firestore.collection('Users').doc(element).update({
-                        'FeedbackClass': FieldValue.arrayUnion([feedbackClassId]),
-                      });
-  }
-
-  String genrateFeedbackClassId() {
-    return randomAlphaNumeric(20);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,6 +65,8 @@ class _FacultyScreenState extends State<FacultyScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
+                FirebaseFirestore.instance.clearPersistence();
+                FirebaseAuth.instance.signOut();
                 Navigator.pushNamed(context, loginScreenRoute);
               },
             )
@@ -83,71 +76,87 @@ class _FacultyScreenState extends State<FacultyScreen> {
         child: Container(
           margin: EdgeInsets.all(16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 8,
-                child: StreamBuilder(
-                    stream: firestore.collection('Users').snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final List<DocumentSnapshot> documents =
-                            snapshot.data.docs;
-                        List<dynamic> data =
-                            snapshot.data.docs.map((e) => e.data()).toList();
-
-                        if (checkListBool) {
-                          _isChecked =
-                              List<bool>.filled(documents.length, false);
-                          checkListBool = false;
-                        }
-
-                        return ListView.builder(
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            return CheckboxListTile(
-                              value: _isChecked[index],
-                              onChanged: (bool value) {
-                                setState(() {
-                                  if (_isChecked[index] == false) {
-                                    studentUIdList.add(
-                                        data[index]['PersonalInfo']['UId']);
-                                  } else {
-                                    studentUIdList.remove(
-                                        data[index]['PersonalInfo']['UId']);
-                                  }
-                                  _isChecked[index] = value;
-                                });
-                              },
-                              title: Text(
-                                  data[index]['PersonalInfo']['Enrollment No']),
-                              subtitle:
-                                  Text(data[index]['PersonalInfo']['Email']),
-                            );
+                  flex: 1,
+                  child: Row(
+                    children: [
+                      Text(
+                        'FeedbackClass',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.w800),
+                      ),
+                      Spacer(),
+                      IconButton(
+                          splashColor: Colors.blueAccent,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      AddFeedbackClassScreen(),
+                                ));
                           },
-                        );
-                      }
-                      return Text('Its Error!');
-                    }),
-              ),
+                          icon: Icon(Icons.add))
+                    ],
+                  )),
               Expanded(
-                flex: 1,
-                child: MaterialButton(
-                  onPressed: () {
-                    String feedbackClassId = genrateFeedbackClassId();
-                    print('FeedbackClassId-->$feedbackClassId');
-                    firestore.collection('FeedbackClass').doc(feedbackClassId).set({
-                      'StudentList': FieldValue.arrayUnion(studentUIdList),
-                      'Faculty': '$uid',
-                    });
-                    studentUIdList.forEach((element) {
-                      updateFeedbackClass(element,feedbackClassId);
-                    });
-                    
-                  },
-                  child: Text("ADD"),
-                  color: Colors.amber,
-                ),
-              ),
+                  flex: 15,
+                  child: StreamBuilder(
+                      stream: firestore
+                          .collection('FeedbackClass')
+                          .where('Faculty', isEqualTo: uid)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<dynamic> data =
+                              snapshot.data.docs.map((e) => e.data()).toList();
+                          return ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return Divider();
+                            },
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FaculltyFClassScreen(
+                                          feedbackClassId:
+                                              data[index]['name'].toString())),
+                                );
+                              },
+                                leading: Icon(
+                                  Icons.groups_outlined,
+                                  size: 35,
+                                  color: Colors.blueAccent,
+                                ),
+                                title: Text(data[index]['name'].toString(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
+                                subtitle: StreamBuilder(
+                                  stream: firestore
+                                      .collection('Users')
+                                      .doc(data[index]['Faculty'])
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return Container();
+                                    }
+                                    var document = snapshot.data;
+                                    return Text('Created by' +
+                                        ' ' +
+                                        document['PersonalInfo']['First Name'] +
+                                        ' ' +
+                                        document['PersonalInfo']['Last Name']);
+                                  },
+                                ),
+                              );
+                            },
+                          );
+                        }
+                        return Text('Its Error!');
+                      })),
             ],
           ),
         ),

@@ -11,7 +11,6 @@ class FeedbackClassScreen extends StatelessWidget {
   var stuNameData;
   var studentName;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

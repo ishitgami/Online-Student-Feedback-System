@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'splashScreen.dart';
 import 'auth/login.dart';
 import 'auth/registrationScreen.dart';
 import 'admin/index.dart';
 import 'admin/faculty.dart';
-import 'student/index.dart';
 import 'admin/AcademicYear.dart';
 import 'admin/student.dart';
 import 'admin/Department.dart';
@@ -13,17 +12,22 @@ import 'admin/Division.dart';
 import 'admin/subject.dart';
 import 'admin/feedbackRestrictions.dart';
 import 'admin/feedbackQue.dart';
-import 'faculty/index.dart';
-import 'student/feedbackScreen.dart';
 import 'admin/report.dart';
-import 'splashScreen.dart';
-// import 'student/feedbackClassScreen.dart';
+import 'faculty/FacultyDashbord.dart';
+import 'faculty/FacultyFeedbackclass.dart';
+import 'student/index.dart';
+import 'student/feedbackScreen.dart';
 
+
+//SplashScreen
+const String splashScreenRoute = '/SplashScreen';
+
+//authentication
 const String loginScreenRoute = '/';
 const String registrationScreenRoute = '/RegistrationScreen';
+
+//Admin
 const String AdminScreenRoute = '/AdminScreen';
-const String facultyScreenRoute = '/facultyScreen';
-const String studentScreenRoute = '/StudentScreen';
 const String studentInAdminScreenRoute = '/StudentInAdminScreen';
 const String facultyInAdminScreenRoute = '/FacultyInAdminScreen';
 const String acadamicYearScreenRoute = '/AcadamicYearScreen';
@@ -32,15 +36,18 @@ const String divisionScreenRoute = '/DivisionScreen';
 const String subjectScreenRoute = '/SubjectScreen';
 const String restrictionsScreenRoute = '/FeedbackRestrictionsScreen';
 const String questionScreenRoute = '/FeedbackQueScreen';
-const String feedbackScreenRoute = '/FeedbackScreen';
 const String reportScreenRoute = '/ReportScreen';
-const String splashScreenRoute = '/SplashScreen';
+
+//Faculty
+const String FacultyDashbordScreenRoute = '/facultyDashbordScreen';
+const String FacultyFclassScreenRoute = '/facultyFclassScreen';
+
+//Student
+const String studentScreenRoute = '/StudentScreen';
+const String feedbackScreenRoute = '/FeedbackScreen';
 
 
-
-// const String feedbackClassScreenRoute = '/FeedbackClassScreen';
-
-class Routerr {
+class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splashScreenRoute:
@@ -55,8 +62,8 @@ class Routerr {
       case AdminScreenRoute:
         return MaterialPageRoute(builder: (context) => AdminScreen());
 
-      case facultyScreenRoute:
-        return MaterialPageRoute(builder: (context) => FacultyScreen());
+      case FacultyFclassScreenRoute:
+        return MaterialPageRoute(builder: (context) => FacultyFclassScreen());
 
       case studentScreenRoute:
         return MaterialPageRoute(builder: (context) => StudentScreen());
@@ -91,8 +98,8 @@ class Routerr {
       case reportScreenRoute:
         return MaterialPageRoute(builder: (context) => ReportScreen());
 
-      // case feedbackClassScreenRoute:
-      //   return MaterialPageRoute(builder: (context) => FeedbackClassScrenn());
+      case FacultyDashbordScreenRoute:
+        return MaterialPageRoute(builder: (context) =>FacultyDashbordScreen());
 
       default:
         return MaterialPageRoute(

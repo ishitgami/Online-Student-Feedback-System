@@ -4,10 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'auth/login.dart';
 import 'admin/index.dart';
-import 'faculty/index.dart';
+import 'faculty/FacultyDashbord.dart';
 import 'student/index.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 class SplashScreen1 extends StatefulWidget {
   @override
   _SplashScreen1State createState() => _SplashScreen1State();
@@ -19,13 +20,15 @@ class _SplashScreen1State extends State<SplashScreen1> {
   @override
   void initState() {
     super.initState();
+    checkUserType();
+  }
+
+  checkUserType() {
     var auth = FirebaseAuth.instance;
     auth.authStateChanges().listen((user) {
       if (user != null) {
         user = auth.currentUser;
         uid = user.uid;
-        print("user is logged in");
-        print(uid);
         firestore
             .collection('user')
             .where(FieldPath.documentId, isEqualTo: uid)
@@ -51,7 +54,7 @@ class _SplashScreen1State extends State<SplashScreen1> {
                   })
                 });
       } else {
-        print("user is not logged in");
+        // print("user is not logged in");
       }
     });
   }
@@ -59,18 +62,14 @@ class _SplashScreen1State extends State<SplashScreen1> {
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
-      seconds: 2,
+      seconds: 5,
       navigateAfterSeconds: loginNum == 1
           ? AdminScreen
           : loginNum == 2
               ? StudentScreen()
               : loginNum == 3
-                  ? FacultyScreen()
+                  ? FacultyDashbordScreen()
                   : LoginScreen(),
-      // title: new Text(
-      //   'GeeksForGeeks',
-      //   textScaleFactor: 2,
-      // ),
       image: Image.asset('img/splashLogo.png'),
       loadingText: Text("Loading"),
       photoSize: 150.0,

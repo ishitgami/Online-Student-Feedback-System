@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../route.dart';
-import 'feedbackScreen.dart';
 import '../constant.dart';
 import 'feedbackClassScreen.dart';
 
@@ -94,8 +93,6 @@ class _StudentScreenState extends State<StudentScreen> {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        final List<DocumentSnapshot> documents =
-                            snapshot.data.docs;
                         List<dynamic> data =
                             snapshot.data.docs.map((e) => e.data()).toList();
                         return ListView.builder(
@@ -121,7 +118,7 @@ class _StudentScreenState extends State<StudentScreen> {
                                     .snapshots(),
                                 builder: (context, snapshot) {
                                   if (!snapshot.hasData) {
-                                    return new CircularProgressIndicator();
+                                    return CircularProgressIndicator();
                                   }
                                   var document = snapshot.data;
                                   return Text('Created by' +

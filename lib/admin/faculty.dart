@@ -38,7 +38,7 @@ class _FacultyInAdminState extends State<FacultyInAdmin> {
                           labelText: 'First Name',
                         ),
                         onChanged: (text) {
-                          sFirstName = text;
+                          firstName = text;
                         },
                       ),
                       SizedBox(height: 10),
@@ -47,7 +47,7 @@ class _FacultyInAdminState extends State<FacultyInAdmin> {
                           labelText: 'Last Name',
                         ),
                         onChanged: (text) {
-                          sLastName = text;
+                          lastName = text;
                         },
                       ),
                       SizedBox(height: 10),
@@ -56,7 +56,7 @@ class _FacultyInAdminState extends State<FacultyInAdmin> {
                           labelText: 'Email',
                         ),
                         onChanged: (text) {
-                          sEmail = text;
+                          email = text;
                         },
                       ),
                       SizedBox(height: 10),
@@ -65,19 +65,19 @@ class _FacultyInAdminState extends State<FacultyInAdmin> {
                           labelText: 'Password',
                         ),
                         onChanged: (text) {
-                          sPassword = text;
+                          password = text;
                         },
                       ),
                       SizedBox(height: 30),
                       ElevatedButton(
                           onPressed: () async {
-                            print(sEmail);
-                            print(sPassword);
+                            print(email);
+                            print(password);
                             // Navigator.pushNamed(context, LoginScreen.id);
                             try {
                               final newUser =
                                   await _auth.createUserWithEmailAndPassword(
-                                      email: sEmail, password: sPassword);
+                                      email: email, password: password);
                               print(newUser.user.email);
                               if (newUser != null) {
                                 var cUserId = newUser.user.uid;
@@ -86,16 +86,16 @@ class _FacultyInAdminState extends State<FacultyInAdmin> {
                                     .collection('user')
                                     .doc(cUserId)
                                     .set({
-                                  'Email' : '$sEmail',
+                                  'Email' : '$email',
                                   'role': 'faculty'
                                 });
                                 firestore
                                     .collection('faculty')
                                     .doc(cUserId)
                                     .set({
-                                  'First Name': '$sFirstName',
-                                  'Last Name': '$sLastName',
-                                  'Email' : '$sEmail',
+                                  'First Name': '$firstName',
+                                  'Last Name': '$lastName',
+                                  'Email' : '$email',
                                   'role': 'faculty'
                                 });
                               }

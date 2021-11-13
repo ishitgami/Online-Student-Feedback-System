@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../route.dart';
 import 'FacultyDrawer.dart';
 import 'addFeedbackClass.dart';
 import 'faculltyFClassScreen.dart';
@@ -30,20 +29,8 @@ class _FacultyFclassScreenState extends State<FacultyFclassScreen> {
     return Scaffold(
       drawer: FacultyDrawer(),
       appBar: AppBar(
-          title: Text('DashBoard'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                FirebaseFirestore.instance.clearPersistence();
-                FirebaseAuth.instance.signOut();
-                Navigator.pushReplacementNamed(context, loginScreenRoute);
-              },
-            )
-          ]),
+        title: Text('Feedback Class'),
+      ),
       body: Container(
         margin: EdgeInsets.all(16),
         child: Column(
@@ -55,8 +42,7 @@ class _FacultyFclassScreenState extends State<FacultyFclassScreen> {
                 children: [
                   Text(
                     'FeedbackClass',
-                    style:
-                        TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
                   ),
                   Spacer(),
                   IconButton(
@@ -97,8 +83,7 @@ class _FacultyFclassScreenState extends State<FacultyFclassScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => FaculltyFClassScreen(
-                                  feedbackClassId:
-                                      data[index]['name'].toString(),
+                                  feedbackClassId: data[index]['Id'].toString(),
                                 ),
                               ),
                             );

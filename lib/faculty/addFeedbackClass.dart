@@ -142,6 +142,7 @@ class _AddFeedbackClassScreenState extends State<AddFeedbackClassScreen> {
                           'StudentList': FieldValue.arrayUnion(studentUIdList),
                           'Faculty': '$uid',
                           'name' : '$feedbackClassName',
+                          'Id' : '$feedbackClassId',
                         });
                         studentUIdList.forEach((element) {
                           updateFeedbackClass(element,feedbackClassId);

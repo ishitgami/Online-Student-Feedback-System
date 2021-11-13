@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:osfs1/faculty/FacultyDashbord.dart';
 import 'package:osfs1/route.dart';
 
 class FacultyDrawer extends StatelessWidget {
@@ -46,6 +45,25 @@ class FacultyDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context,FacultyFclassScreenRoute);
+              },
+            ),
+            SizedBox(width: 50, child: Divider()),
+            ListTile(
+              title: Row(
+                children: [
+                  Icon(
+                    Icons.folder,
+                    color: Colors.blue,
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Text('Feedback Class'),
+                ],
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context,FacultyFeedbackClassScreenRoute);
               },
             ),
           ]

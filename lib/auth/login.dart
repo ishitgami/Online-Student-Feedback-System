@@ -1,10 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:osfs1/Model/Authentication-model.dart';
 import 'package:osfs1/components/borderTextField.dart';
 import 'package:osfs1/constant.dart';
 import 'package:osfs1/components/logoHeading.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import '../route.dart';
 import '../constant.dart';
 
@@ -15,14 +16,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String dropdownValue = 'Student';
-  final _auth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
- 
-  String userpassword;
+  UserProvider userProvider;
 
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -32,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-
               stops: [0.1, 0.5],
               colors: [
                 Color(0xFF6a11cb),
@@ -83,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             size: 30,
                           ),
                           onChanged: (text) {
-                            userpassword = text;
+                            password = text;
                           },
                         ),
                         SizedBox(height: 20),
@@ -109,6 +106,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                       return Center(child: CircularProgressIndicator(),);
                                   });
                                  await  loginByRole();
+                                 showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Center(child: CircularProgressIndicator(),);
+                                  });
                                  Navigator.pop(context);
                                   }, 
                                 child: Text('LogIn',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),)),
@@ -118,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(
-                                context, registrationScreenRoute);
+                                context, navToDiffRegistrationRoute);
                           },
                           child: Text(
                             'Not Registrated Yet?',
@@ -141,19 +143,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   loginByRole() async {
     try {
-      final user = await _auth.signInWithEmailAndPassword(
-          email: email, password: userpassword);
-      if (user != null) {
-        var cUserId = user.user.uid;
+      final user = await userProvider.loginAuthentication(email: email,password: password);
         firestore
-            .collection('user')
-            .where(FieldPath.documentId, isEqualTo: cUserId)
+            .collection('Users')
+            .where(FieldPath.documentId, isEqualTo: user.toString())
             .get()
             .then((QuerySnapshot<Object> value) => {
                   value.docs.forEach((DocumentSnapshot docs) {
                     if (docs.exists) {
                       Map<String, dynamic> data = docs.data();
-                      if (data['role'] == 'admin') {
+                      if (data['role'] == 'Admin') {
                         Navigator.pushNamed(context, AdminScreenRoute);
                       } else if (data['role'] == 'student') {
                         Navigator.pushNamed(context, studentScreenRoute);
@@ -163,9 +162,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                   })
                 });
-      }
+      // }
     } catch (e) {
-      print(e);
+     return alertBox(context, e);
     }
   }
+
+  Future<void> alertBox(BuildContext context, e) {
+    return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        elevation: 5,
+        title: Text("Alert !!"),
+        content: Text(e.toString()),
+        actions: <Widget>[
+
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: Text("Close",style: TextStyle(color: Colors.red,fontSize: 18,fontWeight: FontWeight.w700),),
+          ),
+        ],
+      ),
+    );
+  }
 }
+
+

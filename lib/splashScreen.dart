@@ -30,25 +30,31 @@ class _SplashScreen1State extends State<SplashScreen1> {
         user = auth.currentUser;
         uid = user.uid;
         firestore
-            .collection('user')
+            .collection('Users')
             .where(FieldPath.documentId, isEqualTo: uid)
             .get()
             .then((QuerySnapshot<Object> value) => {
                   value.docs.forEach((DocumentSnapshot docs) {
                     if (docs.exists) {
                       Map<String, dynamic> data = docs.data();
-                      if (data['role'] == 'admin') {
+                      if (data['role'] == 'Admin') {
+                        if (this.mounted) {
                         setState(() {
                           loginNum = 1;
                         });
+                        }
                       } else if (data['role'] == 'student') {
+                        if (this.mounted) {
                         setState(() {
                           loginNum = 2;
                         });
+                        }
                       } else if (data['role'] == 'faculty') {
+                        if (this.mounted) {
                         setState(() {
                           loginNum = 3;
                         });
+                        }
                       }
                     }
                   })
@@ -62,9 +68,9 @@ class _SplashScreen1State extends State<SplashScreen1> {
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
-      seconds: 5,
+      seconds:4 ,
       navigateAfterSeconds: loginNum == 1
-          ? AdminScreen
+          ? AdminScreen()
           : loginNum == 2
               ? StudentScreen()
               : loginNum == 3

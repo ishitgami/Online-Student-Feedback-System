@@ -8,6 +8,14 @@ const loginHeadingTextStyle = TextStyle(
     color: Colors.blueAccent
 );
 
+  String instituteName;
+  String email;
+  String password;
+  String  firstName;
+  String lastName;
+  var emailAddress;
+  var enrollmentNo;
+
   List<dynamic> facultyList;
   List<dynamic> departmentList;
   List<dynamic> academicYearList;
@@ -41,10 +49,8 @@ const loginHeadingTextStyle = TextStyle(
   
   var userData;
   var studentData;
-  var sEmail;
-  var sPassword;
-  var sFirstName;
-  var sLastName;
+  
+  
 
   //AcademicYear.dart
   var academicYear1;
@@ -60,8 +66,6 @@ const loginHeadingTextStyle = TextStyle(
   List<dynamic> subjectFeedbackId;
   var uid;
 
-  //login.dart
-  String email;
 
   //feedbackque.dart
   List<dynamic> feedbackQueList;

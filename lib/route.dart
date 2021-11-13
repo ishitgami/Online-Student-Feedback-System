@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'splashScreen.dart';
 import 'auth/login.dart';
-import 'auth/registrationScreen.dart';
+import 'auth/StudentRegistrationScreen.dart';
+import 'auth/navigateToReg.dart';
+import 'auth/organizationReg.dart';
+import 'auth/facultyRegistration.dart';
 import 'admin/index.dart';
 import 'admin/faculty.dart';
-import 'student/index.dart';
 import 'admin/AcademicYear.dart';
 import 'admin/student.dart';
 import 'admin/Department.dart';
@@ -13,15 +15,27 @@ import 'admin/Division.dart';
 import 'admin/subject.dart';
 import 'admin/feedbackRestrictions.dart';
 import 'admin/feedbackQue.dart';
-import 'faculty/index.dart';
-import 'student/feedbackScreen.dart';
 import 'admin/report.dart';
+import 'faculty/FacultyDashbord.dart';
+import 'faculty/FacultyFeedbackclass.dart';
+import 'faculty/FeedbackClassScreen.dart';
+import 'student/index.dart';
+import 'student/feedbackScreen.dart';
 
+
+//SplashScreen
+const String splashScreenRoute = '/SplashScreen';
+
+//authentication
 const String loginScreenRoute = '/';
-const String registrationScreenRoute = '/RegistrationScreen';
+const String navToDiffRegistrationRoute = '/navToDiffRegistrationRouteScreen';
+const String studentRegScreenRoute = '/RegistrationScreen';
+const String orgRegistrationRoute = '/orgRegistrationRouteScreen';
+const String facultyRegRoute = '/facultyRegRouteScreen';
+
+
+//Admin
 const String AdminScreenRoute = '/AdminScreen';
-const String facultyScreenRoute = '/facultyScreen';
-const String studentScreenRoute = '/StudentScreen';
 const String studentInAdminScreenRoute = '/StudentInAdminScreen';
 const String facultyInAdminScreenRoute = '/FacultyInAdminScreen';
 const String acadamicYearScreenRoute = '/AcadamicYearScreen';
@@ -30,23 +44,46 @@ const String divisionScreenRoute = '/DivisionScreen';
 const String subjectScreenRoute = '/SubjectScreen';
 const String restrictionsScreenRoute = '/FeedbackRestrictionsScreen';
 const String questionScreenRoute = '/FeedbackQueScreen';
-const String feedbackScreenRoute = '/FeedbackScreen';
 const String reportScreenRoute = '/ReportScreen';
 
-class Routerr {
+//Faculty
+const String FacultyDashbordScreenRoute = '/facultyDashbordScreen';
+const String FacultyFclassScreenRoute = '/facultyFclassScreen';
+const String FacultyFeedbackClassScreenRoute = 'facultyFeedbackClassScreen';
+
+//Student
+const String studentScreenRoute = '/StudentScreen';
+const String feedbackScreenRoute = '/FeedbackScreen';
+
+
+class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case splashScreenRoute:
+        return MaterialPageRoute(builder: (context) => SplashScreen1());
+
       case loginScreenRoute:
         return MaterialPageRoute(builder: (context) => LoginScreen());
 
-      case registrationScreenRoute:
-        return MaterialPageRoute(builder: (context) => RegistrationScreen());
+      case navToDiffRegistrationRoute:
+        return MaterialPageRoute(builder: (context) => NavigateToDiffReg());
+
+      case studentRegScreenRoute:
+        return MaterialPageRoute(builder: (context) => StudentRegistrationScreen());
+
+      case facultyRegRoute:
+        return MaterialPageRoute(builder: (context) => FacultyRegScreen());
+
+      case orgRegistrationRoute:
+        return MaterialPageRoute(builder: (context) => OrgRegistrationScreen());
+
+   
 
       case AdminScreenRoute:
         return MaterialPageRoute(builder: (context) => AdminScreen());
 
-      case facultyScreenRoute:
-        return MaterialPageRoute(builder: (context) => FacultyScreen());
+      case FacultyFclassScreenRoute:
+        return MaterialPageRoute(builder: (context) => FacultyFclassScreen());
 
       case studentScreenRoute:
         return MaterialPageRoute(builder: (context) => StudentScreen());
@@ -80,6 +117,12 @@ class Routerr {
 
       case reportScreenRoute:
         return MaterialPageRoute(builder: (context) => ReportScreen());
+
+      case FacultyDashbordScreenRoute:
+        return MaterialPageRoute(builder: (context) =>FacultyDashbordScreen());
+
+      case FacultyFeedbackClassScreenRoute:
+        return MaterialPageRoute(builder: (context) =>FeedbackClassScreen());
 
       default:
         return MaterialPageRoute(

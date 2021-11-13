@@ -58,6 +58,8 @@ class _AdminScreenState extends State<AdminScreen> {
         color: Colors.white,
       ),
       onPressed: () {
+        FirebaseFirestore.instance.clearPersistence();
+        FirebaseAuth.instance.signOut();
         Navigator.pushNamed(context, loginScreenRoute);
       },
     )

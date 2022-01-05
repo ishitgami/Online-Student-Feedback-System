@@ -9,7 +9,6 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 class UserProvider extends ChangeNotifier {
   final _auth = FirebaseAuth.instance;
 
-
   loginAuthentication({
     String email,
     String password,
@@ -81,13 +80,15 @@ class UserProvider extends ChangeNotifier {
 
   void addOrgnationData({
     String uId,
-    String institudeName
+    String institudeName,
+    String OrgCode,
   }) async{
     await firestore.collection('Users').doc(uId).set({
       'role': 'Admin',
       'CreatedAt': Timestamp.now(),
       'UId' : uId,
       'InstituteName' : institudeName,
+      'orgCode' : OrgCode
     });
   }
 

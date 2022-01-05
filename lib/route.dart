@@ -6,7 +6,7 @@ import 'auth/StudentRegistrationScreen.dart';
 import 'auth/navigateToReg.dart';
 import 'auth/organizationReg.dart';
 import 'auth/facultyRegistration.dart';
-import 'admin/index.dart';
+import 'admin/AdminDashbord.dart';
 import 'admin/faculty.dart';
 import 'admin/AcademicYear.dart';
 import 'admin/student.dart';
@@ -24,10 +24,10 @@ import 'student/feedbackScreen.dart';
 
 
 //SplashScreen
-const String splashScreenRoute = '/SplashScreen';
+const String splashScreenRoute = '/';
 
 //authentication
-const String loginScreenRoute = '/';
+const String loginScreenRoute = '/loginScreen';
 const String navToDiffRegistrationRoute = '/navToDiffRegistrationRouteScreen';
 const String studentRegScreenRoute = '/RegistrationScreen';
 const String orgRegistrationRoute = '/orgRegistrationRouteScreen';
@@ -82,8 +82,8 @@ class Routes {
       case AdminScreenRoute:
         return MaterialPageRoute(builder: (context) => AdminScreen());
 
-      case FacultyFclassScreenRoute:
-        return MaterialPageRoute(builder: (context) => FacultyFclassScreen());
+      // case FacultyFclassScreenRoute:
+      //   return MaterialPageRoute(builder: (context) => FacultyFclassScreen());
 
       case studentScreenRoute:
         return MaterialPageRoute(builder: (context) => StudentScreen());

@@ -3,7 +3,7 @@ import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'auth/login.dart';
-import 'admin/index.dart';
+import 'admin/AdminDashbord.dart';
 import 'faculty/FacultyDashbord.dart';
 import 'student/index.dart';
 
@@ -39,21 +39,27 @@ class _SplashScreen1State extends State<SplashScreen1> {
                       Map<String, dynamic> data = docs.data();
                       if (data['role'] == 'Admin') {
                         if (this.mounted) {
-                        setState(() {
-                          loginNum = 1;
-                        });
+                          setState(() {
+                            loginNum = 1;
+                          });
                         }
                       } else if (data['role'] == 'student') {
                         if (this.mounted) {
-                        setState(() {
-                          loginNum = 2;
-                        });
+                          setState(() {
+                            loginNum = 2;
+                          });
                         }
                       } else if (data['role'] == 'faculty') {
                         if (this.mounted) {
-                        setState(() {
-                          loginNum = 3;
-                        });
+                          setState(() {
+                            loginNum = 3;
+                          });
+                        }
+                      } else {
+                        if (this.mounted) {
+                          setState(() {
+                            loginNum = 0;
+                          });
                         }
                       }
                     }
@@ -68,7 +74,7 @@ class _SplashScreen1State extends State<SplashScreen1> {
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
-      seconds:4 ,
+      seconds: 4,
       navigateAfterSeconds: loginNum == 1
           ? AdminScreen()
           : loginNum == 2

@@ -6,6 +6,7 @@ import 'package:osfs1/constant.dart';
 import 'package:osfs1/components/logoHeading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:double_back_to_close/double_back_to_close.dart';
 import '../route.dart';
 import '../constant.dart';
 
@@ -21,120 +22,125 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context);
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              stops: [0.1, 0.5],
-              colors: [
-                Color(0xFF6a11cb),
-                Color(0xFF2575fc),
-              ],
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                flex: 3,
-                child: HeadingLogo(color: Colors.white,),
+    return DoubleBack(
+      onFirstBackPress: (context) {
+          final snackBar = SnackBar(content: Text('Press back again to exit'));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+      child: Scaffold(
+        body: SafeArea(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                stops: [0.1, 0.5],
+                colors: [
+                  Color(0xFF6a11cb),
+                  Color(0xFF2575fc),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          'LogIn',
-                          style: loginHeadingTextStyle,
-                        ),
-                        SizedBox(height: 20),
-                        SizedBox(height: 10),
-                        BorderTextField(
-                          text: 'Enter your Email',
-                          icon: Icon(
-                            Icons.email,
-                            size: 30,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: HeadingLogo(color: Colors.white,),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'LogIn',
+                            style: loginHeadingTextStyle,
                           ),
-                          onChanged: (text) {
-                            email = text;
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        BorderTextField(
-                          text: 'Enter your Password',
-                          icon: Icon(
-                            Icons.lock,
-                            size: 30,
+                          SizedBox(height: 20),
+                          SizedBox(height: 10),
+                          BorderTextField(
+                            text: 'Enter your Email',
+                            icon: Icon(
+                              Icons.email,
+                              size: 30,
+                            ),
+                            onChanged: (text) {
+                              email = text;
+                            },
                           ),
-                          onChanged: (text) {
-                            password = text;
-                          },
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          margin: EdgeInsets.only(left: 80,right: 80),
-                          child: SizedBox(
-                            height: 40,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                elevation: MaterialStateProperty.all(7),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25.0),
-                                      // side: BorderSide(color: Colors.red),
+                          SizedBox(height: 10),
+                          BorderTextField(
+                            text: 'Enter your Password',
+                            icon: Icon(
+                              Icons.lock,
+                              size: 30,
+                            ),
+                            onChanged: (text) {
+                              password = text;
+                            },
+                          ),
+                          SizedBox(height: 20),
+                          Container(
+                            margin: EdgeInsets.only(left: 80,right: 80),
+                            child: SizedBox(
+                              height: 40,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all(7),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                onPressed: () async{
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Center(child: CircularProgressIndicator(),);
-                                  });
-                                 await  loginByRole();
-                                 showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Center(child: CircularProgressIndicator(),);
-                                  });
-                                 Navigator.pop(context);
-                                  }, 
-                                child: Text('LogIn',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),)),
+                                  onPressed: () async{
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Center(child: CircularProgressIndicator(),);
+                                    });
+                                   await  loginByRole();
+                                   showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Center(child: CircularProgressIndicator(),);
+                                    });
+                                   Navigator.pop(context);
+                                    }, 
+                                  child: Text('LogIn',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),)),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10.0),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, navToDiffRegistrationRoute);
-                          },
-                          child: Text(
-                            'Not Registrated Yet?',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 15.0, color: Colors.blueAccent),
-                          ),
-                        )
-                      ],
+                          SizedBox(height: 10.0),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, navToDiffRegistrationRoute);
+                            },
+                            child: Text(
+                              'Not Registrated Yet?',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 15.0, color: Colors.blueAccent),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

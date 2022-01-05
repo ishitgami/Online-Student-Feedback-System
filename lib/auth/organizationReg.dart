@@ -4,15 +4,16 @@ import 'package:osfs1/Model/Authentication-model.dart';
 import 'package:osfs1/commanWidget/bottemWave.dart';
 import 'package:osfs1/commanWidget/logoContainer.dart';
 import 'package:provider/provider.dart';
+import 'package:random_string/random_string.dart';
 import '../constant.dart';
 import '../route.dart';
 
 
 
+// ignore: must_be_immutable
 class OrgRegistrationScreen extends StatelessWidget {
   UserProvider  userProvider;
   final _form = GlobalKey<FormState>(); //for storing form state.
- 
 
 
   void _saveForm() {
@@ -22,11 +23,17 @@ class OrgRegistrationScreen extends StatelessWidget {
     }
   }
 
+  String genrateOrgCode() {
+    return randomAlphaNumeric(6);
+  }
+
 
   addOrgToUsers(uId) {
+    String orgCode = genrateOrgCode();
     userProvider.addOrgnationData(
       uId: uId,
       institudeName: instituteName,
+      OrgCode: orgCode
     );
   }
  

@@ -16,9 +16,6 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
   final auth = FirebaseAuth.instance;
   User user;
   var uid;
-  final Color dark = const Color(0xff3b8c75);
-  final Color normal = const Color(0xff64caad);
-  final Color light = const Color(0xff73e8c9);
 
   @override
   void initState() {
@@ -29,158 +26,166 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      drawer: FacultyDrawer(),
-      appBar: AppBar(title: Text('DashBoard'), actions: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.logout,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            FirebaseFirestore.instance.clearPersistence();
-            FirebaseAuth.instance.signOut();
-            Navigator.pushReplacementNamed(context, loginScreenRoute);
-          },
-        )
-      ]),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.all(10),
-                // width: 500,
-                // height: 200,
-                width: MediaQuery.of(context).size.width * 0.95,
-                height: MediaQuery.of(context).size.width * 0.95 * 0.35,
-                padding: EdgeInsets.fromLTRB(10, 10, 40, 10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 4.0,
-                      )
-                    ]),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Total',
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black54),
-                        ),
-                        Text(
-                          'Feedback\nClass',
-                          style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Text(
-                      '5',
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(10),
-                // width: 500,
-                // height: 300,
-                width: MediaQuery.of(context).size.width * 0.95,
-                height: MediaQuery.of(context).size.width * 0.95 * 0.90,
-                padding: EdgeInsets.fromLTRB(0, 10, 20, 10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 4.0,
-                      )
-                    ]),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.fromLTRB(35, 10, 0, 20),
-                      child: Text(
-                        'FeedbackClass Graph',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: BarChart(
-                          BarChartData(
-                            // maxY: 110,
-                            titlesData: FlTitlesData(
-                                show: true,
-                                bottomTitles: SideTitles(
-                                  showTitles: true,
-                                  getTextStyles: (context, value) =>
-                                      const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 10),
-                                ),
-                                topTitles: SideTitles(showTitles: false),
-                                leftTitles: SideTitles(
-                                  showTitles: true,
-                                  getTextStyles: (context, value) =>
-                                      const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 10),
-                                ),
-                                rightTitles: SideTitles(showTitles: false)),
-                            borderData: FlBorderData(
-                              show: false,
-                            ),
+    return WillPopScope(
+      onWillPop: () { 
+         Navigator.pop(context, false);
 
-                            axisTitleData: FlAxisTitleData(
-                              leftTitle: AxisTitle(
-                                  showTitle: true,
-                                  titleText: 'Students',
-                                  textStyle: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold),
-                                  margin: 10),
-                              bottomTitle: AxisTitle(
-                                  showTitle: true,
-                                  titleText: 'Feedback',
-                                  textStyle: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold),
-                                  margin: 10),
+    //we need to return a future
+    return Future.value(false);
+       },
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        drawer: FacultyDrawer(),
+        appBar: AppBar(title: Text('DashBoard'), actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              FirebaseFirestore.instance.clearPersistence();
+              FirebaseAuth.instance.signOut();
+              Navigator.pushReplacementNamed(context, loginScreenRoute);
+            },
+          )
+        ]),
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  // width: 500,
+                  // height: 200,
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  height: MediaQuery.of(context).size.width * 0.95 * 0.35,
+                  padding: EdgeInsets.fromLTRB(10, 10, 40, 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 4.0,
+                        )
+                      ]),
+                  child: Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Total',
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black54),
+                          ),
+                          Text(
+                            'Feedback\nClass',
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.black),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      Text(
+                        '5',
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(10),
+                  // width: 500,
+                  // height: 300,
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  height: MediaQuery.of(context).size.width * 0.95 * 0.90,
+                  padding: EdgeInsets.fromLTRB(0, 10, 20, 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 4.0,
+                        )
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.fromLTRB(35, 10, 0, 20),
+                        child: Text(
+                          'FeedbackClass Graph',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w800),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          child: BarChart(
+                            BarChartData(
+                              // maxY: 110,
+                              titlesData: FlTitlesData(
+                                  show: true,
+                                  bottomTitles: SideTitles(
+                                    showTitles: true,
+                                    getTextStyles: (context, value) =>
+                                        const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10),
+                                  ),
+                                  topTitles: SideTitles(showTitles: false),
+                                  leftTitles: SideTitles(
+                                    showTitles: true,
+                                    getTextStyles: (context, value) =>
+                                        const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10),
+                                  ),
+                                  rightTitles: SideTitles(showTitles: false)),
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+        
+                              axisTitleData: FlAxisTitleData(
+                                leftTitle: AxisTitle(
+                                    showTitle: true,
+                                    titleText: 'Students',
+                                    textStyle: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold),
+                                    margin: 10),
+                                bottomTitle: AxisTitle(
+                                    showTitle: true,
+                                    titleText: 'Feedback',
+                                    textStyle: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold),
+                                    margin: 10),
+                              ),
+                              barGroups: getData(),
                             ),
-                            barGroups: getData(),
                           ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

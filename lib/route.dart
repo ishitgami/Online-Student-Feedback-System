@@ -82,8 +82,8 @@ class Routes {
       case AdminScreenRoute:
         return MaterialPageRoute(builder: (context) => AdminScreen());
 
-      // case FacultyFclassScreenRoute:
-      //   return MaterialPageRoute(builder: (context) => FacultyFclassScreen());
+      case FacultyFclassScreenRoute:
+        return MaterialPageRoute(builder: (context) => FacultyFclassScreen());
 
       case studentScreenRoute:
         return MaterialPageRoute(builder: (context) => StudentScreen());

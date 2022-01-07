@@ -13,6 +13,7 @@ const loginHeadingTextStyle = TextStyle(
   String password;
   String  firstName;
   String lastName;
+  String orgId;
   var emailAddress;
   var enrollmentNo;
 

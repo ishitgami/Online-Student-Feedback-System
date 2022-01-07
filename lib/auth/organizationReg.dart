@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:osfs1/Model/Authentication-model.dart';
+import 'package:osfs1/Model/AddUserDataFirebase.dart';
+import 'package:osfs1/Model/Authentication.dart';
 import 'package:osfs1/commanWidget/bottemWave.dart';
 import 'package:osfs1/commanWidget/logoContainer.dart';
 import 'package:provider/provider.dart';
@@ -9,13 +10,16 @@ import '../constant.dart';
 import '../route.dart';
 
 
-
-// ignore: must_be_immutable
 class OrgRegistrationScreen extends StatelessWidget {
-  UserProvider  userProvider;
-  final _form = GlobalKey<FormState>(); //for storing form state.
 
+  //Provider
+  Authentication  userProvider;
+  AddUserDataFirebase addData;
 
+  //for storing form state.
+  final _form = GlobalKey<FormState>(); 
+
+  //Validation Form
   void _saveForm() {
     final isValid = _form.currentState.validate();
     if (!isValid) {
@@ -23,23 +27,24 @@ class OrgRegistrationScreen extends StatelessWidget {
     }
   }
 
+  //For Generate Organation Code
   String genrateOrgCode() {
     return randomAlphaNumeric(6);
   }
 
 
-  addOrgToUsers(uId) {
+  addOrgDataToUsers(uId) {
     String orgCode = genrateOrgCode();
-    userProvider.addOrgnationData(
+    addData.addOrgnationData(
       uId: uId,
       institudeName: instituteName,
-      OrgCode: orgCode
+      orgCode: orgCode
     );
   }
  
   @override
   Widget build(BuildContext context) {
-     userProvider = Provider.of<UserProvider>(context);
+     userProvider = Provider.of<Authentication>(context);
     return Scaffold(
       body: SafeArea(
         child:Form(
@@ -51,7 +56,7 @@ class OrgRegistrationScreen extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                   LogoHeading(),
+                  LogoHeading(),
                   Container(
                     margin: EdgeInsets.all(15),
                     child: Column(
@@ -88,7 +93,7 @@ class OrgRegistrationScreen extends StatelessWidget {
                                         password: password);
                                         print(newUser);
                                         if(newUser !=null) {
-                                    addOrgToUsers(newUser.toString());
+                                    addOrgDataToUsers(newUser.toString());
                                     Navigator.pushNamed(
                                         context, loginScreenRoute);}
                                   } catch (e) {
@@ -129,6 +134,8 @@ class OrgRegistrationScreen extends StatelessWidget {
         ),
     );
   }
+
+    //AlertBox
     Future<void> alertBox(BuildContext context, e) {
     return showDialog(
       context: context,

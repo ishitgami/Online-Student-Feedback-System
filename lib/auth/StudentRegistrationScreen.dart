@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:osfs1/Model/Authentication-model.dart';
+import 'package:osfs1/Model/AddUserDataFirebase.dart';
+import 'package:osfs1/Model/Authentication.dart';
 import 'package:osfs1/commanWidget/bottemWave.dart';
 import 'package:osfs1/commanWidget/logoContainer.dart';
 import 'package:provider/provider.dart';
@@ -14,12 +14,15 @@ class StudentRegistrationScreen extends StatefulWidget {
       _StudentRegistrationScreenState();
 }
 
+FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
-  UserProvider userProvider;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
-  final _form = GlobalKey<FormState>(); //for storing form state.
-  User user;
+  //Provider
+  AddUserDataFirebase addData;
+  Authentication userProvider;
+
+  //for storing form state.
+  final _form = GlobalKey<FormState>();
 
   //saving form after validation
   void _saveForm() {
@@ -30,7 +33,7 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
   }
 
   void addStudentToUsers(cUserId) {
-    userProvider.addStudentData(
+    addData.addStudentData(
       // academicYear: currentAcademicYearValue,
       // department: currentDepartmentValue,
       email: emailAddress,
@@ -38,18 +41,14 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
       firstName: firstName,
       lastName: lastName,
       uId: cUserId,
+      orgCode: orgId,
     );
   }
 
   @override
-  void initState() {
-    super.initState();
-    user = _auth.currentUser;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    userProvider = Provider.of<UserProvider>(context);
+    addData = Provider.of<AddUserDataFirebase>(context);
+    userProvider = Provider.of<Authentication>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -83,9 +82,9 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                           EmailTextField(),
                           SizedBox(height: 10),
                           PasswordTextField(),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 10),
+                          OrgIdTextField(),
+                          SizedBox(height: 20),
                           Container(
                             margin: EdgeInsets.only(
                                 top: 10, left: 115, right: 115, bottom: 18),
@@ -103,16 +102,23 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                                 ),
                                 onPressed: () async {
                                   _saveForm();
+                                  if (await userProvider
+                                          .isValidOrgCode(orgId) ==
+                                      null) {
+                                    return alertBox(
+                                        context, 'Please Enter Valid Org Code');
+                                  }
+
                                   try {
-                                    final newUser = await userProvider.registrationAuthentication(
-                                        emailAddress: emailAddress,
-                                        password: password);
+                                    final newUser = await userProvider
+                                        .registrationAuthentication(
+                                            emailAddress: emailAddress,
+                                            password: password);
                                     addStudentToUsers(newUser.toString());
                                     Navigator.pushNamed(
                                         context, loginScreenRoute);
                                   } catch (e) {
                                     return alertBox(context, e);
-                                    // print(e);
                                   }
                                 },
                                 child: Text(
@@ -131,9 +137,14 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                                 Text('Alredy Register? '),
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(context, loginScreenRoute);
+                                    Navigator.pushNamed(
+                                        context, loginScreenRoute);
                                   },
-                                  child: Text('Login Page',style: TextStyle(color: Colors.blue),))
+                                  child: Text(
+                                    'Login Page',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                )
                               ],
                             ),
                           )
@@ -154,7 +165,7 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
     return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text("Alert"),
+        title: Text("Alert!!"),
         content: Text(e.toString()),
         actions: <Widget>[
           TextButton(
@@ -291,6 +302,31 @@ class FirstNameTextField extends StatelessWidget {
   }
 }
 
+class OrgIdTextField extends StatelessWidget {
+  const OrgIdTextField({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Org Code',
+        prefixIcon: Icon(Icons.receipt),
+      ),
+      onChanged: (text) {
+        orgId = text;
+      },
+      validator: (text) {
+        if (text.isEmpty || text.length < 6) {
+          return "Enter Valid Reg Code";
+        }
+        return null;
+      },
+    );
+  }
+}
+
 class RegisterContainer extends StatelessWidget {
   const RegisterContainer({
     Key key,
@@ -312,5 +348,3 @@ class RegisterContainer extends StatelessWidget {
     );
   }
 }
-
-

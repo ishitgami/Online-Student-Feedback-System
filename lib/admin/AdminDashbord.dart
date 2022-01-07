@@ -14,11 +14,13 @@ class _AdminScreenState extends State<AdminScreen> {
   final _auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   User loggedInUser;
+  String orgCode;
 
   @override
   void initState() {
     super.initState();
     getCurrentUser();
+    getOrgCode();
   }
 
   void getCurrentUser() {
@@ -32,9 +34,19 @@ class _AdminScreenState extends State<AdminScreen> {
     }
   }
 
+  String getOrgCode() {
+    firestore
+        .collection('Users')
+        .doc(loggedInUser.uid)
+        .get()
+        .then((value) => {
+          orgCode = value['orgCode']
+          
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(title: Text('DASHBORD'), actions: <Widget>[
@@ -63,8 +75,43 @@ class _AdminScreenState extends State<AdminScreen> {
                   children: [
                     Expanded(
                       child: Container(
+                        margin: EdgeInsets.fromLTRB(0, 8, 0, 12),
                         decoration: BoxDecoration(
-                           color: Colors.white,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Organization\nCode',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              Text(
+                                orgCode.toString(),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(5)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -73,7 +120,7 @@ class _AdminScreenState extends State<AdminScreen> {
                               Text(
                                 'Students',
                                 style: TextStyle(
-                                   color:  Colors.black,
+                                  color: Colors.black,
                                   fontSize: 20,
                                 ),
                               ),
@@ -87,7 +134,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                     return Text(
                                       snapshot.data.docs.length.toString(),
                                       style: TextStyle(
-                                          color:  Colors.black,
+                                          color: Colors.black,
                                           fontSize: 40,
                                           fontWeight: FontWeight.bold),
                                     );
@@ -106,7 +153,7 @@ class _AdminScreenState extends State<AdminScreen> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                           color: Colors.white,
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(5)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -115,7 +162,7 @@ class _AdminScreenState extends State<AdminScreen> {
                               Text(
                                 'Faculty',
                                 style: TextStyle(
-                                   color:  Colors.black,
+                                  color: Colors.black,
                                   fontSize: 20,
                                 ),
                               ),
@@ -129,7 +176,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                     return Text(
                                       snapshot.data.docs.length.toString(),
                                       style: TextStyle(
-                                          color:  Colors.black,
+                                          color: Colors.black,
                                           fontSize: 40,
                                           fontWeight: FontWeight.bold),
                                     );
@@ -146,12 +193,11 @@ class _AdminScreenState extends State<AdminScreen> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                           color: Colors.white,
-                            borderRadius: BorderRadius.circular(5)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5)),
                   height: 300,
                   margin: EdgeInsets.fromLTRB(5, 15, 5, 10),
                   padding: EdgeInsets.all(15),
-                  
                   child: BarChart(
                     BarChartData(
                       // maxY: 110,
@@ -159,40 +205,36 @@ class _AdminScreenState extends State<AdminScreen> {
                           show: true,
                           bottomTitles: SideTitles(
                             showTitles: true,
-                            getTextStyles: (context, value) =>
-                                const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 10),
+                            getTextStyles: (context, value) => const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 10),
                           ),
                           topTitles: SideTitles(showTitles: false),
                           leftTitles: SideTitles(
                             showTitles: true,
-                            getTextStyles: (context, value) =>
-                                const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 10),
+                            getTextStyles: (context, value) => const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 10),
                           ),
                           rightTitles: SideTitles(showTitles: false)),
                       borderData: FlBorderData(
                         show: false,
                       ),
-        
+
                       axisTitleData: FlAxisTitleData(
                         leftTitle: AxisTitle(
                             showTitle: true,
                             titleText: 'Students',
                             textStyle: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 13, fontWeight: FontWeight.bold),
                             margin: 10),
                         bottomTitle: AxisTitle(
                             showTitle: true,
                             titleText: 'Feedback',
                             textStyle: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 13, fontWeight: FontWeight.bold),
                             margin: 10),
                       ),
                       barGroups: getData(),
@@ -207,7 +249,7 @@ class _AdminScreenState extends State<AdminScreen> {
     );
   }
 
-    List<BarChartGroupData> getData() {
+  List<BarChartGroupData> getData() {
     return [
       BarChartGroupData(
         showingTooltipIndicators: [1, 2, 3],
@@ -225,7 +267,7 @@ class _AdminScreenState extends State<AdminScreen> {
         ],
       ),
       BarChartGroupData(
-        x: 2,
+        x: 5,
         barsSpace: 4,
         barRods: [
           BarChartRodData(
@@ -282,6 +324,4 @@ class _AdminScreenState extends State<AdminScreen> {
       ),
     ];
   }
-
-
 }

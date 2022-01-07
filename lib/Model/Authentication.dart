@@ -6,9 +6,10 @@ import 'package:osfs1/auth/authErrorHendling.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-class UserProvider extends ChangeNotifier {
+class Authentication extends ChangeNotifier {
   final _auth = FirebaseAuth.instance;
 
+  //Authentication While User Login
   loginAuthentication({
     String email,
     String password,
@@ -30,6 +31,7 @@ class UserProvider extends ChangeNotifier {
     return userUId.toString();
   }
 
+  //Authintication While User Registration
   registrationAuthentication({
     String emailAddress,
     String password,
@@ -37,7 +39,6 @@ class UserProvider extends ChangeNotifier {
     String errorMessage;
     String userUId;
     var newUser;
-
     try {
       newUser = await _auth.createUserWithEmailAndPassword(
           email: emailAddress, password: password);
@@ -51,45 +52,20 @@ class UserProvider extends ChangeNotifier {
     return userUId.toString();
   }
 
-  void addStudentData({
-    String uId,
-    String academicYear,
-    String department,
-    String email,
-    String firstName,
-    String lastName,
-    String enrollment,
-  }) async {
-    await firestore.collection('Users').doc(uId).set({
-      'role': 'student',
-      'CreatedAt': Timestamp.now(),
-      'CollegeData': {
-        'AcademicYear': academicYear,
-        'Department': department,
-      },
-      'PersonalInfo': {
-        'Email': email,
-        'First Name': firstName,
-        'Last Name': lastName,
-        'Enrollment No': enrollment,
-        'UId': uId,
-      },
-      'FeedbackClass': []
-    });
+  //Check User Enter Organation Code Is Valid Or Not
+  isValidOrgCode(orgId) async {
+    bool validOrgId;
+    await firestore
+        .collection('Users')
+        .where('role', isEqualTo: 'Admin')
+        .get()
+        .then((value) => {
+              value.docs.forEach((element) {
+                if (orgId == element['orgCode']) {
+                  validOrgId = true;
+                }
+              })
+            });
+    return validOrgId;
   }
-
-  void addOrgnationData({
-    String uId,
-    String institudeName,
-    String OrgCode,
-  }) async{
-    await firestore.collection('Users').doc(uId).set({
-      'role': 'Admin',
-      'CreatedAt': Timestamp.now(),
-      'UId' : uId,
-      'InstituteName' : institudeName,
-      'orgCode' : OrgCode
-    });
-  }
-
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:osfs1/route.dart';
 import 'package:provider/provider.dart';
-import 'Model/Authentication-model.dart';
+import 'Model/Authentication.dart';
+import 'Model/AddUserDataFirebase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,9 +11,12 @@ void main() async {
   runApp(
      MultiProvider(
         providers: [
-        ChangeNotifierProvider<UserProvider>(
-          create: (_)=>UserProvider(),
-        )
+        ChangeNotifierProvider<Authentication>(
+          create: (_)=>Authentication(),
+        ),
+        ChangeNotifierProvider<AddUserDataFirebase>(
+          create: (_)=>AddUserDataFirebase(),
+        ),
       ],
     child : OSFS())
     );

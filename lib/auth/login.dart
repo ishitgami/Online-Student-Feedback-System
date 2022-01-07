@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:osfs1/Model/Authentication-model.dart';
+import 'package:osfs1/Model/Authentication.dart';
 import 'package:osfs1/components/borderTextField.dart';
 import 'package:osfs1/constant.dart';
 import 'package:osfs1/components/logoHeading.dart';
@@ -17,11 +17,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  UserProvider userProvider;
+  Authentication userProvider;
 
   @override
   Widget build(BuildContext context) {
-    userProvider = Provider.of<UserProvider>(context);
+    userProvider = Provider.of<Authentication>(context);
     return DoubleBack(
       onFirstBackPress: (context) {
           final snackBar = SnackBar(content: Text('Press back again to exit'));

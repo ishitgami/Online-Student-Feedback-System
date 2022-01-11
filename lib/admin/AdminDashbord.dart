@@ -1,5 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:osfs1/Model/admin-model.dart';
+import 'package:provider/provider.dart';
+import '../constant.dart';
 import '../route.dart';
 import 'DrawerAdmin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,42 +14,36 @@ class AdminScreen extends StatefulWidget {
 }
 
 class _AdminScreenState extends State<AdminScreen> {
-  final _auth = FirebaseAuth.instance;
+  AdminModel adminModel;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   User loggedInUser;
-  String orgCode;
-
-  @override
-  void initState() {
-    super.initState();
-    getCurrentUser();
-    getOrgCode();
-  }
-
-  void getCurrentUser() {
-    try {
-      final user = _auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  String getOrgCode() {
-    firestore
-        .collection('Users')
-        .doc(loggedInUser.uid)
-        .get()
-        .then((value) => {
-          orgCode = value['orgCode']
-          
-        });
-  }
+  var orgCode;
+  var studentTotal;
+  var facultyTotal;
 
   @override
   Widget build(BuildContext context) {
+    adminModel = Provider.of<AdminModel>(context);
+    loggedInUser = adminModel.getCurrentUser();
+
+    adminModel.getOrgCode(loggedInUser.uid).then((value) {
+      setState(() {
+        orgCode = value;
+      });
+    });
+
+    adminModel.getStudentTotal(orgCode).then((value) {
+      setState(() {
+        studentTotal = value;
+      });
+    });
+
+    adminModel.getFacultyTotal(orgCode).then((value) {
+      setState(() {
+        facultyTotal = value;
+      });
+    });
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(title: Text('DASHBORD'), actions: <Widget>[
@@ -76,9 +73,7 @@ class _AdminScreenState extends State<AdminScreen> {
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.fromLTRB(0, 8, 0, 12),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5)),
+                        decoration: containerDecoration,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Row(
@@ -86,18 +81,11 @@ class _AdminScreenState extends State<AdminScreen> {
                             children: [
                               Text(
                                 'Organization\nCode',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                ),
+                                style: orgHeadingTextStyle,
                               ),
                               Text(
-                                orgCode.toString(),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold
-                                ),
+                                orgCode == null ? ' ' : orgCode.toString(),
+                                style: orgDataTextStyle,
                               ),
                             ],
                           ),
@@ -110,37 +98,18 @@ class _AdminScreenState extends State<AdminScreen> {
                   children: [
                     Expanded(
                       child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5)),
+                        decoration: containerDecoration,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
                               Text(
                                 'Students',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                ),
+                                style: orgHeadingTextStyle,
                               ),
-                              StreamBuilder(
-                                stream: firestore
-                                    .collection('Users')
-                                    .where('role', isEqualTo: 'student')
-                                    .snapshots(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(
-                                      snapshot.data.docs.length.toString(),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 40,
-                                          fontWeight: FontWeight.bold),
-                                    );
-                                  }
-                                  return CircularProgressIndicator();
-                                },
+                              Text(
+                                 studentTotal == null ? ' ' : studentTotal.toString(),
+                                style: containerHeadingStyle,
                               ),
                             ],
                           ),
@@ -152,37 +121,18 @@ class _AdminScreenState extends State<AdminScreen> {
                     ),
                     Expanded(
                       child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5)),
+                        decoration: containerDecoration,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
                               Text(
                                 'Faculty',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                ),
+                                style:orgHeadingTextStyle,
                               ),
-                              StreamBuilder(
-                                stream: firestore
-                                    .collection('Users')
-                                    .where('role', isEqualTo: 'faculty')
-                                    .snapshots(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(
-                                      snapshot.data.docs.length.toString(),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 40,
-                                          fontWeight: FontWeight.bold),
-                                    );
-                                  }
-                                  return CircularProgressIndicator();
-                                },
+                              Text(
+                                 facultyTotal == null ? ' ' : facultyTotal.toString(),
+                                style: containerHeadingStyle,
                               ),
                             ],
                           ),
@@ -192,9 +142,7 @@ class _AdminScreenState extends State<AdminScreen> {
                   ],
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5)),
+                  decoration: containerDecoration,
                   height: 300,
                   margin: EdgeInsets.fromLTRB(5, 15, 5, 10),
                   padding: EdgeInsets.all(15),
@@ -325,3 +273,5 @@ class _AdminScreenState extends State<AdminScreen> {
     ];
   }
 }
+
+

@@ -4,6 +4,7 @@ import 'package:osfs1/route.dart';
 import 'package:provider/provider.dart';
 import 'Model/Authentication.dart';
 import 'Model/AddUserDataFirebase.dart';
+import 'Model/admin-model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,11 +18,13 @@ void main() async {
         ChangeNotifierProvider<AddUserDataFirebase>(
           create: (_)=>AddUserDataFirebase(),
         ),
+        ChangeNotifierProvider<AdminModel>(
+          create: (_)=>AdminModel(),
+        ),
       ],
     child : OSFS())
     );
 }
-
 
 class OSFS extends StatelessWidget {
   @override
@@ -32,4 +35,3 @@ class OSFS extends StatelessWidget {
     );
   }
 }
-

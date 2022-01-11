@@ -1,72 +1,84 @@
 import 'package:flutter/material.dart';
 
-
 const loginHeadingTextStyle = TextStyle(
     fontSize: 35,
     fontWeight: FontWeight.w900,
     letterSpacing: 1,
-    color: Colors.blueAccent
+    color: Colors.blueAccent);
+
+//Admin Dashbord Style
+const orgDataTextStyle =
+    TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold);
+
+const orgHeadingTextStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 20,
 );
 
-  String instituteName;
-  String email;
-  String password;
-  String  firstName;
-  String lastName;
-  String orgId;
-  var emailAddress;
-  var enrollmentNo;
+const containerHeadingStyle =
+    TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold);
 
-  List<dynamic> facultyList;
-  List<dynamic> departmentList;
-  List<dynamic> academicYearList;
-  List<dynamic> divisionList;
-  List<dynamic> subjectList;
-  List<dynamic> studentList;
-  List<dynamic> feedbackList;
+const containerDecoration = BoxDecoration(
+    color: Colors.white, 
+    borderRadius: const BorderRadius.all(Radius.circular(5))
+    );
 
-  Map facultyMap;
-  Map academicYearMap;
-  Map departmentMap;
-  Map divisionMap;
-  Map subjectMap;
-  Map feedbackQueMap;
-  var studentMap = <Map>[];
-  var feedbackQueMapList = <Map>[];
+String instituteName;
+String email;
+String password;
+String firstName;
+String lastName;
+String orgId;
+var emailAddress;
+var enrollmentNo;
 
-  var currentAcademicYearId;
-  var currentDepartmentId;
-  var currentDivisionId;
-  var currentFacultyId;
-  var currentStudentId;
-  var currentSubjectId;
+List<dynamic> facultyList;
+List<dynamic> departmentList;
+List<dynamic> academicYearList;
+List<dynamic> divisionList;
+List<dynamic> subjectList;
+List<dynamic> studentList;
+List<dynamic> feedbackList;
 
-  var currentFacultyValue;
-  var currentAcademicYearValue;
-  var currentDepartmentValue;
-  var currentDivisionValue;
-  var currentSubjectValue;
-  var currentFeedbackValue;
-  
-  var userData;
-  var studentData;
-  
-  
+Map facultyMap;
+Map academicYearMap;
+Map departmentMap;
+Map divisionMap;
+Map subjectMap;
+Map feedbackQueMap;
+var studentMap = <Map>[];
+var feedbackQueMapList = <Map>[];
 
-  //AcademicYear.dart
-  var academicYear1;
-  var academicYear2;
-  
-  //Division.dart
-   var addDivision;
+var currentAcademicYearId;
+var currentDepartmentId;
+var currentDivisionId;
+var currentFacultyId;
+var currentStudentId;
+var currentSubjectId;
 
-  //Department.dart
-  var addDepartment;
+var currentFacultyValue;
+var currentAcademicYearValue;
+var currentDepartmentValue;
+var currentDivisionValue;
+var currentSubjectValue;
+var currentFeedbackValue;
 
-  //Student index.dart
-  List<dynamic> subjectFeedbackId;
-  var uid;
+var userData;
+var studentData;
 
+//AcademicYear.dart
+var academicYear1;
+var academicYear2;
 
-  //feedbackque.dart
-  List<dynamic> feedbackQueList;
+//Division.dart
+var addDivision;
+
+//Department.dart
+var addDepartment;
+
+//Student index.dart
+List<dynamic> subjectFeedbackId;
+var uid;
+
+//feedbackque.dart
+List<dynamic> feedbackQueList;

@@ -17,7 +17,7 @@ import 'admin/feedbackRestrictions.dart';
 import 'admin/feedbackQue.dart';
 import 'admin/report.dart';
 import 'faculty/FacultyDashbord.dart';
-import 'faculty/FacultyFeedbackclass.dart';
+import 'faculty/allFClassScreen.dart';
 import 'faculty/FeedbackClassScreen.dart';
 import 'student/index.dart';
 import 'student/feedbackScreen.dart';

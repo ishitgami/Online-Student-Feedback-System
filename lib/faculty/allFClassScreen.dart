@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'FacultyDrawer.dart';
-import 'addFeedbackClass.dart';
-import 'faculltyFClassScreen.dart';
+import 'addFClassData.dart';
+import 'facultyFeedbackClaass.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -37,7 +37,7 @@ class _FacultyFclassScreenState extends State<FacultyFclassScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddFeedbackClassScreen(),
+              builder: (context) => AddFclassData(),
             ),
           );
         },
@@ -72,16 +72,16 @@ class _FacultyFclassScreenState extends State<FacultyFclassScreen> {
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          // onTap: () {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => FaculltyFClassScreen(
-                          //         feedbackClassId: data[index]['Id'].toString(),
-                          //       ),
-                          //     ),
-                          //   );
-                          // },
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FacultyFeedClassScreen(
+                                  feedbackClassId: data[index]['Id'].toString(),
+                                ),
+                              ),
+                            );
+                          },
                           leading: Icon(
                             Icons.groups_outlined,
                             size: 35,

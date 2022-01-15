@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 
 
-class AddFeedbackClassScreen extends StatefulWidget {
+class StudentListScreen extends StatefulWidget {
   @override
-  _AddFeedbackClassScreenState createState() => _AddFeedbackClassScreenState();
+  _StudentListScreenState createState() => _StudentListScreenState();
 }
 
-class _AddFeedbackClassScreenState extends State<AddFeedbackClassScreen> {
+class _StudentListScreenState extends State<StudentListScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
   User user;
   var uid;
+  var totalStudent=0;
 
   var userdataList = <Map>[];
   var data;
@@ -54,18 +55,17 @@ class _AddFeedbackClassScreenState extends State<AddFeedbackClassScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                  'Add FeedbackClass',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+                  Row(
+                    children: [
+                      Text(
+                      'Add Students',
+                      style: TextStyle(fontSize: 30,color: Colors.blueAccent, fontWeight: FontWeight.w800),
                 ),
-                  TextField(
-                    onChanged: (value) {
-                      feedbackClassName = value;
-                    },
-                    decoration : InputDecoration(
-                      label: Text('FeedbackClass Name'),
-                    )
+                Spacer(),
+                Icon(Icons.filter_alt_outlined,size: 35,color: Colors.blueAccent,)
+                    ],
                   ),
+                
                 ],
               ),
             ),
@@ -99,9 +99,11 @@ class _AddFeedbackClassScreenState extends State<AddFeedbackClassScreen> {
                             onChanged: (bool value) {
                               setState(() {
                                 if (_isChecked[index] == false) {
+                                  totalStudent++;
                                   studentUIdList
                                       .add(data[index]['PersonalInfo']['UId']);
                                 } else {
+                                  totalStudent--;
                                   studentUIdList.remove(
                                       data[index]['PersonalInfo']['UId']);
                                 }
@@ -149,7 +151,7 @@ class _AddFeedbackClassScreenState extends State<AddFeedbackClassScreen> {
                         });
                         Navigator.pop(context);
                       },
-                      child: Text("ADD",style: TextStyle(color: Colors.white)),
+                      child: Text("ADD ($totalStudent)",style: TextStyle(color: Colors.white)),
                       color: Colors.blueAccent,
                     ),
                   ],

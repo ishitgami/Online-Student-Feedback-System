@@ -11,22 +11,23 @@ import '../route.dart';
 import '../constant.dart';
 
 class LoginScreen extends StatefulWidget {
-   
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   Authentication userProvider;
+  bool showLoading = false;
+  bool showAlert = false;
 
   @override
   Widget build(BuildContext context) {
     userProvider = Provider.of<Authentication>(context);
     return DoubleBack(
       onFirstBackPress: (context) {
-          final snackBar = SnackBar(content: Text('Press back again to exit'));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
+        final snackBar = SnackBar(content: Text('Press back again to exit'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
       child: Scaffold(
         body: SafeArea(
           child: Container(
@@ -48,7 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Expanded(
                   flex: 3,
-                  child: HeadingLogo(color: Colors.white,),
+                  child: HeadingLogo(
+                    color: Colors.white,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -91,34 +94,35 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           SizedBox(height: 20),
                           Container(
-                            margin: EdgeInsets.only(left: 80,right: 80),
+                            margin: EdgeInsets.only(left: 80, right: 80),
                             child: SizedBox(
                               height: 40,
                               child: ElevatedButton(
-                                style: ButtonStyle(
-                                  elevation: MaterialStateProperty.all(7),
+                                  style: ButtonStyle(
+                                    elevation: MaterialStateProperty.all(7),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(25.0),
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
                                       ),
                                     ),
                                   ),
-                                  onPressed: () async{
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Center(child: CircularProgressIndicator(),);
-                                    });
-                                   await  loginByRole();
-                                   showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Center(child: CircularProgressIndicator(),);
-                                    });
-                                   Navigator.pop(context);
-                                    }, 
-                                  child: Text('LogIn',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),)),
+                                  onPressed: () async {
+                                      setState(() {
+                                    showLoading = true;
+                                      });
+                                    progressIndicater(context,showLoading = true);
+                                    await loginByRole();
+                                    showAlert == true ? null : progressIndicater(context,showLoading = true);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'LogIn',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700),
+                                  )),
                             ),
                           ),
                           SizedBox(height: 10.0),
@@ -147,34 +151,53 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Future<dynamic> progressIndicater(BuildContext context ,showLoading) {
+    
+    if(showLoading == true) {
+     return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }) ;
+    } else return null;
+
+  }
+
   loginByRole() async {
     try {
-      final user = await userProvider.loginAuthentication(email: email,password: password);
-        firestore
-            .collection('Users')
-            .where(FieldPath.documentId, isEqualTo: user.toString())
-            .get()
-            .then((QuerySnapshot<Object> value) => {
-                  value.docs.forEach((DocumentSnapshot docs) {
-                    if (docs.exists) {
-                      Map<String, dynamic> data = docs.data();
-                      if (data['role'] == 'Admin') {
-                        Navigator.pushNamed(context, AdminScreenRoute);
-                      } else if (data['role'] == 'student') {
-                        Navigator.pushNamed(context, studentScreenRoute);
-                      } else if (data['role'] == 'faculty') {
-                        Navigator.pushNamed(context,FacultyDashbordScreenRoute);
-                      }
+      final user = await userProvider.loginAuthentication(
+          email: email, password: password);
+      firestore
+          .collection('Users')
+          .where(FieldPath.documentId, isEqualTo: user.toString())
+          .get()
+          .then((QuerySnapshot<Object> value) => {
+                value.docs.forEach((DocumentSnapshot docs) {
+                  if (docs.exists) {
+                    Map<String, dynamic> data = docs.data();
+                    if (data['role'] == 'Admin') {
+                      Navigator.pushNamed(context, AdminScreenRoute);
+                    } else if (data['role'] == 'student') {
+                      Navigator.pushNamed(context, studentScreenRoute);
+                    } else if (data['role'] == 'faculty') {
+                      Navigator.pushNamed(context, FacultyDashbordScreenRoute);
                     }
-                  })
-                });
+                  }
+                })
+              });
       // }
     } catch (e) {
-     return alertBox(context, e);
+      return alertBox(context, e);
     }
   }
 
   Future<void> alertBox(BuildContext context, e) {
+    setState(() {
+                                    showLoading = false;
+                                    showAlert = true;
+                                      });
     return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -182,17 +205,18 @@ class _LoginScreenState extends State<LoginScreen> {
         title: Text("Alert !!"),
         content: Text(e.toString()),
         actions: <Widget>[
-
           TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
             },
-            child: Text("Close",style: TextStyle(color: Colors.red,fontSize: 18,fontWeight: FontWeight.w700),),
+            child: Text(
+              "Close",
+              style: TextStyle(
+                  color: Colors.red, fontSize: 18, fontWeight: FontWeight.w700),
+            ),
           ),
         ],
       ),
     );
   }
 }
-
-

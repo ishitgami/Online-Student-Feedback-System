@@ -50,7 +50,7 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
     addData = Provider.of<AddUserDataFirebase>(context);
     userProvider = Provider.of<Authentication>(context);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
           child: Form(

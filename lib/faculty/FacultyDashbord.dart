@@ -4,7 +4,6 @@ import 'package:osfs1/route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
-
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class FacultyDashbordScreen extends StatefulWidget {
@@ -16,6 +15,7 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
   final auth = FirebaseAuth.instance;
   User user;
   var uid;
+  int touchedIndex;
 
   @override
   void initState() {
@@ -27,12 +27,12 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () { 
-         Navigator.pop(context, false);
+      onWillPop: () {
+        Navigator.pop(context, false);
 
-    //we need to return a future
-    return Future.value(false);
-       },
+        //we need to return a future
+        return Future.value(false);
+      },
       child: Scaffold(
         backgroundColor: Colors.grey[200],
         drawer: FacultyDrawer(),
@@ -61,14 +61,9 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
                   height: MediaQuery.of(context).size.width * 0.95 * 0.35,
                   padding: EdgeInsets.fromLTRB(10, 10, 40, 10),
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 4.0,
-                        )
-                      ]),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: Row(
                     children: [
                       Column(
@@ -95,7 +90,7 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
                       Text(
                         '5',
                         style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 38,
                             fontWeight: FontWeight.w900,
                             color: Colors.black),
                       ),
@@ -110,14 +105,9 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
                   height: MediaQuery.of(context).size.width * 0.95 * 0.90,
                   padding: EdgeInsets.fromLTRB(0, 10, 20, 10),
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 4.0,
-                        )
-                      ]),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +115,7 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
                       Container(
                         margin: EdgeInsets.fromLTRB(35, 10, 0, 20),
                         child: Text(
-                          'FeedbackClass Graph',
+                          'FeedbackClass Chart',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w800),
                         ),
@@ -159,7 +149,7 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
                               borderData: FlBorderData(
                                 show: false,
                               ),
-        
+
                               axisTitleData: FlAxisTitleData(
                                 leftTitle: AxisTitle(
                                     showTitle: true,
@@ -180,10 +170,12 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
                             ),
                           ),
                         ),
-                      )
+                      ),
+                      
                     ],
                   ),
                 ),
+                
               ],
             ),
           ),
@@ -266,5 +258,61 @@ class _FacultyDashbordScreenState extends State<FacultyDashbordScreen> {
         ],
       ),
     ];
+  }
+
+  List<PieChartSectionData> showingSections() {
+    return List.generate(4, (i) {
+      final isTouched = i == touchedIndex;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 60.0 : 50.0;
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: const Color(0xff0293ee),
+            value: 40,
+            title: '40%',
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: const Color(0xfff8b250),
+            value: 30,
+            title: '30%',
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
+          );
+        case 2:
+          return PieChartSectionData(
+            color: const Color(0xff845bef),
+            value: 15,
+            title: '15%',
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
+          );
+        case 3:
+          return PieChartSectionData(
+            color: const Color(0xff13d38e),
+            value: 15,
+            title: '15%',
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
+          );
+        default:
+          throw Error();
+      }
+    });
   }
 }

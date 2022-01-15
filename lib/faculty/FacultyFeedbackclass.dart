@@ -31,6 +31,17 @@ class _FacultyFclassScreenState extends State<FacultyFclassScreen> {
       appBar: AppBar(
         title: Text('Feedback Class'),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: new Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddFeedbackClassScreen(),
+            ),
+          );
+        },
+      ),
       body: Container(
         margin: EdgeInsets.all(16),
         child: Column(
@@ -38,26 +49,9 @@ class _FacultyFclassScreenState extends State<FacultyFclassScreen> {
           children: [
             Expanded(
               flex: 1,
-              child: Row(
-                children: [
-                  Text(
-                    'FeedbackClass',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
-                  ),
-                  Spacer(),
-                  IconButton(
-                    splashColor: Colors.blueAccent,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddFeedbackClassScreen(),
-                        ),
-                      );
-                    },
-                    icon: Icon(Icons.add),
-                  )
-                ],
+              child: Text(
+                'FeedbackClass',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
               ),
             ),
             Expanded(
@@ -130,5 +124,3 @@ class _FacultyFclassScreenState extends State<FacultyFclassScreen> {
     );
   }
 }
-
-

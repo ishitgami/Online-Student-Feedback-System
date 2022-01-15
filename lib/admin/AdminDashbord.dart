@@ -84,7 +84,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                 style: orgHeadingTextStyle,
                               ),
                               Text(
-                                orgCode == null ? ' ' : orgCode.toString(),
+                                orgCode == null ? '0' : orgCode.toString(),
                                 style: orgDataTextStyle,
                               ),
                             ],
@@ -108,7 +108,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                 style: orgHeadingTextStyle,
                               ),
                               Text(
-                                 studentTotal == null ? ' ' : studentTotal.toString(),
+                                 studentTotal == null ? '0' : studentTotal.toString(),
                                 style: containerHeadingStyle,
                               ),
                             ],
@@ -131,7 +131,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                 style:orgHeadingTextStyle,
                               ),
                               Text(
-                                 facultyTotal == null ? ' ' : facultyTotal.toString(),
+                                 facultyTotal == null ? '0' : facultyTotal.toString(),
                                 style: containerHeadingStyle,
                               ),
                             ],

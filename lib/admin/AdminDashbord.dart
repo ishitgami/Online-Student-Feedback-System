@@ -20,7 +20,13 @@ class _AdminScreenState extends State<AdminScreen> {
   var orgCode;
   var studentTotal;
   var facultyTotal;
-
+  List<String> _locations = [
+    '2018-2022',
+    '2019-2023',
+    '2020-2024',
+    '2021-2025'
+  ]; // Option 2
+  String _selectedLocation; // Option 2
   @override
   Widget build(BuildContext context) {
     adminModel = Provider.of<AdminModel>(context);
@@ -104,11 +110,14 @@ class _AdminScreenState extends State<AdminScreen> {
                           child: Column(
                             children: [
                               Text(
-                                'Students',
-                                style: orgHeadingTextStyle,
+                                'Department',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
                               ),
                               Text(
-                                 studentTotal == null ? '0' : studentTotal.toString(),
+                                '7',
                                 style: containerHeadingStyle,
                               ),
                             ],
@@ -128,10 +137,102 @@ class _AdminScreenState extends State<AdminScreen> {
                             children: [
                               Text(
                                 'Faculty',
-                                style:orgHeadingTextStyle,
+                                style: orgHeadingTextStyle,
                               ),
                               Text(
-                                 facultyTotal == null ? '0' : facultyTotal.toString(),
+                                facultyTotal == null
+                                    ? '0'
+                                    : facultyTotal.toString(),
+                                style: containerHeadingStyle,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                       Icon(
+                  Icons.filter_alt_outlined,
+                  size: 35,
+                  color: Colors.black,
+                ),
+                Spacer(),
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          iconEnabledColor: Colors.black,
+                          hint: Text(
+                              'Please choose Ac Year'), // Not necessary for Option 1
+                          value: _selectedLocation,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedLocation = newValue;
+                            });
+                          },
+                          items: _locations.map((location) {
+                            return DropdownMenuItem(
+                              child: new Text(location),
+                              value: location,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: containerDecoration,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Students',
+                                style: orgHeadingTextStyle,
+                              ),
+                              Text(
+                                studentTotal == null
+                                    ? '0'
+                                    : studentTotal.toString(),
+                                style: containerHeadingStyle,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: containerDecoration,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                'FeedBackClass',
+                                style: orgHeadingTextStyle,
+                              ),
+                              Text(
+                                '5',
                                 style: containerHeadingStyle,
                               ),
                             ],
@@ -273,5 +374,3 @@ class _AdminScreenState extends State<AdminScreen> {
     ];
   }
 }
-
-

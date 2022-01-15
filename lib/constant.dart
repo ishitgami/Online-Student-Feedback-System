@@ -12,7 +12,8 @@ const orgDataTextStyle =
 
 const orgHeadingTextStyle = TextStyle(
   color: Colors.black,
-  fontSize: 20,
+  fontSize: 18,
+  fontWeight: FontWeight.w400
 );
 
 const containerHeadingStyle =

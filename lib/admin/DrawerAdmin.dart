@@ -86,24 +86,6 @@ class AdminDrawer extends StatelessWidget {
               title: Row(
                 children: [
                   Icon(
-                    FontAwesomeIcons.users,
-                    color: Colors.blue,
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Text('Division'),
-                ],
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, divisionScreenRoute);
-              },
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
                     FontAwesomeIcons.book,
                     color: Colors.blue,
                   ),

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'Model/Authentication.dart';
 import 'Model/AddUserDataFirebase.dart';
 import 'Model/admin-model.dart';
+import 'Model/collegeData.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,9 @@ void main() async {
         ),
         ChangeNotifierProvider<AdminModel>(
           create: (_)=>AdminModel(),
+        ),
+        ChangeNotifierProvider<CollegeData>(
+          create: (_)=>CollegeData(),
         ),
       ],
     child : OSFS())

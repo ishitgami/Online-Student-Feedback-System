@@ -11,7 +11,6 @@ import 'admin/faculty.dart';
 import 'admin/AcademicYear.dart';
 import 'admin/student.dart';
 import 'admin/Department.dart';
-import 'admin/Division.dart';
 import 'admin/subject.dart';
 import 'admin/feedbackRestrictions.dart';
 import 'admin/feedbackQue.dart';
@@ -99,9 +98,6 @@ class Routes {
 
       case departmentScreenRoute:
         return MaterialPageRoute(builder: (context) => DepartmentScreen());
-
-      case divisionScreenRoute:
-        return MaterialPageRoute(builder: (context) => Divisioncreen());
 
       case subjectScreenRoute:
         return MaterialPageRoute(builder: (context) => SubjectScreen());

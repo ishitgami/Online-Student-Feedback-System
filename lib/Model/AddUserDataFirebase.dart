@@ -28,7 +28,6 @@ class AddUserDataFirebase extends ChangeNotifier {
     String lastName,
     String orgCode,
   }) async {
-    print('uId---->$uId');
     await firestore.collection('Users').doc(uId).set({
       'role': 'faculty',
       'CreatedAt': Timestamp.now(),

@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:osfs1/Model/AdminModel.dart';
 import 'package:osfs1/Model/admin-model.dart';
+import 'package:osfs1/Model/collegeData.dart';
 import 'package:provider/provider.dart';
 import '../constant.dart';
 import '../route.dart';
@@ -14,29 +16,38 @@ class AdminScreen extends StatefulWidget {
 }
 
 class _AdminScreenState extends State<AdminScreen> {
+  //Provider
   AdminModel adminModel;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollegeData collegedata;
+
   User loggedInUser;
   var orgCode;
   var studentTotal;
   var facultyTotal;
-  List<String> _locations = [
-    '2018-2022',
-    '2019-2023',
-    '2020-2024',
-    '2021-2025'
-  ]; // Option 2
-  String _selectedLocation; // Option 2
+  List<dynamic> departmentList;
+  List<dynamic> _acYearList;
+  String _selectedAcYear;
+  String _selectedDepartment;
+  AdminData adminData;
+
+
   @override
   Widget build(BuildContext context) {
     adminModel = Provider.of<AdminModel>(context);
+    collegedata = Provider.of<CollegeData>(context);
     loggedInUser = adminModel.getCurrentUser();
-
-    adminModel.getOrgCode(loggedInUser.uid).then((value) {
-      setState(() {
-        orgCode = value;
-      });
-    });
+    
+   
+   collegedata.fetchAdminData().then((value) {
+    //  setState(() {
+       adminData = value.first;
+       _acYearList = adminData.acYear;
+       departmentList = adminData.department;
+       orgCode = adminData.orgCode;
+    //  });
+      
+   });
+   
 
     adminModel.getStudentTotal(orgCode).then((value) {
       setState(() {
@@ -49,6 +60,7 @@ class _AdminScreenState extends State<AdminScreen> {
         facultyTotal = value;
       });
     });
+
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -69,230 +81,281 @@ class _AdminScreenState extends State<AdminScreen> {
       body: WillPopScope(
         onWillPop: () async => false,
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(0, 8, 0, 12),
-                        decoration: containerDecoration,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Organization\nCode',
-                                style: orgHeadingTextStyle,
-                              ),
-                              Text(
-                                orgCode == null ? '0' : orgCode.toString(),
-                                style: orgDataTextStyle,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: containerDecoration,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                'Department',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              Text(
-                                '7',
-                                style: containerHeadingStyle,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: containerDecoration,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                'Faculty',
-                                style: orgHeadingTextStyle,
-                              ),
-                              Text(
-                                facultyTotal == null
-                                    ? '0'
-                                    : facultyTotal.toString(),
-                                style: containerHeadingStyle,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
                     children: [
-                       Icon(
-                  Icons.filter_alt_outlined,
-                  size: 35,
-                  color: Colors.black,
-                ),
-                Spacer(),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                          iconEnabledColor: Colors.black,
-                          hint: Text(
-                              'Please choose Ac Year'), // Not necessary for Option 1
-                          value: _selectedLocation,
-                          onChanged: (newValue) {
-                            setState(() {
-                              _selectedLocation = newValue;
-                            });
-                          },
-                          items: _locations.map((location) {
-                            return DropdownMenuItem(
-                              child: new Text(location),
-                              value: location,
-                            );
-                          }).toList(),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.fromLTRB(0, 8, 0, 12),
+                          decoration: containerDecoration,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Organization\nCode',
+                                  style: orgHeadingTextStyle,
+                                ),
+                                Text(
+                                  orgCode == null ? '0' : orgCode.toString(),
+                                  style: orgDataTextStyle,
+                                ),
+
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: containerDecoration,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                'Students',
-                                style: orgHeadingTextStyle,
-                              ),
-                              Text(
-                                studentTotal == null
-                                    ? '0'
-                                    : studentTotal.toString(),
-                                style: containerHeadingStyle,
-                              ),
-                            ],
-                          ),
-                        ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: adminContainer(
+                            'Ac Year',
+                            
+                            departmentList == null
+                                ? 0
+                                : _acYearList.length
+                                ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: containerDecoration,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                'FeedBackClass',
-                                style: orgHeadingTextStyle,
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Expanded(
+                        child: adminContainer(
+                            'Department',
+                            departmentList == null?
+                                0
+                                : departmentList.length
+                                ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: adminContainer('Faculty', facultyTotal),
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Expanded(
+                        child: adminContainer('Student', studentTotal),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      children: [
+                        // Icon(
+                        //   Icons.filter_alt_outlined,
+                        //   size: 35,
+                        //   color: Colors.black,
+                        // ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 5),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    dropdownColor: Colors.grey[100],
+                                    iconEnabledColor: Colors.black,
+                                    hint: Text('Acedemic Year',
+                                        style: TextStyle(
+                                            color: Colors
+                                                .black)), // Not necessary for Option 1
+                                    value: _selectedAcYear,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        _selectedAcYear = newValue;
+                                      });
+                                    },
+                                    items:_acYearList == null 
+                                        ? []
+                                        :_acYearList.map((acYear) {
+                                            return DropdownMenuItem(
+                                              child: new Text(acYear),
+                                              value: acYear,
+                                            );
+                                          }).toList(),
+                                  ),
+                                ),
                               ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 5),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    isExpanded: true,
+                                    dropdownColor: Colors.grey[100],
+                                    iconEnabledColor: Colors.black,
+                                    hint: Text('Department',
+                                        style: TextStyle(
+                                            color: Colors
+                                                .black)), // Not necessary for Option 1
+                                    value: _selectedDepartment,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        _selectedDepartment = newValue;
+                                      });
+                                    },
+                                    items: departmentList == null 
+                                        ? []
+                                        : departmentList.map((department) {
+                                            return DropdownMenuItem(
+                                              child: new Text(department),
+                                              value: department,
+                                            );
+                                          }).toList(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    decoration: containerDecoration,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Total',
+                                    style: TextStyle(
+                                        color: Colors.grey[500],
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    'FeedBackClass',
+                                    style: orgHeadingTextStyle,
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
                               Text(
                                 '5',
                                 style: containerHeadingStyle,
                               ),
                             ],
                           ),
-                        ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                Container(
-                  decoration: containerDecoration,
-                  height: 300,
-                  margin: EdgeInsets.fromLTRB(5, 15, 5, 10),
-                  padding: EdgeInsets.all(15),
-                  child: BarChart(
-                    BarChartData(
-                      // maxY: 110,
-                      titlesData: FlTitlesData(
-                          show: true,
-                          bottomTitles: SideTitles(
-                            showTitles: true,
-                            getTextStyles: (context, value) => const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10),
-                          ),
-                          topTitles: SideTitles(showTitles: false),
-                          leftTitles: SideTitles(
-                            showTitles: true,
-                            getTextStyles: (context, value) => const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10),
-                          ),
-                          rightTitles: SideTitles(showTitles: false)),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-
-                      axisTitleData: FlAxisTitleData(
-                        leftTitle: AxisTitle(
-                            showTitle: true,
-                            titleText: 'Students',
-                            textStyle: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.bold),
-                            margin: 10),
-                        bottomTitle: AxisTitle(
-                            showTitle: true,
-                            titleText: 'Feedback',
-                            textStyle: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.bold),
-                            margin: 10),
-                      ),
-                      barGroups: getData(),
                     ),
                   ),
-                ),
-              ],
+                  Container(
+                    decoration: containerDecoration,
+                    height: 300,
+                    margin: EdgeInsets.fromLTRB(5, 15, 5, 10),
+                    padding: EdgeInsets.all(15),
+                    child: BarChart(
+                      BarChartData(
+                        // maxY: 110,
+                        titlesData: FlTitlesData(
+                            show: true,
+                            bottomTitles: SideTitles(
+                              showTitles: true,
+                              getTextStyles: (context, value) =>
+                                  const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 10),
+                            ),
+                            topTitles: SideTitles(showTitles: false),
+                            leftTitles: SideTitles(
+                              showTitles: true,
+                              getTextStyles: (context, value) =>
+                                  const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 10),
+                            ),
+                            rightTitles: SideTitles(showTitles: false)),
+                        borderData: FlBorderData(
+                          show: false,
+                        ),
+
+                        axisTitleData: FlAxisTitleData(
+                          leftTitle: AxisTitle(
+                              showTitle: true,
+                              titleText: 'Students',
+                              textStyle: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold),
+                              margin: 10),
+                          bottomTitle: AxisTitle(
+                              showTitle: true,
+                              titleText: 'Feedback',
+                              textStyle: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold),
+                              margin: 10),
+                        ),
+                        barGroups: getData(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Container adminContainer(headerText, headerData) {
+    return Container(
+      decoration: containerDecoration,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text(
+              headerText,
+              style: orgHeadingTextStyle,
+            ),
+            Text(
+              headerData == null ? '0' : headerData.toString(),
+              style: containerHeadingStyle,
+            ),
+          ],
         ),
       ),
     );

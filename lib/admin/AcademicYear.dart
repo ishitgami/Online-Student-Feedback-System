@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:osfs1/Model/AdminModel.dart';
+import 'package:osfs1/Model/collegeData.dart';
 import 'package:osfs1/getData/getAcademicYear.dart';
 import 'DrawerAdmin.dart';
 import '../constant.dart';
+import 'package:provider/provider.dart';
 
 class AcadamicYearScreen extends StatefulWidget {
   @override
@@ -10,25 +12,45 @@ class AcadamicYearScreen extends StatefulWidget {
 }
 
 class _AcademicYearState extends State<AcadamicYearScreen> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController _controller1 = TextEditingController();
   TextEditingController _controller2 = TextEditingController();
 
-  Future academicYearData() async {
-    await GetAcademicYearData().getAcademicYear().then((value) => {
-          academicYearMap = value,
-        });
-    return academicYearMap;
-  }
+  //Provider
+  CollegeData collegedata;
 
-  @override
-  void initState() {
-    super.initState();
-    academicYearData();
-  }
+  AdminData adminData;
+
+  var getUser;
+  var acYearList;
 
   @override
   Widget build(BuildContext context) {
+    collegedata = Provider.of<CollegeData>(context);
+    getUser = collegedata.getCurrentUser();
+
+
+      collegedata.fetchAdminData().then((value) {
+     setState(() {
+       adminData = value.first;
+       acYearList = adminData.acYear;
+     });
+   });
+
+    // getdata() {
+    // collegedata.getAcData(getUser.uid).then((value) {
+    //   setState(() {
+     
+    //     acYearList = value;
+    //   });
+    // });
+    // }
+
+    // collegedata.getAcData(getUser.uid).then((value) {
+    //   setState(() {
+    //     acYearList = value;
+    //   });
+    // });
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Academic Year'),
@@ -71,30 +93,7 @@ class _AcademicYearState extends State<AcadamicYearScreen> {
                 ElevatedButton(
                     onPressed: () async {
                       try {
-                        setState(() {
-                          firestore.collection('Academic Year').add({
-                            'Year': '$academicYear1' + '-' + '$academicYear2',
-                          }).then((value) => {
-                                value.collection('Department').add({
-                                  'name': 'CIVIL ENGINEERING',
-                                }),
-                                value.collection('Department').add({
-                                  'name': 'COMPUTER ENGINEERING',
-                                }),
-                                value.collection('Department').add({
-                                  'name': 'ELECTRONICS & COMMUNICATION ENGG.',
-                                }),
-                                value.collection('Department').add({
-                                  'name': 'INFORMATION TECHNOLOGY',
-                                }),
-                                value.collection('Department').add({
-                                  'name': 'MECHANICAL ENGINEERING',
-                                }),
-                                value.collection('Department').add({
-                                  'name': 'PRODUCTION ENGINEERING',
-                                }),
-                              });
-                        });
+                        collegedata.addAcData(getUser.uid, academicYear1+'-'+academicYear2);
                         _controller1.clear();
                         _controller2.clear();
                       } catch (e) {
@@ -104,86 +103,66 @@ class _AcademicYearState extends State<AcadamicYearScreen> {
                     child: Text('ADD')),
               ],
             ),
-            Expanded(
-              child: FutureBuilder(
-                future: academicYearData(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: academicYearMap.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          margin: EdgeInsets.all(8),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    academicYearMap.values
-                                        .elementAt(index)
-                                        .toString(),
-                                    style: TextStyle(fontSize: 22.0),
-                                  ),
-                                ),
-                                IconButton(
-                                  alignment: Alignment.centerLeft,
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) => AlertDialog(
-                                        content: Text(
-                                            "Are you sure you want to delete ?"),
-                                        actions: [
-                                          TextButton(
-                                            child: Text(
-                                              "Cancel",
-                                              style: TextStyle(
-                                                  color: Colors.black),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: Text(
-                                              "Delete",
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                firestore
-                                                    .collection('Academic Year')
-                                                    .doc(academicYearMap.keys
-                                                        .elementAt(index))
-                                                    .delete()
-                                                    .then(
-                                                        (_) => print('Deleted'))
-                                                    .catchError((error) => print(
-                                                        'Delete failed: $error'));
-                                              });
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
+            ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: acYearList==null ?0 :acYearList.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              margin: EdgeInsets.all(8),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        acYearList
+                                            .elementAt(index)
+                                            .toString(),
+                                        style: TextStyle(fontSize: 22.0),
                                       ),
-                                    );
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                  return Container();
-                },
-              ),
-            ),
+                                    ),
+                                    IconButton(
+                                      alignment: Alignment.centerLeft,
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) => AlertDialog(
+                                            content: Text(
+                                                "Are you sure you want to delete ?"),
+                                            actions: [
+                                              TextButton(
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text(
+                                                  "Delete",
+                                                  style:
+                                                      TextStyle(color: Colors.red),
+                                                ),
+                                                onPressed: () {
+                                                  collegedata.deleteAcYear(getUser.uid, acYearList.elementAt(index).toString());
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
           ],
         ),
       ),

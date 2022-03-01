@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:osfs1/presentation/screen/admin/AdminDashbord.dart';
+import 'package:osfs1/presentation/screen/auth/login.dart';
+import 'package:osfs1/presentation/screen/faculty/FacultyDashbord.dart';
+import 'package:osfs1/presentation/screen/student/index.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'auth/login.dart';
-import 'admin/AdminDashbord.dart';
-import 'faculty/FacultyDashbord.dart';
-import 'student/index.dart';
+
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 

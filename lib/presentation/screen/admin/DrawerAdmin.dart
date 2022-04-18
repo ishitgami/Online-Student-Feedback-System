@@ -118,24 +118,6 @@ class AdminDrawer extends StatelessWidget {
                 Navigator.pushNamed(context, facultyInAdminScreenRoute);
               },
             ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(
-                    FontAwesomeIcons.userGraduate,
-                    color: Colors.blue,
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Text('Student'),
-                ],
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, studentInAdminScreenRoute);
-              },
-            ),
             SizedBox(width: 50, child: Divider()),
             Container(
               margin: EdgeInsets.only(left: 20, top: 5),

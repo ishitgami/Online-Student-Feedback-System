@@ -17,8 +17,6 @@ class AdminProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
- 
-
   // addDepartmentData(userUid, element) {
   //   firestore.collection('Users').doc(userUid).update({
   //     'Department': FieldValue.arrayUnion([element]),
@@ -70,7 +68,6 @@ class AdminProvider extends ChangeNotifier {
     return AdminData.fromMap(adminQuryResult.data());
   }
 
-  
   Future fetchAdminDataForStuReg() async {
     var result = await AdminFirebaseQuery().getDataForStudentReg();
     // print('result--->$result');
@@ -105,7 +102,6 @@ class AdminProvider extends ChangeNotifier {
     return facultyTotal;
   }
 
-
 // 31 march after  .....
 
   //Fetch Academic Year Data
@@ -137,29 +133,26 @@ class AdminProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-   //Delete Department Year
+  //Delete Department Year
   deleteDepartment(element) {
     firestore.collection('Department').doc(element).delete();
   }
 
-
-
-
   //add Subject
-  addSubject( department, subjectCode, subjectName, semester) {
+  addSubject(department, subjectCode, subjectName, semester) {
     firestore.collection('Subject').add({
-      'Code' : '$subjectCode',
-      'Name' : '$subjectName',
-      'Department' : '$department',
-      'Semester' : '$semester'
-     });
+      'Code': '$subjectCode',
+      'Name': '$subjectName',
+      'Department': '$department',
+      'Semester': '$semester'
+    });
   }
 
   // get subject
   Future<List> getSubject() async {
-    var fetchSubjectQuery ;
-   fetchSubjectQuery = await  AdminFirebaseQuery().fetchSubject();
-   return fetchSubjectQuery;
+    var fetchSubjectQuery;
+    fetchSubjectQuery = await AdminFirebaseQuery().fetchSubject();
+    return fetchSubjectQuery;
   }
 
   //Delete Subject
@@ -167,14 +160,10 @@ class AdminProvider extends ChangeNotifier {
     firestore.collection('Subject').doc(element).delete();
   }
 
-
-  
   // get Faculty
   Future<List> getFaculty() async {
-    var fetchFacultyQuery ;
-   fetchFacultyQuery = await  AdminFirebaseQuery().fetchFaculty();
-   return fetchFacultyQuery;
+    var fetchFacultyQuery;
+    fetchFacultyQuery = await AdminFirebaseQuery().fetchFaculty();
+    return fetchFacultyQuery;
   }
-
-
 }

@@ -166,4 +166,22 @@ class AdminProvider extends ChangeNotifier {
     fetchFacultyQuery = await AdminFirebaseQuery().fetchFaculty();
     return fetchFacultyQuery;
   }
+
+    //Add Feedback Questions
+  addFeedQue(element) {
+    AdminFirebaseQuery().addQuestion(element);
+  }
+
+  // get Feedback Que
+  Future<List> getFeedQues() async {
+    var fetchFeedQueQuery;
+    fetchFeedQueQuery = await AdminFirebaseQuery().fetchFeedQuestion();
+    return fetchFeedQueQuery;
+  }
+
+  //Delete Feedback Que
+  deleteFeedbackQue(element) {
+    firestore.collection('Questions').doc(element).delete();
+  }
+
 }

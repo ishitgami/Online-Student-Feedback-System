@@ -142,4 +142,25 @@ class AdminFirebaseQuery {
     });
     return facultyMapList;
   }
+
+  //add Question
+  addQuestion(element) {
+    _db.collection('Questions').add({
+      'Question': "$element",
+    });
+  }
+
+    // Fetch Feedback Question
+  fetchFeedQuestion() async {
+    var feedQuesMapList = <Map>[];
+    await _db.collection('Questions').get().then((value) {
+      value.docs.forEach((element) {
+        feedQuesMapList.add({
+          'id': '${element.id}',
+          'Que': '${element['Question']}',
+        });
+      });
+    });
+    return feedQuesMapList;
+  }
 }

@@ -28,12 +28,6 @@ class _AcademicYearState extends State<AcadamicYearScreen> {
   Widget build(BuildContext context) {
     collegedata = Provider.of<AdminProvider>(context);
 
-    // collegedata.fetchAdminData().then((value) {
-    //   adminData = value;
-    //   acYearList = adminData.acYear;
-    //   userUid = adminData.uid;
-    // });
-
     collegedata.getAcademicYear().then((value) {
       // print(value);
       acYearList = value.entries.map((entry) => "${entry.value}").toList();

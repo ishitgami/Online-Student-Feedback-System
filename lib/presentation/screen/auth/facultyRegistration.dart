@@ -36,7 +36,6 @@ class _FacultyRegScreenState extends State<FacultyRegScreen> {
       firstName: firstName,
       lastName: lastName,
       uId: cUserId,
-      orgCode: orgId,
     );
   }
 
@@ -76,7 +75,7 @@ class _FacultyRegScreenState extends State<FacultyRegScreen> {
                           SizedBox(height: 10),
                           PasswordTextField(),
                           SizedBox(height: 10),
-                          OrgIdTextField(),
+                          // OrgIdTextField(),
                           SizedBox(height: 20),
                           Container(
                             margin: EdgeInsets.only(
@@ -95,13 +94,6 @@ class _FacultyRegScreenState extends State<FacultyRegScreen> {
                                 ),
                                 onPressed: () async {
                                   _saveForm();
-                                  if (await userProvider
-                                          .isValidOrgCode(orgId) ==
-                                      null) {
-                                    return alertBox(
-                                        context, 'Please Enter Valid Org Code');
-                                  }
-
                                   try {
                                     final newUser = await userProvider
                                         .registrationAuthentication(

@@ -45,8 +45,8 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
 
   void addStudentToUsers(cUserId) {
     addData.addStudentData(
-      // academicYear: currentAcademicYearValue,
-      // department: currentDepartmentValue,
+      academicYear: currentAcademicYearValue,
+      department: currentDepartmentValue,
       email: emailAddress,
       enrollment: enrollmentNo,
       firstName: firstName,
@@ -62,11 +62,13 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
     userProvider = Provider.of<Authentication>(context);
     collegedata =  Provider.of<AdminProvider>(context);
 
-    collegedata.fetchAdminData().then((value) {
+    collegedata.fetchAdminDataForStuReg().then((value) {
+      // print('value--->$value');
       setState(() {
-        adminData = value;
-      acYearList = adminData.acYear;
-      departmentList = adminData.department;
+      acYearList = value;
+
+      // acYearList = adminData.acYear;
+      // departmentList = adminData.department;
       });
       
     });
@@ -104,7 +106,38 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                           SizedBox(height: 10),
                           PasswordTextField(),
                           SizedBox(height: 10),
-                          Container(
+                           Container(
+                             padding: EdgeInsets.symmetric(
+                                 horizontal: 0, vertical: 5),
+                             decoration: BoxDecoration(
+                                 color: Colors.white,
+                                 borderRadius: BorderRadius.circular(10)),
+                             child: DropdownButtonHideUnderline(
+                               child: DropdownButton(
+                                 dropdownColor: Colors.grey[100],
+                                 iconEnabledColor: Colors.black,
+                                 hint: Text('Acedemic Year',
+                                     style: TextStyle(
+                                         color: Colors
+                                             .black)), // Not necessary for Option 1
+                                 value: _selectedAcYear,
+                                 onChanged: (newValue) {
+                                   setState(() {
+                                     _selectedAcYear = newValue;
+                                   });
+                                 },
+                                 items: acYearList == null
+                                     ? []
+                                     : acYearList.map((acYear) {
+                                         return DropdownMenuItem(
+                                           child: new Text(acYear),
+                                           value: acYear,
+                                         );
+                                       }).toList(),
+                               ),
+                             ),
+                           ),
+                           Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 0, vertical: 5),
                             decoration: BoxDecoration(
@@ -112,29 +145,61 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
+                                isExpanded: true,
                                 dropdownColor: Colors.grey[100],
                                 iconEnabledColor: Colors.black,
-                                hint: Text('Acedemic Year',
+                                hint: Text('Department',
                                     style: TextStyle(
                                         color: Colors
                                             .black)), // Not necessary for Option 1
-                                value: _selectedAcYear,
+                                value: _selectedDepartment,
                                 onChanged: (newValue) {
                                   setState(() {
-                                    _selectedAcYear = newValue;
+                                    _selectedDepartment = newValue;
                                   });
                                 },
-                                items: acYearList == null
+                                items: adminData == null
                                     ? []
-                                    : acYearList.map((acYear) {
+                                    : departmentList.map((department) {
                                         return DropdownMenuItem(
-                                          child: new Text(acYear),
-                                          value: acYear,
+                                          child: new Text(department),
+                                          value: department,
                                         );
                                       }).toList(),
                               ),
                             ),
                           ),
+                          // Container(
+                          //   padding: EdgeInsets.symmetric(
+                          //       horizontal: 0, vertical: 5),
+                          //   decoration: BoxDecoration(
+                          //       color: Colors.white,
+                          //       borderRadius: BorderRadius.circular(10)),
+                          //   child: DropdownButtonHideUnderline(
+                          //     child: DropdownButton(
+                          //       dropdownColor: Colors.grey[100],
+                          //       iconEnabledColor: Colors.black,
+                          //       hint: Text('Acedemic Year',
+                          //           style: TextStyle(
+                          //               color: Colors
+                          //                   .black)), // Not necessary for Option 1
+                          //       value: _selectedAcYear,
+                          //       onChanged: (newValue) {
+                          //         setState(() {
+                          //           _selectedAcYear = newValue;
+                          //         });
+                          //       },
+                          //       items: acYearList == null
+                          //           ? []
+                          //           : acYearList.map((acYear) {
+                          //               return DropdownMenuItem(
+                          //                 child: new Text(acYear),
+                          //                 value: acYear,
+                          //               );
+                          //             }).toList(),
+                          //     ),
+                          //   ),
+                          // ),
                           SizedBox(height: 20),
                           Container(
                             margin: EdgeInsets.only(

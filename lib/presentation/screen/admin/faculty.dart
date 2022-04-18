@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:osfs1/core/constant/constant.dart';
+import 'package:osfs1/data/model/AdminModel.dart';
+import 'package:osfs1/data/model/AdminProvider.dart';
+import 'package:provider/provider.dart';
 import 'DrawerAdmin.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class FacultyInAdmin extends StatefulWidget {
   @override
@@ -10,11 +11,20 @@ class FacultyInAdmin extends StatefulWidget {
 }
 
 class _FacultyInAdminState extends State<FacultyInAdmin> {
+    //Provider
+  AdminProvider collegedata;
+  AdminData adminData;
+
+  var facultyMapList;
 
   @override
   Widget build(BuildContext context) {
-    final _auth = FirebaseAuth.instance;
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    collegedata = Provider.of<AdminProvider>(context);
+
+    collegedata.getFaculty().then((value) {
+      facultyMapList = value;
+    });
+
 
     return Scaffold(
       appBar: AppBar(
@@ -23,92 +33,76 @@ class _FacultyInAdminState extends State<FacultyInAdmin> {
     drawer: AdminDrawer(),
       body: SafeArea(
         child:Container(
-              margin: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'First Name',
+        margin: EdgeInsets.all(8),
+        child: Column(
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: facultyMapList == null ? 0 : facultyMapList.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: EdgeInsets.all(8),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              facultyMapList.elementAt(index)['Name'].toString(),
+                              style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.w700),
+                            ),
+                             Text(
+                              facultyMapList.elementAt(index)['Email'].toString(),
+                              style: TextStyle(fontSize: 14.0,),
+                            ),
+                          ],
                         ),
-                        onChanged: (text) {
-                          firstName = text;
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Last Name',
-                        ),
-                        onChanged: (text) {
-                          lastName = text;
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                        ),
-                        onChanged: (text) {
-                          email = text;
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                        ),
-                        onChanged: (text) {
-                          password = text;
-                        },
-                      ),
-                      SizedBox(height: 30),
-                      ElevatedButton(
-                          onPressed: () async {
-                            print(email);
-                            print(password);
-                            // Navigator.pushNamed(context, LoginScreen.id);
-                            try {
-                              final newUser =
-                                  await _auth.createUserWithEmailAndPassword(
-                                      email: email, password: password);
-                              print(newUser.user.email);
-                              if (newUser != null) {
-                                var cUserId = newUser.user.uid;
-                                print(cUserId);
-                                firestore
-                                    .collection('user')
-                                    .doc(cUserId)
-                                    .set({
-                                  'Email' : '$email',
-                                  'role': 'faculty'
-                                });
-                                firestore
-                                    .collection('faculty')
-                                    .doc(cUserId)
-                                    .set({
-                                  'First Name': '$firstName',
-                                  'Last Name': '$lastName',
-                                  'Email' : '$email',
-                                  'role': 'faculty'
-                                });
-                              }
-                            } catch (e) {
-                              print(e);
-                            }
+                        Spacer(),
+                        IconButton(
+                          alignment: Alignment.centerLeft,
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                content:
+                                    Text("Are you sure you want to delete ?"),
+                                actions: [
+                                  TextButton(
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text(
+                                      "Delete",
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                    onPressed: () {
+                                      collegedata.deleteSubject(facultyMapList.elementAt(index)['id'].toString());
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
                           },
-                          child: Text('SUBMIT')),
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
+          ],
+        ),
+      ),
         ),
     );
   }

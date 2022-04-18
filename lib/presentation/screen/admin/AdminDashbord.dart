@@ -33,18 +33,18 @@ class _AdminScreenState extends State<AdminScreen> {
    collegedata =  Provider.of<AdminProvider>(context);
 
     collegedata.fetchAdminData().then((value) {
+      setState(() {
       adminData = value;
       acYearList = adminData.acYear;
       departmentList = adminData.department;
+      }); 
     });
 
     // collegedata.fetchAdminData11().then((value) => 
     // print(value)
     // );
 
-    // departmentList = adminData.toJson()['department'].cast<String>();
-
-    // print(adminData.toJson()['']);
+   
 
     collegedata
         .getStudentTotal(adminData == null ? 0 : adminData.orgCode)
@@ -83,37 +83,37 @@ class _AdminScreenState extends State<AdminScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(0, 8, 0, 12),
-                          decoration: containerDecoration,
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Organization\nCode',
-                                  style: orgHeadingTextStyle,
-                                ),
-                                Text(
-                                  adminData == null
-                                      ? '0'
-                                      : adminData
-                                          .toJson()['orgCode']
-                                          .toString(),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: Container(
+                  //         margin: EdgeInsets.fromLTRB(0, 8, 0, 12),
+                  //         decoration: containerDecoration,
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.all(12.0),
+                  //           child: Row(
+                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //             children: [
+                  //               Text(
+                  //                 'Organization\nCode',
+                  //                 style: orgHeadingTextStyle,
+                  //               ),
+                  //               Text(
+                  //                 adminData == null
+                  //                     ? '0'
+                  //                     : adminData
+                  //                         .toJson()['orgCode']
+                  //                         .toString(),
                                       
-                                  style: orgDataTextStyle,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  //                 style: orgDataTextStyle,
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   Row(
                     children: [
                       Expanded(
@@ -272,56 +272,56 @@ class _AdminScreenState extends State<AdminScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    decoration: containerDecoration,
-                    height: 300,
-                    margin: EdgeInsets.fromLTRB(5, 15, 5, 10),
-                    padding: EdgeInsets.all(15),
-                    child: BarChart(
-                      BarChartData(
-                        // maxY: 110,
-                        titlesData: FlTitlesData(
-                            show: true,
-                            bottomTitles: SideTitles(
-                              showTitles: true,
-                              getTextStyles: (context, value) =>
-                                  const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10),
-                            ),
-                            topTitles: SideTitles(showTitles: false),
-                            leftTitles: SideTitles(
-                              showTitles: true,
-                              getTextStyles: (context, value) =>
-                                  const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10),
-                            ),
-                            rightTitles: SideTitles(showTitles: false)),
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
+                  // Container(
+                  //   decoration: containerDecoration,
+                  //   height: 300,
+                  //   margin: EdgeInsets.fromLTRB(5, 15, 5, 10),
+                  //   padding: EdgeInsets.all(15),
+                  //   child: BarChart(
+                  //     BarChartData(
+                  //       // maxY: 110,
+                  //       titlesData: FlTitlesData(
+                  //           show: true,
+                  //           bottomTitles: SideTitles(
+                  //             showTitles: true,
+                  //             getTextStyles: (context, value) =>
+                  //                 const TextStyle(
+                  //                     color: Colors.black,
+                  //                     fontWeight: FontWeight.bold,
+                  //                     fontSize: 10),
+                  //           ),
+                  //           topTitles: SideTitles(showTitles: false),
+                  //           leftTitles: SideTitles(
+                  //             showTitles: true,
+                  //             getTextStyles: (context, value) =>
+                  //                 const TextStyle(
+                  //                     color: Colors.black,
+                  //                     fontWeight: FontWeight.bold,
+                  //                     fontSize: 10),
+                  //           ),
+                  //           rightTitles: SideTitles(showTitles: false)),
+                  //       borderData: FlBorderData(
+                  //         show: false,
+                  //       ),
 
-                        axisTitleData: FlAxisTitleData(
-                          leftTitle: AxisTitle(
-                              showTitle: true,
-                              titleText: 'Students',
-                              textStyle: TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.bold),
-                              margin: 10),
-                          bottomTitle: AxisTitle(
-                              showTitle: true,
-                              titleText: 'Feedback',
-                              textStyle: TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.bold),
-                              margin: 10),
-                        ),
-                        barGroups: getData(),
-                      ),
-                    ),
-                  ),
+                  //       axisTitleData: FlAxisTitleData(
+                  //         leftTitle: AxisTitle(
+                  //             showTitle: true,
+                  //             titleText: 'Students',
+                  //             textStyle: TextStyle(
+                  //                 fontSize: 13, fontWeight: FontWeight.bold),
+                  //             margin: 10),
+                  //         bottomTitle: AxisTitle(
+                  //             showTitle: true,
+                  //             titleText: 'Feedback',
+                  //             textStyle: TextStyle(
+                  //                 fontSize: 13, fontWeight: FontWeight.bold),
+                  //             margin: 10),
+                  //       ),
+                  //       barGroups: getData(),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

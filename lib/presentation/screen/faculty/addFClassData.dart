@@ -38,7 +38,7 @@ class _AddFclassDataState extends State<AddFclassData> {
       _acYearList = adminData.acYear;
       departmentList = adminData.department;
       orgCode = adminData.orgCode;
-      subject = adminData.subject;
+      // subject = adminData.subject;
       // subjectList= subject[_selectedDepartment][selectesSemester].toList();
       // print('subjectList--->$subjectList');
       //  });

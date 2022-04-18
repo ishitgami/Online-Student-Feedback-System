@@ -5,6 +5,8 @@ import 'package:osfs1/core/constant/constant.dart';
 import 'DrawerAdmin.dart';
 import 'package:provider/provider.dart';
 
+import 'addAcademicYearScreen.dart';
+
 class AcadamicYearScreen extends StatefulWidget {
   @override
   _AcademicYearState createState() => _AcademicYearState();
@@ -20,15 +22,22 @@ class _AcademicYearState extends State<AcadamicYearScreen> {
 
   var userUid;
   var acYearList;
+  var acYearKeyList;
 
   @override
   Widget build(BuildContext context) {
     collegedata = Provider.of<AdminProvider>(context);
 
-    collegedata.fetchAdminData().then((value) {
-      adminData = value;
-      acYearList = adminData.acYear;
-      userUid = adminData.uid;
+    // collegedata.fetchAdminData().then((value) {
+    //   adminData = value;
+    //   acYearList = adminData.acYear;
+    //   userUid = adminData.uid;
+    // });
+
+    collegedata.getAcademicYear().then((value) {
+      // print(value);
+      acYearList = value.entries.map((entry) => "${entry.value}").toList();
+      acYearKeyList = value.entries.map((entry) => "${entry.key}").toList();
     });
 
     return Scaffold(
@@ -36,54 +45,16 @@ class _AcademicYearState extends State<AcadamicYearScreen> {
         title: Text('Academic Year'),
       ),
       drawer: AdminDrawer(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,  MaterialPageRoute(builder: (context) => AddAcademicYearScreen()));
+        },
+        child: Icon(Icons.add),
+      ),
       body: Container(
         margin: EdgeInsets.all(16),
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller1,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: 'Start Year'),
-                    onChanged: (text) {
-                      academicYear1 = text;
-                    },
-                  ),
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: _controller2,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'End Year',
-                    ),
-                    onChanged: (text) {
-                      academicYear2 = text;
-                    },
-                  ),
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        collegedata.addAcYead(
-                            adminData.uid, academicYear1 + '-' + academicYear2);
-                        _controller1.clear();
-                        _controller2.clear();
-                      } catch (e) {
-                        print(e);
-                      }
-                    },
-                    child: Text('ADD')),
-              ],
-            ),
             ListView.builder(
               shrinkWrap: true,
               itemCount: acYearList == null ? 0 : acYearList.length,
@@ -126,8 +97,7 @@ class _AcademicYearState extends State<AcadamicYearScreen> {
                                     ),
                                     onPressed: () {
                                       collegedata.deleteAcYear(
-                                          adminData.uid,
-                                          acYearList
+                                          acYearKeyList
                                               .elementAt(index)
                                               .toString());
                                       Navigator.of(context).pop();

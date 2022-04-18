@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -24,7 +23,7 @@ class _FacultyFeedClassScreenState extends State<FacultyFeedClassScreen> {
 
   void initState() {
     _listPages = [
-      FclassHome(feedbackClassId: feedbackClassId),
+  
       FSceen(feedbackClassId: feedbackClassId),
     ];
     super.initState();
@@ -109,58 +108,5 @@ class FSceen extends StatelessWidget {
 
 
 
-class FclassHome extends StatefulWidget {
-  const FclassHome({
-    @required this.feedbackClassId,
-  });
-  final String feedbackClassId;
 
-  @override
-  _FclassHomeState createState() =>
-      _FclassHomeState(feedbackClassId: feedbackClassId);
-}
 
-class _FclassHomeState extends State<FclassHome> {
-  _FclassHomeState({this.feedbackClassId});
-  final String feedbackClassId;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              FormBuilder(
-                child: Column(
-                  children: [
-                    FormBuilderFilterChip(
-                name: 'filter_chip',
-                decoration: InputDecoration(
-                  labelText: 'Select many options',
-                ),
-                options: [
-                  FormBuilderFieldOption(
-                      value: 'Test', child: Text('Test')),
-                  FormBuilderFieldOption(
-                      value: 'Test 1', child: Text('Test 1')),
-                  FormBuilderFieldOption(
-                      value: 'Test 2', child: Text('Test 2')),
-                  FormBuilderFieldOption(
-                      value: 'Test 3', child: Text('Test 3')),
-                  FormBuilderFieldOption(
-                      value: 'Test 4', child: Text('Test 4')),
-                ],
-              ),
-                  ],
-                )
-              
-              )
-            ],
-          )
-          
-        ),
-      ),
-    );
-  }
-}

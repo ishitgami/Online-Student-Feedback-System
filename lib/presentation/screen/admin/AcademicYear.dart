@@ -13,25 +13,17 @@ class AcadamicYearScreen extends StatefulWidget {
 }
 
 class _AcademicYearState extends State<AcadamicYearScreen> {
-  TextEditingController _controller1 = TextEditingController();
-  TextEditingController _controller2 = TextEditingController();
 
   //Provider
   AdminProvider collegedata;
-  AdminData adminData;
-
-  var userUid;
-  var acYearList;
-  var acYearKeyList;
+  var academicYearMapList;
 
   @override
   Widget build(BuildContext context) {
     collegedata = Provider.of<AdminProvider>(context);
 
     collegedata.getAcademicYear().then((value) {
-      // print(value);
-      acYearList = value.entries.map((entry) => "${entry.value}").toList();
-      acYearKeyList = value.entries.map((entry) => "${entry.key}").toList();
+      academicYearMapList = value;
     });
 
     return Scaffold(
@@ -51,7 +43,7 @@ class _AcademicYearState extends State<AcadamicYearScreen> {
           children: [
             ListView.builder(
               shrinkWrap: true,
-              itemCount: acYearList == null ? 0 : acYearList.length,
+              itemCount: academicYearMapList == null ? 0 : academicYearMapList.length,
               itemBuilder: (context, index) {
                 return Card(
                   margin: EdgeInsets.all(8),
@@ -61,7 +53,7 @@ class _AcademicYearState extends State<AcadamicYearScreen> {
                       children: [
                         Expanded(
                           child: Text(
-                            acYearList.elementAt(index).toString(),
+                            academicYearMapList.elementAt(index)['Year'].toString(),
                             style: TextStyle(fontSize: 22.0),
                           ),
                         ),
@@ -91,9 +83,7 @@ class _AcademicYearState extends State<AcadamicYearScreen> {
                                     ),
                                     onPressed: () {
                                       collegedata.deleteAcYear(
-                                          acYearKeyList
-                                              .elementAt(index)
-                                              .toString());
+                                         academicYearMapList.elementAt(index)['id'].toString(),);
                                       Navigator.of(context).pop();
                                     },
                                   ),

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 
 class AdminFirebaseQuery {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -75,14 +74,17 @@ class AdminFirebaseQuery {
 
   //getAcademicYear
   getAcdemicYear() async {
-    var acdemicYearMap = {};
+    var acdemicYearMapList = <Map>[];
     await _db.collection('AcYear').get().then((value) {
       value.docs.forEach((element) {
-        acdemicYearMap
-            .addAll({'${element.id}': '${(element.data().values.first)}'});
+        acdemicYearMapList
+            .add({
+              'id': '${element.id}',
+              'Year': '${element['Year']}',
+              });
       });
     });
-    return acdemicYearMap;
+    return acdemicYearMapList;
   }
 
   //add Academic Year
@@ -94,20 +96,29 @@ class AdminFirebaseQuery {
 
   //fetch Department Date
   getDepartment() async {
-    var departmentMap = {};
+    var departmentMapList = <Map>[];
     await _db.collection('Department').get().then((value) {
       value.docs.forEach((element) {
-        departmentMap
-            .addAll({'${element.id}': '${(element.data().values.first)}'});
+        departmentMapList
+            .add({
+              'id': '${element.id}',
+              'Department': '${element['Department']}',
+              });
       });
     });
-    return departmentMap;
+    return departmentMapList;
   }
 
   // add department
   addDepartment(element) {
     _db.collection('Department').add({
       'Department': "$element",
+    });
+  }
+
+  addSubject(element) {
+    _db.collection('AcYear').add({
+      'Year': "$element",
     });
   }
 
@@ -135,8 +146,8 @@ class AdminFirebaseQuery {
       value.docs.forEach((element) {
         facultyMapList.add({
           'id': '${element.data()['UId']}',
-          'Name': '${element.data()['PersonalInfo']['First Name']}' + ' ' + '${element.data()['PersonalInfo']['Last Name']}',
-          'Email': '${element.data()['PersonalInfo']['Email']}',
+          'Name': '${element.data()['Name']}',
+          'Email': '${element.data()['Email']}',
         });
       });
     });
@@ -163,4 +174,21 @@ class AdminFirebaseQuery {
     });
     return feedQuesMapList;
   }
+
+  //getAcademicYearList
+  getAcdemicYearList() async {
+    var acdemicYearList = [];
+    await _db.collection('AcYear').get().then((value) {
+      value.docs.forEach((element) {
+        acdemicYearList
+            .add(element['Year']);
+      });
+    });
+    return acdemicYearList;
+  }
+
+ 
+
+
+
 }

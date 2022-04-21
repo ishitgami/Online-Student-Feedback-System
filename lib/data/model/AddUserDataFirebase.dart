@@ -33,12 +33,8 @@ class AddUserDataFirebase extends ChangeNotifier {
       'role': 'faculty',
       'CreatedAt': Timestamp.now(),
       'UId': uId,
-      'PersonalInfo': {
-        'Email': email,
-        'First Name': firstName,
-        'Last Name': lastName,
-      },
-      'FeedbackClass': [],
+      'Email': email,
+      'Name': firstName + ' ' + lastName,
     });
   }
 
@@ -51,23 +47,18 @@ class AddUserDataFirebase extends ChangeNotifier {
       String firstName,
       String lastName,
       String enrollment,
-      String orgCode}) async {
+      String division}) async {
     await firestore.collection('Users').doc(uId).set({
       'role': 'student',
-      
       'CreatedAt': Timestamp.now(),
-      'CollegeData': {
         'AcademicYear': academicYear,
         'Department': department,
-        'orgCode': orgCode,
-      },
-      'PersonalInfo': {
+        'orgCode': division,
         'Email': email,
-        'First Name': firstName,
-        'Last Name': lastName,
+        'Name': firstName+' '+ lastName,
         'Enrollment No': enrollment,
         'UId': uId,
-      },
+      
       'FeedbackClass': []
     });
   }

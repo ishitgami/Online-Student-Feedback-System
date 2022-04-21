@@ -32,17 +32,17 @@ class _AddFclassDataState extends State<AddFclassData> {
   Widget build(BuildContext context) {
     collegedata = Provider.of<AdminProvider>(context);
  
-    collegedata.fetchAdminDatForFaculty().then((value) {
-      //  setState(() {
-      adminData = value;
-      _acYearList = adminData.acYear;
-      departmentList = adminData.department;
-      orgCode = adminData.orgCode;
-      // subject = adminData.subject;
-      // subjectList= subject[_selectedDepartment][selectesSemester].toList();
-      // print('subjectList--->$subjectList');
-      //  });
-    });
+    // collegedata.fetchAdminDatForFaculty().then((value) {
+    //   //  setState(() {
+    //   adminData = value;
+    //   _acYearList = adminData.acYear;
+    //   departmentList = adminData.department;
+    //   orgCode = adminData.orgCode;
+    //   // subject = adminData.subject;
+    //   // subjectList= subject[_selectedDepartment][selectesSemester].toList();
+    //   // print('subjectList--->$subjectList');
+    //   //  });
+    // });
 
     
 

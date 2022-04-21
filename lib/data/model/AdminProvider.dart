@@ -9,64 +9,30 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
 class AdminProvider extends ChangeNotifier {
-  // addAcYead(userUid, element) {
-  //   AdminFirebaseQuery().addAcYear(userUid, element);
-  //   // firestore.collection('Users').doc(userUid).update({
-  //   //   'AcYear': FieldValue.arrayUnion([element]),
-  //   // });
-  //   notifyListeners();
+//   //fetch AdminData For Admin-Module
+//   Future fetchAdminData() async {
+//     var userUid = _auth.currentUser.uid;
+//     var adminQuryResult = await AdminFirebaseQuery().getDocumentById(userUid);
+//     return AdminData.fromMap(adminQuryResult.data());
+//   }
+
+  // Future fetchAdminData11() async {
+  //   var userUid = _auth.currentUser.uid;
+  //   var adminQuryResult = await AdminFirebaseQuery().getDocumentById(userUid);
+  //   print(adminQuryResult.toString());
+  //   return AdminData.fromMap(adminQuryResult.data());
   // }
-
-  // addDepartmentData(userUid, element) {
-  //   firestore.collection('Users').doc(userUid).update({
-  //     'Department': FieldValue.arrayUnion([element]),
-  //   });
-  //   notifyListeners();
-  // }
-
-  // deleteDepartment(userUid, element) {
-  //   firestore.collection('Users').doc(userUid).update({
-  //     'Department': FieldValue.arrayRemove([element]),
-  //   });
-  // }
-
-  // addSubject( department, subjectCode, subjectName, semester) {
-  //   firestore.collection('Subject').add({
-  //     'Code' : '$subjectCode',
-  //     'Name' : '$subjectName',
-  //     'Department' : '$department',
-  //     'Semester' : '$semester'
-  //    });
-  //   // firestore.collection('Subject').doc(userUid).update({
-  //   //   'Subject.$department.$semester':
-  //   //       FieldValue.arrayUnion(['$subjectName $subjectCode']),
-  //   // });
-  // }
-
-  //fetch AdminData For Admin-Module
-  Future fetchAdminData() async {
-    var userUid = _auth.currentUser.uid;
-    var adminQuryResult = await AdminFirebaseQuery().getDocumentById(userUid);
-    return AdminData.fromMap(adminQuryResult.data());
-  }
-
-  Future fetchAdminData11() async {
-    var userUid = _auth.currentUser.uid;
-    var adminQuryResult = await AdminFirebaseQuery().getDocumentById(userUid);
-    print(adminQuryResult.toString());
-    return AdminData.fromMap(adminQuryResult.data());
-  }
 
   //fetch AdminData For Faculty-Module
-  Future<AdminData> fetchAdminDatForFaculty() async {
-    var userUid = _auth.currentUser.uid;
-    var orgCode = await AdminFirebaseQuery().getOrgCode(userUid);
-    var result = await AdminFirebaseQuery().getDocumentByorg(orgCode);
-    var adminUid = result.docs.first.id;
-    var adminQuryResult = await AdminFirebaseQuery().getDocumentById(adminUid);
-    notifyListeners();
-    return AdminData.fromMap(adminQuryResult.data());
-  }
+  // Future<AdminData> fetchAdminDatForFaculty() async {
+  //   var userUid = _auth.currentUser.uid;
+  //   var orgCode = await AdminFirebaseQuery().getOrgCode(userUid);
+  //   var result = await AdminFirebaseQuery().getDocumentByorg(orgCode);
+  //   var adminUid = result.docs.first.id;
+  //   var adminQuryResult = await AdminFirebaseQuery().getDocumentById(adminUid);
+  //   notifyListeners();
+  //   return AdminData.fromMap(adminQuryResult.data());
+  // }
 
   Future fetchAdminDataForStuReg() async {
     var result = await AdminFirebaseQuery().getDataForStudentReg();
@@ -74,19 +40,19 @@ class AdminProvider extends ChangeNotifier {
     return result;
   }
 
-  getStudentTotal(orgCode) async {
-    var studentTotal;
-    await firestore
-        .collection('Users')
-        .where('role', isEqualTo: 'student')
-        .where('CollegeData.orgCode', isEqualTo: orgCode)
-        .get()
-        .then((value) {
-      studentTotal = value.size;
-    });
-    notifyListeners();
-    return studentTotal;
-  }
+  // getStudentTotal(orgCode) async {
+  //   var studentTotal;
+  //   await firestore
+  //       .collection('Users')
+  //       .where('role', isEqualTo: 'student')
+  //       .where('CollegeData.orgCode', isEqualTo: orgCode)
+  //       .get()
+  //       .then((value) {
+  //     studentTotal = value.size;
+  //   });
+  //   notifyListeners();
+  //   return studentTotal;
+  // }
 
   getFacultyTotal(orgCode) async {
     var facultyTotal;
@@ -98,7 +64,7 @@ class AdminProvider extends ChangeNotifier {
         .then((value) {
       facultyTotal = value.size;
     });
-    notifyListeners();
+    // notifyListeners();
     return facultyTotal;
   }
 
@@ -113,7 +79,7 @@ class AdminProvider extends ChangeNotifier {
   //Add Academic Year
   addAcademicYear(element) {
     AdminFirebaseQuery().addAcademicYear(element);
-    notifyListeners();
+    // notifyListeners();
   }
 
   //Delete Academic Year
@@ -130,7 +96,7 @@ class AdminProvider extends ChangeNotifier {
   //Add Department Year
   addDepartment(element) {
     AdminFirebaseQuery().addDepartment(element);
-    notifyListeners();
+    // notifyListeners();
   }
 
   //Delete Department Year
@@ -167,7 +133,7 @@ class AdminProvider extends ChangeNotifier {
     return fetchFacultyQuery;
   }
 
-    //Add Feedback Questions
+  //Add Feedback Questions
   addFeedQue(element) {
     AdminFirebaseQuery().addQuestion(element);
   }
@@ -183,5 +149,11 @@ class AdminProvider extends ChangeNotifier {
   deleteFeedbackQue(element) {
     firestore.collection('Questions').doc(element).delete();
   }
+
+
+
+
+
+  
 
 }

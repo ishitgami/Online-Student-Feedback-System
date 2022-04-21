@@ -32,13 +32,13 @@ class _AdminScreenState extends State<AdminScreen> {
   Widget build(BuildContext context) {
    collegedata =  Provider.of<AdminProvider>(context);
 
-    collegedata.fetchAdminData().then((value) {
-      setState(() {
-      adminData = value;
-      acYearList = adminData.acYear;
-      departmentList = adminData.department;
-      }); 
-    });
+    // collegedata.fetchAdminData().then((value) {
+    //   setState(() {
+    //   adminData = value;
+    //   acYearList = adminData.acYear;
+    //   departmentList = adminData.department;
+    //   }); 
+    // });
 
     // collegedata.fetchAdminData11().then((value) => 
     // print(value)
@@ -46,11 +46,11 @@ class _AdminScreenState extends State<AdminScreen> {
 
    
 
-    collegedata
-        .getStudentTotal(adminData == null ? 0 : adminData.orgCode)
-        .then((value) {
-      studentTotal = value;
-    });
+    // collegedata
+    //     .getStudentTotal(adminData == null ? 0 : adminData.orgCode)
+    //     .then((value) {
+    //   studentTotal = value;
+    // });
 
     collegedata
         .getFacultyTotal(adminData == null ? 0 : adminData.orgCode)

@@ -31,7 +31,7 @@ class AdminDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context,AdminScreenRoute);
+                Navigator.pushNamed(context,AdminDashbordRoute);
               },
             ),
             SizedBox(width: 50, child: Divider()),

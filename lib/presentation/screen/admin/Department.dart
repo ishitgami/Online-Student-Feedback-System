@@ -14,29 +14,14 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
 
   //Provider
   AdminProvider collegedata;
-  AdminData adminData;
-
-  var getUser;
-  var departmentList;
-  var departmentKeyList;
+  var departmentMapList;
 
   @override
   Widget build(BuildContext context) {
     collegedata = Provider.of<AdminProvider>(context);
-    // getUser = collegedata.getCurrentUser();
-
-    // collegedata.fetchAdminData().then((value) {
-    //   //  setState(() {
-    //   adminData = value;
-    //   departmentList = adminData.department;
-    //   getUser = adminData.uid;
-    //   //  });
-    // });
 
     collegedata.getDepartment().then((value) {
-      // print(value);
-      departmentList = value.entries.map((entry) => "${entry.value}").toList();
-      departmentKeyList = value.entries.map((entry) => "${entry.key}").toList();
+      departmentMapList = value;
     });
 
     return Scaffold(
@@ -56,7 +41,7 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
           children: [
             ListView.builder(
               shrinkWrap: true,
-              itemCount: departmentList == null ? 0 : departmentList.length,
+              itemCount: departmentMapList == null ? 0 : departmentMapList.length,
               itemBuilder: (context, index) {
                 return Card(
                   margin: EdgeInsets.all(8),
@@ -66,7 +51,7 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
                       children: [
                         Expanded(
                           child: Text(
-                            departmentList.elementAt(index).toString(),
+                            departmentMapList.elementAt(index)['Department'].toString(),
                             style: TextStyle(fontSize: 22.0),
                           ),
                         ),
@@ -96,9 +81,7 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
                                     ),
                                     onPressed: () {
                                       collegedata.deleteDepartment(
-                                          departmentKeyList
-                                              .elementAt(index)
-                                              .toString());
+                                          departmentMapList.elementAt(index)['Department'].toString());
                                       Navigator.of(context).pop();
                                     },
                                   ),

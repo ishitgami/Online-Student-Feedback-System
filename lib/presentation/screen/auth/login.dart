@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (docs.exists) {
                     Map<String, dynamic> data = docs.data();
                     if (data['role'] == 'Admin') {
-                      Navigator.pushNamed(context, AdminScreenRoute);
+                      Navigator.pushNamed(context, AdminDashbordRoute);
                     } else if (data['role'] == 'student') {
                       Navigator.pushNamed(context, studentScreenRoute);
                     } else if (data['role'] == 'faculty') {

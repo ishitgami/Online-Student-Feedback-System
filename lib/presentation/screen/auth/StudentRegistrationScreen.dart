@@ -25,10 +25,13 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
   Authentication userProvider;
   AdminProvider collegedata;
 
+  List academicYearList;
   List departmentList;
   List acYearList;
   String _selectedAcYear;
   String _selectedDepartment;
+  String _selectedDivision;
+  List divisionList = ['A','B','C'];
 
   AdminData adminData;
 
@@ -45,14 +48,15 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
 
   void addStudentToUsers(cUserId) {
     addData.addStudentData(
-      academicYear: currentAcademicYearValue,
-      department: currentDepartmentValue,
+      academicYear: _selectedAcYear,
+      department: _selectedDepartment,
       email: emailAddress,
       enrollment: enrollmentNo,
       firstName: firstName,
       lastName: lastName,
       uId: cUserId,
-      orgCode: orgId,
+      division: _selectedDivision
+  
     );
   }
 
@@ -62,16 +66,22 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
     userProvider = Provider.of<Authentication>(context);
     collegedata =  Provider.of<AdminProvider>(context);
 
-    collegedata.fetchAdminDataForStuReg().then((value) {
-      // print('value--->$value');
-      setState(() {
-      acYearList = value;
+    // collegedata.fetchAdminDataForStuReg().then((value) {
+    //   // print('value--->$value');
+    //   setState(() {
+    //   acYearList = value;
 
-      // acYearList = adminData.acYear;
-      // departmentList = adminData.department;
-      });
+    //   // acYearList = adminData.acYear;
+    //   // departmentList = adminData.department;
+    //   });
       
-    });
+      
+    // });
+
+   
+     
+  
+
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -126,9 +136,9 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                                      _selectedAcYear = newValue;
                                    });
                                  },
-                                 items: acYearList == null
+                                 items: academicYearList == null
                                      ? []
-                                     : acYearList.map((acYear) {
+                                     : academicYearList.map((acYear) {
                                          return DropdownMenuItem(
                                            child: new Text(acYear),
                                            value: acYear,
@@ -158,7 +168,7 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                                     _selectedDepartment = newValue;
                                   });
                                 },
-                                items: adminData == null
+                                items: departmentList == null
                                     ? []
                                     : departmentList.map((department) {
                                         return DropdownMenuItem(
@@ -169,37 +179,37 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                               ),
                             ),
                           ),
-                          // Container(
-                          //   padding: EdgeInsets.symmetric(
-                          //       horizontal: 0, vertical: 5),
-                          //   decoration: BoxDecoration(
-                          //       color: Colors.white,
-                          //       borderRadius: BorderRadius.circular(10)),
-                          //   child: DropdownButtonHideUnderline(
-                          //     child: DropdownButton(
-                          //       dropdownColor: Colors.grey[100],
-                          //       iconEnabledColor: Colors.black,
-                          //       hint: Text('Acedemic Year',
-                          //           style: TextStyle(
-                          //               color: Colors
-                          //                   .black)), // Not necessary for Option 1
-                          //       value: _selectedAcYear,
-                          //       onChanged: (newValue) {
-                          //         setState(() {
-                          //           _selectedAcYear = newValue;
-                          //         });
-                          //       },
-                          //       items: acYearList == null
-                          //           ? []
-                          //           : acYearList.map((acYear) {
-                          //               return DropdownMenuItem(
-                          //                 child: new Text(acYear),
-                          //                 value: acYear,
-                          //               );
-                          //             }).toList(),
-                          //     ),
-                          //   ),
-                          // ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 5),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                dropdownColor: Colors.grey[100],
+                                iconEnabledColor: Colors.black,
+                                hint: Text('Divion',
+                                    style: TextStyle(
+                                        color: Colors
+                                            .black)), // Not necessary for Option 1
+                                value: _selectedDivision,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedDivision = newValue;
+                                  });
+                                },
+                                items: divisionList == null
+                                    ? []
+                                    : divisionList.map((acYear) {
+                                        return DropdownMenuItem(
+                                          child: new Text(acYear),
+                                          value: acYear,
+                                        );
+                                      }).toList(),
+                              ),
+                            ),
+                          ),
                           SizedBox(height: 20),
                           Container(
                             margin: EdgeInsets.only(
@@ -218,12 +228,12 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                                 ),
                                 onPressed: () async {
                                   _saveForm();
-                                  if (await userProvider
-                                          .isValidOrgCode(orgId) ==
-                                      null) {
-                                    return alertBox(
-                                        context, 'Please Enter Valid Org Code');
-                                  }
+                                  // if (await userProvider
+                                  //         .isValidOrgCode(orgId) ==
+                                  //     null) {
+                                  //   return alertBox(
+                                  //       context, 'Please Enter Valid Org Code');
+                                  // }
 
                                   try {
                                     final newUser = await userProvider

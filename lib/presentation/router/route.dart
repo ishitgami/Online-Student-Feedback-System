@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:osfs1/presentation/screen/admin/AcademicYear.dart';
 import 'package:osfs1/presentation/screen/admin/AdminDashbord.dart';
 import 'package:osfs1/presentation/screen/admin/Department.dart';
 import 'package:osfs1/presentation/screen/admin/faculty.dart';
 import 'package:osfs1/presentation/screen/admin/feedbackQue.dart';
+import 'package:osfs1/presentation/screen/admin/feedbackRestrictions.dart';
+import 'package:osfs1/presentation/screen/admin/report.dart';
 import 'package:osfs1/presentation/screen/admin/subject.dart';
 import 'package:osfs1/presentation/screen/auth/StudentRegistrationScreen.dart';
 import 'package:osfs1/presentation/screen/auth/facultyRegistration.dart';
@@ -17,9 +18,6 @@ import 'package:osfs1/presentation/screen/faculty/allFClassScreen.dart';
 import 'package:osfs1/presentation/screen/student/feedbackScreen.dart';
 import 'package:osfs1/presentation/screen/student/index.dart';
 import 'package:osfs1/splashScreen.dart';
-// import 'admin/student.dart';
-// import 'admin/feedbackRestrictions.dart';
-// import 'admin/report.dart';
 
 //SplashScreen
 const String splashScreenRoute = '/';
@@ -32,12 +30,10 @@ const String orgRegistrationRoute = '/orgRegistrationRouteScreen';
 const String facultyRegRoute = '/facultyRegRouteScreen';
 
 //Admin
-const String AdminScreenRoute = '/AdminScreen';
-const String studentInAdminScreenRoute = '/StudentInAdminScreen';
+const String AdminDashbordRoute = '/AdminScreen';
 const String facultyInAdminScreenRoute = '/FacultyInAdminScreen';
 const String acadamicYearScreenRoute = '/AcadamicYearScreen';
 const String departmentScreenRoute = '/DepartmentScreen';
-const String divisionScreenRoute = '/DivisionScreen';
 const String subjectScreenRoute = '/SubjectScreen';
 const String restrictionsScreenRoute = '/FeedbackRestrictionsScreen';
 const String questionScreenRoute = '/FeedbackQueScreen';
@@ -65,8 +61,7 @@ class Routes {
         return MaterialPageRoute(builder: (context) => NavigateToDiffReg());
 
       case studentRegScreenRoute:
-        return MaterialPageRoute(
-            builder: (context) => StudentRegistrationScreen());
+        return MaterialPageRoute(builder: (context) => StudentRegistrationScreen());
 
       case facultyRegRoute:
         return MaterialPageRoute(builder: (context) => FacultyRegScreen());
@@ -74,7 +69,7 @@ class Routes {
       case orgRegistrationRoute:
         return MaterialPageRoute(builder: (context) => OrgRegistrationScreen());
 
-      case AdminScreenRoute:
+      case AdminDashbordRoute:
         return MaterialPageRoute(builder: (context) => AdminScreen());
 
       case FacultyFclassScreenRoute:
@@ -82,9 +77,6 @@ class Routes {
 
       case studentScreenRoute:
         return MaterialPageRoute(builder: (context) => StudentScreen());
-
-      // case studentInAdminScreenRoute:
-      //   return MaterialPageRoute(builder: (context) => StudentInAdminScreen());
 
       case facultyInAdminScreenRoute:
         return MaterialPageRoute(builder: (context) => FacultyInAdmin());
@@ -98,8 +90,8 @@ class Routes {
       case subjectScreenRoute:
         return MaterialPageRoute(builder: (context) => SubjectScreen());
 
-      // case restrictionsScreenRoute:
-      //   return MaterialPageRoute(builder: (context) => RestrictionsScreen());
+      case restrictionsScreenRoute:
+        return MaterialPageRoute(builder: (context) => RestrictionsScreen());
 
       case questionScreenRoute:
         return MaterialPageRoute(builder: (context) => QuestionScreen());
@@ -107,8 +99,8 @@ class Routes {
       case feedbackScreenRoute:
         return MaterialPageRoute(builder: (context) => FeedbackScreen());
 
-      // case reportScreenRoute:
-      //   return MaterialPageRoute(builder: (context) => ReportScreen());
+      case reportScreenRoute:
+        return MaterialPageRoute(builder: (context) => ReportScreen());
 
       case FacultyDashbordScreenRoute:
         return MaterialPageRoute(builder: (context) => FacultyDashbordScreen());

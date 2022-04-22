@@ -53,7 +53,7 @@ class AddUserDataFirebase extends ChangeNotifier {
       'CreatedAt': Timestamp.now(),
         'AcademicYear': academicYear,
         'Department': department,
-        'orgCode': division,
+        'Division': division,
         'Email': email,
         'Name': firstName+' '+ lastName,
         'Enrollment No': enrollment,

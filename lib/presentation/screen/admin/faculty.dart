@@ -13,7 +13,7 @@ class FacultyInAdmin extends StatefulWidget {
 class _FacultyInAdminState extends State<FacultyInAdmin> {
     //Provider
   AdminProvider collegedata;
-  AdminData adminData;
+
 
   var facultyMapList;
 
@@ -22,8 +22,13 @@ class _FacultyInAdminState extends State<FacultyInAdmin> {
     collegedata = Provider.of<AdminProvider>(context);
 
     collegedata.getFaculty().then((value) {
-      facultyMapList = value;
+      setState(() {
+        facultyMapList = value;
+      });
+      
     });
+
+
 
 
     return Scaffold(

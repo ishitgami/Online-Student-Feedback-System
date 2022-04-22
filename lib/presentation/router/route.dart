@@ -16,7 +16,7 @@ import 'package:osfs1/presentation/screen/faculty/FacultyDashbord.dart';
 import 'package:osfs1/presentation/screen/faculty/FeedbackClassScreen.dart';
 import 'package:osfs1/presentation/screen/faculty/allFClassScreen.dart';
 import 'package:osfs1/presentation/screen/student/feedbackScreen.dart';
-import 'package:osfs1/presentation/screen/student/index.dart';
+import 'package:osfs1/presentation/screen/student/studentDashboard.dart';
 import 'package:osfs1/splashScreen.dart';
 
 //SplashScreen
@@ -95,9 +95,6 @@ class Routes {
 
       case questionScreenRoute:
         return MaterialPageRoute(builder: (context) => QuestionScreen());
-
-      case feedbackScreenRoute:
-        return MaterialPageRoute(builder: (context) => FeedbackScreen());
 
       case reportScreenRoute:
         return MaterialPageRoute(builder: (context) => ReportScreen());

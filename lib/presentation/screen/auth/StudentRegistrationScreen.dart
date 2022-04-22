@@ -25,8 +25,8 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
   Authentication userProvider;
   AdminProvider collegedata;
 
-  List academicYearList;
-  List departmentList;
+  List academicYearMapList;
+  List departmentMapList;
   List acYearList;
   String _selectedAcYear;
   String _selectedDepartment;
@@ -66,6 +66,19 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
     userProvider = Provider.of<Authentication>(context);
     collegedata =  Provider.of<AdminProvider>(context);
 
+
+
+    collegedata.getAcademicYear().then((value) {
+      setState(() {
+        academicYearMapList = value;
+      });
+    });
+
+    collegedata.getDepartment().then((value) {
+      setState(() {
+        departmentMapList = value;
+      });
+    });
     // collegedata.fetchAdminDataForStuReg().then((value) {
     //   // print('value--->$value');
     //   setState(() {
@@ -136,12 +149,12 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                                      _selectedAcYear = newValue;
                                    });
                                  },
-                                 items: academicYearList == null
+                                 items: academicYearMapList == null
                                      ? []
-                                     : academicYearList.map((acYear) {
+                                     : academicYearMapList.map((acYear) {
                                          return DropdownMenuItem(
-                                           child: new Text(acYear),
-                                           value: acYear,
+                                           child: new Text(acYear['Year']),
+                                           value: acYear['Year'],
                                          );
                                        }).toList(),
                                ),
@@ -168,12 +181,10 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                                     _selectedDepartment = newValue;
                                   });
                                 },
-                                items: departmentList == null
-                                    ? []
-                                    : departmentList.map((department) {
+                                items:  departmentMapList.map((map) {
                                         return DropdownMenuItem(
-                                          child: new Text(department),
-                                          value: department,
+                                          child: new Text(map['Department']),
+                                          value: map['Department'],
                                         );
                                       }).toList(),
                               ),
@@ -228,13 +239,6 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                                 ),
                                 onPressed: () async {
                                   _saveForm();
-                                  // if (await userProvider
-                                  //         .isValidOrgCode(orgId) ==
-                                  //     null) {
-                                  //   return alertBox(
-                                  //       context, 'Please Enter Valid Org Code');
-                                  // }
-
                                   try {
                                     final newUser = await userProvider
                                         .registrationAuthentication(

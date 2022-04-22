@@ -23,7 +23,10 @@ class _AcademicYearState extends State<SubjectScreen> {
     collegedata = Provider.of<AdminProvider>(context);
 
     collegedata.getSubject().then((value) {
-      subjectMapList = value;
+      setState(() {
+         subjectMapList = value;
+      });
+     
     });
 
     return Scaffold(

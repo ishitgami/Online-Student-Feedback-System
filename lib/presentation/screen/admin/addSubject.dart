@@ -19,7 +19,7 @@ class _AddSubjectSceenState extends State<AddSubjectSceen> {
   //Provider
   AdminProvider collegedata;
   //model
-  AdminData adminData;
+  // AdminData adminData;
 
   User loggedInUser;
   var orgCode;

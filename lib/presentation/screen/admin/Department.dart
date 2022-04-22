@@ -21,7 +21,10 @@ class _DepartmentScreenState extends State<DepartmentScreen> {
     collegedata = Provider.of<AdminProvider>(context);
 
     collegedata.getDepartment().then((value) {
-      departmentMapList = value;
+      setState(() {
+        departmentMapList = value;
+      });
+      
     });
 
     return Scaffold(

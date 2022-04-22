@@ -187,6 +187,59 @@ class AdminFirebaseQuery {
     return acdemicYearList;
   }
 
+
+  // Fetch feedbackClass
+  fetchFeedbackClass() async {
+    var feedbackClassMapList = <Map>[];
+    await _db.collection('FeedbackClass').get().then((value) {
+      value.docs.forEach((element) {
+        feedbackClassMapList.add({
+          'id': '${element.id}',
+          'Faculty': '${element['Faculty']}',
+          'AcademicYear': '${element['AcademicYear']}',
+          'Department': '${element['Department']}',
+          'Name': '${element['Name']}',
+          'subject': '${element['subject']}',
+        });
+      });
+    });
+    return feedbackClassMapList;
+  }
+
+
+  // Fetch feedbackClass For Student
+  fetchFeedbackClassForStudent(studentId) async {
+    var feedbackClassMapList = <Map>[];
+    await _db.collection('FeedbackClass').where('StudentList.$studentId',isEqualTo: false).get().then((value) {
+      value.docs.forEach((element) {
+        feedbackClassMapList.add({
+          'id': '${element.id}',
+          'Faculty': '${element['Faculty']}',
+          'AcademicYear': '${element['AcademicYear']}',
+          'Department': '${element['Department']}',
+          'Name': '${element['Name']}',
+          'subject': '${element['subject']}',
+        });
+      });
+    });
+    return feedbackClassMapList;
+  }
+
+    // Fetch feedbackClass Question
+  fetchFeedbackClassQuestions(feedbaclClassId) async {
+    var feedbackClassMapList = <Map>[];
+    await _db.collection('FeedbackClass').doc(feedbaclClassId).collection('Questions').get().then((value) {
+      value.docs.forEach((element) {
+        feedbackClassMapList.add({
+          'id': '${element.id}',
+          'Qid': '${element['id']}',
+          'question': '${element['question']}',
+        });
+      });
+    });
+    return feedbackClassMapList;
+  }
+
  
 
 

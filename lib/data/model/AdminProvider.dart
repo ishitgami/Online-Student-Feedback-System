@@ -150,10 +150,92 @@ class AdminProvider extends ChangeNotifier {
     firestore.collection('Questions').doc(element).delete();
   }
 
+  //add FeedBackClass
+  addFeedbackClass(facultyId, acdemicYear, department, name, subject) {
+    final id = firestore.collection('FeedbackClass').doc();
+    id.set({
+      'Faculty': '$facultyId',
+      'Name': '$name',
+      'Department': '$department',
+      'AcademicYear': '$acdemicYear',
+      'subject': '$subject'
+    });
+    return id.id;
+  }
+
+  //add Question to Feedback Class
+  addQuestionToFeedbackClass(feedbackClassId, List<Map> questionList) {
+    questionList.forEach((element) {
+      print(element);
+      firestore
+          .collection('FeedbackClass')
+          .doc(feedbackClassId)
+          .collection('Questions')
+          .add({
+        'id': element['id'],
+        'question': element['Que'],
+        'rate': [],
+      });
+    });
+  }
+
+  // get student List
+  getStudentListForFeedRes(acYear,department,division) async {
+    List studentList=[];
+   await firestore.collection('Users').where('role',isEqualTo: 'student')
+    .where('AcademicYear',isEqualTo: acYear)
+    .where('Department',isEqualTo: department)
+    .where('Division',isEqualTo: division)
+    .get()
+    .then((value){
+      print(value.docs.length);
+      value.docs.forEach((element) {
+        studentList.add(element.id);
+      });
+    });
+    // print('studentList--->$studentList');
+    return studentList;
+  }
+
+  // add studentList To FeedbackClass
+  addStudentToFeedbackClass(feedbackClassID,List studentList) {
+    studentList.forEach((element) {
+      // print(element);
+      firestore.collection('FeedbackClass').doc(feedbackClassID).set({
+        'StudentList' : {
+          element: false,
+          },
+    },
+      SetOptions(merge: true)
+    );
+    });
+    
+  }
 
 
+   // get FeedbackClass
+  Future<List> getFeedbackClass() async {
+    var fetchFeedbackClassQuery;
+    fetchFeedbackClassQuery = await AdminFirebaseQuery().fetchFeedbackClass();
+    return fetchFeedbackClassQuery;
+  }
 
+   //Delete FeedbackClass
+  deleteFeedbackClass(element) {
+    firestore.collection('FeedbackClass').doc(element).delete();
+  }
 
-  
+     // get FeedbackClass
+  Future<List> getFeedbackClassForStudent(studentID) async {
+    var fetchFeedbackClassQuery;
+    fetchFeedbackClassQuery = await AdminFirebaseQuery().fetchFeedbackClassForStudent(studentID);
+    return fetchFeedbackClassQuery;
+  }
 
+   // get FeedbackClass Questions
+  Future<List> getFeedbackClassQue(feedbaclClassId) async {
+    var fetchFeedbackClassQuery;
+    fetchFeedbackClassQuery = await AdminFirebaseQuery().fetchFeedbackClassQuestions(feedbaclClassId);
+    return fetchFeedbackClassQuery;
+  }
 }

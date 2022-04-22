@@ -23,7 +23,10 @@ class _AcademicYearState extends State<AcadamicYearScreen> {
     collegedata = Provider.of<AdminProvider>(context);
 
     collegedata.getAcademicYear().then((value) {
-      academicYearMapList = value;
+      setState(() {
+        academicYearMapList = value;
+      });
+      
     });
 
     return Scaffold(

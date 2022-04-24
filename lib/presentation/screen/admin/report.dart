@@ -153,6 +153,7 @@ class _ReportScreenState extends State<ReportScreen> {
       drawer: AdminDrawer(),
       body: Container(
         margin: EdgeInsets.all(16),
+        child: Text('Report'),
         // child: Column(
         //   children: [
         //     simpleDropdown(currentFacultyValue, facultyList, 'choose Faculty',

@@ -3,22 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:osfs1/core/constant/constant.dart';
 import 'package:osfs1/data/model/AdminProvider.dart';
-import 'package:osfs1/presentation/router/route.dart';
 import 'package:provider/provider.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class FeedbackScreen extends StatefulWidget {
-  FeedbackScreen(this.feedbackId);
+  FeedbackScreen(this.feedbackId,this.studentId);
   var feedbackId;
+  var studentId;
 
   @override
-  State<FeedbackScreen> createState() => _FeedbackScreenState(feedbackId);
+  State<FeedbackScreen> createState() => _FeedbackScreenState(feedbackId,studentId);
 }
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
-  _FeedbackScreenState(this.feedbackClassId);
+  _FeedbackScreenState(this.feedbackClassId,this.studentId);
   String feedbackClassId;
+  String studentId;
   AdminProvider collegedata;
   var feedbackClassMapList;
 
@@ -34,8 +35,11 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     });
 
     return Scaffold(
+      appBar: AppBar(title: Text('FeedBack Form'),),
       body: SafeArea(
-        child: Container(
+        child: 
+        feedbackClassMapList == null ? Center(child: CircularProgressIndicator()) :
+        Container(
           child: Column(
             children: [
               ListView.builder(
@@ -72,79 +76,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                                     color: Colors.black,
                                   ),
                                   onRatingUpdate: (rating) {
-                                    print(feedbackQueMapList[index]['question']);
-                                    //  firestore
-                                    //   .collection('Academic Year')
-                                    //   .doc(currentAcademicYearId)
-                                    //   .collection('Department')
-                                    //   .doc(currentDepartmentId)
-                                    //   .collection('Division')
-                                    //   .doc(currentDivisionId)
-                                    //   .collection('feedback')
-                                    //   .doc(feedbackId)
-                                    //   .collection('questions')
-                                    //   .doc(feedbackQueMapList[index]['id'])
-                                    //   .update({
-                                    //     'rating.'+currentStudentId : rating
-
-                                    //   });
-
-                                    // .collection('rating')
-                                    // .doc(currentStudentId)
-                                    // .set({
-                                    //   'rate' : rating
-                                    // });
-
-                                    // firestore
-                                    // .collection('faculty')
-                                    // .doc(currentFacultyId)
-                                    // .collection('feedback')
-                                    // .doc(feedbackId)
-                                    // .collection('questions')
-                                    // .doc(feedbackQueMapList[index]['id'])
-                                    // .update({
-                                    //   'rating.'+currentStudentId : rating
-
-                                    // });
-                                    // .collection('rating')
-                                    // .doc(currentStudentId)
-                                    // .set({
-                                    //   'rate' : rating
-                                    // });
-
-                                    // firestore
-                                    // .collection('feedback')
-                                    // .doc(feedbackId)
-                                    // .collection('questions')
-                                    // .doc(feedbackQueMapList[index]['id'])
-                                    // .update({
-                                    //   'rating.'+currentStudentId : rating
-
-                                    // });
-                                    // .collection('rating')
-                                    // .doc(currentStudentId)
-                                    // .set({
-                                    //   'rate' : rating
-                                    // });
-
-                                    // firestore
-                                    // .collection('faculty')
-                                    // .doc(currentFacultyId)
-                                    // .collection('feedback')
-                                    // .doc(feedbackId)
-                                    // .collection('questions')
-                                    // .doc(feedbackQueMapList[index]['id'])
-                                    // .update({
-                                    //   'rating.'+currentStudentId : rating
-
-                                    // });
-                                    // .collection('rating')
-                                    // .doc(currentStudentId)
-                                    // .set({
-                                    //   'rate' : rating
-                                    // });
-
-                                    print(rating);
+                                    print(feedbackClassMapList[index]['id']);
+                                    collegedata.ratingUpadate(feedbackClassId,feedbackClassMapList[index]['id'],rating,studentId);
+                                    // print(rating);
                                   },
                                 )
                               ],
@@ -156,27 +90,26 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   );
                 },
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    print(currentStudentId);
-                    // setState(() {
-                    // firestore
-                    // .collection('Academic Year')
-                    // .doc(currentAcademicYearId)
-                    // .collection('Department')
-                    // .doc(currentDepartmentId)
-                    // .collection('Division')
-                    // .doc(currentDivisionId)
-                    // .collection('feedback')
-                    // .doc(feedbackId)
-                    // .update({
-
-                    //   'submitted.' + currentStudentId : true
-                    // });
-                    // });
-                    Navigator.pushNamed(context, studentScreenRoute);
-                  },
-                  child: Text('Submit'))
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Back')),
+                      SizedBox(
+                        width: 20,
+                      ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        collegedata.onFeedbackSubmit(feedbackClassId,studentId);
+                        print(currentStudentId);
+                        Navigator.pop(context);
+                      },
+                      child: Text('Submit')),
+                ],
+              )
             ],
           ),
         ),

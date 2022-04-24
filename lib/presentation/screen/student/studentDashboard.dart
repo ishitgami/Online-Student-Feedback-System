@@ -63,7 +63,9 @@ class _StudentScreenState extends State<StudentScreen> {
       body: WillPopScope(
         onWillPop: () async => false,
         child: SafeArea(
-            child: Container(
+            child: 
+            
+            Container(
         margin: EdgeInsets.all(8),
         child: Column(
           children: [
@@ -73,7 +75,7 @@ class _StudentScreenState extends State<StudentScreen> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                      Navigator.push(context,  MaterialPageRoute(builder: (context) => FeedbackScreen(feedbackClassMapList.elementAt(index)['id'].toString())));
+                      Navigator.push(context,  MaterialPageRoute(builder: (context) => FeedbackScreen(feedbackClassMapList.elementAt(index)['id'].toString(),uid)));
                   },
                   child: Card(
                     margin: EdgeInsets.all(8),

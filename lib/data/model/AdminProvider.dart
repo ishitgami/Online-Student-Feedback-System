@@ -238,4 +238,22 @@ class AdminProvider extends ChangeNotifier {
     fetchFeedbackClassQuery = await AdminFirebaseQuery().fetchFeedbackClassQuestions(feedbaclClassId);
     return fetchFeedbackClassQuery;
   }
+
+  // rating Update
+  ratingUpadate(feedbackClassId,questionId,rate,studentId) {
+    firestore.collection('FeedbackClass').doc(feedbackClassId).collection('Questions').doc(questionId).set({
+      'rate' : {
+        studentId : rate,
+      } 
+    },
+     SetOptions(merge: true)
+    );
+  }
+
+  // on Feedback Submit By Student
+  onFeedbackSubmit(feedbackId,studentId) {
+    firestore.collection('FeedbackClass').doc(feedbackId).update({
+      'StudentList.$studentId' : true,
+    });
+  }
 }

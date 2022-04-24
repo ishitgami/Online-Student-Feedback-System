@@ -24,7 +24,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   collegedata.getFeedQues().then((value) {
     // print(value);
+    setState(() {
       feedbackQueMapList = value;
+    });
+      
     });
     return Scaffold(
       appBar: AppBar(
